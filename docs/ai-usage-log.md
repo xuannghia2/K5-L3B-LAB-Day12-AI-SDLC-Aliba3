@@ -12,3 +12,5 @@
 
 | 1 | Cấn Xuân Nghĩa / xuannghia2 | Codex (đối chiếu PRD sau đăng nhập, 21/11/2026) | Sửa payload gather/hold_full/fish_caught/oxygen_empty/faint theo PRD-0 mục E, ghi lost LIFO, thêm 3 test CLI và làm mới bằng chứng | Không có số đo token/chi phí | Giả định yield/cooldown khớp mục F. Payload qty ban đầu sai; đã sửa. 25/25 test gather, 53/53 test phạm vi liên quan đạt; toàn repo 56/57, còn lỗi mẫu TEAM có sẵn. Giữ các commit UI của đồng đội đến c69d61b. Phase 2–4 vẫn chưa phát hành. |
 | 1 | Lê Thanh Tùng / griin-03 | Antigravity (Google DeepMind) | Triển khai hoàn thiện sim/quan (Lát 3 khách & vòng đời, Lát 4 bếp & phục vụ & kinh tế theo PRD-0 mục E, F), bổ sung test unit | Không có số đo token/chi phí | Chuẩn hóa toàn bộ thứ tự tick, payload event dish_ready, cook_started, served, paid, customer_left, quan_end theo đúng Test Contract v1.0 |
+
+| 2 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Cá bơi/phản xạ mép, đổi hướng theo tuổi, sinh có seed/clearance/trần, giữ fixture random_fish:false; dữ liệu gather chuẩn | Không đo | 8 test P2 mới đạt; cả suite 69/70, lỗi TEAM có sẵn. Chưa kích hoạt manifest v1.1 cho đến khi validator/giao diện nguyên liệu mới sẵn sàng. |

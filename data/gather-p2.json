@@ -1,0 +1,201 @@
+{
+  "duration_s": 180,
+  "bounds": {
+    "x": [
+      0,
+      100
+    ],
+    "d": [
+      0,
+      30
+    ]
+  },
+  "dock_pos": [
+    2,
+    0
+  ],
+  "dock_radius": 3,
+  "start_pos": [
+    2,
+    0
+  ],
+  "start_heading_deg": 0,
+  "swim_speed": 4.0,
+  "ramp_max_ticks": 6,
+  "surface_depth": 0.5,
+  "oxygen_max_s": 30,
+  "oxygen_refill_per_tick": 6,
+  "choke_interval_ticks": 60,
+  "hp_max": 3,
+  "hold_capacity": 12,
+  "interact_radius": 2.0,
+  "node_yield": 1,
+  "regrow_s": 20,
+  "catch_radius": 2.0,
+  "catch_cooldown_s": 0.5,
+  "fish_yield": {
+    "ca_linh": 3,
+    "ca_loc": 1,
+    "ca_keo": 2
+  },
+  "nodes": [
+    {
+      "id": "N1",
+      "kind": "bong_dien_dien",
+      "pos": [
+        12,
+        0
+      ]
+    },
+    {
+      "id": "N2",
+      "kind": "bong_dien_dien",
+      "pos": [
+        28,
+        0
+      ]
+    },
+    {
+      "id": "N3",
+      "kind": "bong_sung",
+      "pos": [
+        44,
+        0
+      ]
+    },
+    {
+      "id": "N4",
+      "kind": "bong_sung",
+      "pos": [
+        60,
+        0
+      ]
+    },
+    {
+      "id": "N5",
+      "kind": "keo_neo",
+      "pos": [
+        76,
+        0
+      ]
+    },
+    {
+      "id": "N6",
+      "kind": "keo_neo",
+      "pos": [
+        90,
+        0
+      ]
+    }
+  ],
+  "fish_initial": 8,
+  "fish_speed": 1.5,
+  "fish_turn_ticks": 120,
+  "fish_max": 12,
+  "fish_spawn_ticks": 360,
+  "fish_spawn_clearance": 1.0,
+  "fish_x": [
+    4,
+    96
+  ],
+  "fish_depths": {
+    "ca_linh": [
+      3,
+      12
+    ],
+    "ca_loc": [
+      8,
+      20
+    ],
+    "ca_keo": [
+      22,
+      28
+    ]
+  },
+  "fish_spawn_x": [
+    15,
+    30,
+    45,
+    60,
+    75,
+    90
+  ],
+  "fish_spawn_depths": {
+    "ca_linh": [
+      5,
+      10
+    ],
+    "ca_loc": [
+      10,
+      16
+    ],
+    "ca_keo": [
+      24,
+      27
+    ]
+  },
+  "fish_weights": {
+    "ca_linh": 0.4,
+    "ca_loc": 0.3,
+    "ca_keo": 0.3
+  },
+  "monsters": {
+    "species": {
+      "ca_sau": {
+        "patrol_speed": 1.0,
+        "chase_speed": 3.0,
+        "detect_radius": 10.0,
+        "exit_radius": 16.0,
+        "depths": [
+          10,
+          30
+        ],
+        "hit_radius": 1.5,
+        "recoil_ticks": 60,
+        "recoil_dist": 2.0
+      }
+    },
+    "spawns": [
+      {
+        "id": "M1",
+        "kind": "ca_sau",
+        "pos": [
+          60,
+          24
+        ],
+        "waypoints": [
+          [
+            60,
+            24
+          ],
+          [
+            64,
+            24
+          ]
+        ],
+        "from_day": 1
+      },
+      {
+        "id": "M2",
+        "kind": "ca_sau",
+        "pos": [
+          85,
+          18
+        ],
+        "waypoints": [
+          [
+            85,
+            18
+          ],
+          [
+            89,
+            18
+          ]
+        ],
+        "from_day": 3
+      }
+    ],
+    "invuln_ticks": 90,
+    "loss_ratio": 0.5
+  }
+}

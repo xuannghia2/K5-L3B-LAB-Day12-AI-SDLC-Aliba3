@@ -1,0 +1,17 @@
+{
+  "gather": {
+    "player": {
+      "pos": [
+        20,
+        5
+      ],
+      "hp": 1,
+      "oxygen_ticks": 0,
+      "zero_oxy_ticks": 59
+    },
+    "hold": [
+      "ca_loc"
+    ],
+    "random_fish": false
+  }
+}

@@ -2,3 +2,7 @@
 
 | Phase | Người | Công cụ / model | Việc | Token / chi phí ước tính | Ghi chú (AI sai ở đâu?) |
 |---|---|---|---|---|---|
+
+| 1 | Cấn Xuân Nghĩa / xuannghia2 | Codex (phiên 21/11/2026) | Đọc TEAM/AGENTS, hoàn thiện oxy/ngạt/ngất và 5 test luật | Không có số đo token/chi phí | Thiếu Python mặc định; dùng môi trường riêng D:\Vin\.tools; commit 943e86b. Mô tả commit ghi nhầm 6, số chạy thật là 5. |
+| 1 | Cấn Xuân Nghĩa / xuannghia2 | Codex (cùng phiên) | Hái/bắt cá, giỏ, thêm 13 test luật | Không có số đo token/chi phí | Tổng 18 test luật đạt; giỏ thiếu chỗ và cooldown là giả định chờ PRD; commit 41d4186. |
+| 1 | Cấn Xuân Nghĩa / xuannghia2 | Codex (cùng phiên) | Thêm 4 test headless, 2 lệnh test/play, lưu log, bàn giao và bản nháp phản tư | Không có số đo token/chi phí | 50 test phạm vi liên quan đạt; toàn repo 53/54 do test mẫu TEAM có sẵn. Người dùng xác nhận Phase 2–4 chưa có đề. Chưa có người review thủ công/push. |

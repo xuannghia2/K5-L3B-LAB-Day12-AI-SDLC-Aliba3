@@ -97,6 +97,8 @@ class GatherSim:
 
     # --- một bước ---------------------------------------------------------------
     def step(self, inp):
+        if self.done:
+            return []
         events = []
         # 1. đồng hồ và hàng có sẵn: giảm bộ đếm, nút mọc lại
         self.time_left_ticks = max(0, self.time_left_ticks - 1)
@@ -107,11 +109,33 @@ class GatherSim:
                 n["regrow_ticks"] -= 1
                 if n["regrow_ticks"] == 0:
                     events.append(("node_regrown", {"node_id": n["id"]}))
-        # 2. bơi + chặn mép
+        # 2. bơi, phân vùng, oxy và ngạt (xét vị trí CUỐI bước).
+        was_at_surface = self._at_surface()
         self._move(inp)
-        # TODO(nhóm, lát 1): so phân vùng đầu/cuối bước -> dive / surface (data: pos).
-        # TODO(nhóm, lát 1): oxy theo d CUỐI bước (mặt nước hồi, dưới nước trừ), oxygen_empty khi từ dương
-        #   xuống 0, đếm ngạt, choke (-1 Máu). Máu 0 -> faint + gather_end("fainted") với giỏ rỗng, return.
+        at_surface = self._at_surface()
+        if was_at_surface != at_surface:
+            events.append(("surface" if at_surface else "dive", {"pos": list(self.pos)}))
+        if at_surface:
+            self.oxygen_ticks = min(self.oxygen_max, self.oxygen_ticks + self.t["oxygen_refill_per_tick"])
+            self.zero_oxy_ticks = 0
+        else:
+            previous_oxygen = self.oxygen_ticks
+            self.oxygen_ticks = max(0, self.oxygen_ticks - 1)
+            if previous_oxygen > 0 and self.oxygen_ticks == 0:
+                events.append(("oxygen_empty", {"pos": list(self.pos)}))
+            if self.oxygen_ticks == 0:
+                self.zero_oxy_ticks += 1
+                if self.zero_oxy_ticks >= self.t["choke_interval_ticks"]:
+                    self.zero_oxy_ticks = 0
+                    self.hp = max(0, self.hp - 1)
+                    events.append(("choke", {"hp": self.hp}))
+                    if self.hp == 0:
+                        self.hold.clear()
+                        events.append(("faint", {"pos": list(self.pos)}))
+                        self._finish("fainted", events)
+                        return events
+            else:
+                self.zero_oxy_ticks = 0
         # 3. interact: bến trước, rồi hái
         if inp.pressed("interact"):
             if self._in_dock():

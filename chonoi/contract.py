@@ -24,7 +24,7 @@ def load_contract(path=DEFAULT_PATH) -> dict:
     except (OSError, ValueError) as e:
         raise BadInput(f"không đọc được {path}: {e}")
     validate_tuning(c.get("tuning"))
-    if c.get("contract_version") == "1.2" and "freshness" not in c["tuning"]:
+    if c.get("contract_version") in ("1.2", "1.3") and "freshness" not in c["tuning"]:
         raise BadInput("contract v1.2 thiếu tuning.freshness")
     return c
 

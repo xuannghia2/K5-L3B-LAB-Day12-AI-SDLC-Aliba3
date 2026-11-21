@@ -1,0 +1,20 @@
+{
+  "observer": "Codex computer-use UI verification",
+  "date": "2026-11-21",
+  "timezone": "Asia/Saigon",
+  "method": "Real LiveGame fixtures paused by input; contrast toggle clicked in browser; accessibility and screenshot inspected.",
+  "gather": {
+    "high_contrast_checked": true,
+    "warnings": [
+      "! OXY SẮP HẾT — lên mặt nước",
+      "! THỦY QUÁI GẦN — tránh xa hoặc lên vùng nông"
+    ]
+  },
+  "quan": {
+    "high_contrast_checked": true,
+    "warnings": [
+      "! KHÁCH SẮP GIẬN: T1"
+    ]
+  },
+  "limits": "Paused fixtures verify readability/triggered states, not a completed day or user-authored playtest."
+}

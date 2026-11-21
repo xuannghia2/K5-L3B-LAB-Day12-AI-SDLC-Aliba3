@@ -50,10 +50,17 @@
   @media (hover: none), (pointer: coarse), (max-width: 820px) {
     #touch-controls { display: flex; }
   }
+  #contrast-toggle { position:fixed; right:14px; top:12px; z-index:7; padding:8px 12px; border:2px solid #fff; background:#10161c; color:#fff; font:18px system-ui,sans-serif; cursor:pointer; }
+  #warning-status { position:fixed; left:14px; top:76px; z-index:6; max-width:calc(100vw - 28px); color:#fff; background:#31133b; border:2px solid #f1b7ff; padding:8px 12px; font:700 18px/1.5 system-ui,sans-serif; pointer-events:none; white-space:pre-line; }
+  #warning-status:empty { display:none; }
+  body.high-contrast #warning-status { background:#000; color:#fff; border:4px solid #ff0; }
+  body.high-contrast #contrast-toggle { background:#ff0; color:#000; border-color:#000; }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
+<button id="contrast-toggle" type="button" aria-pressed="false">Tương phản cao: Tắt</button>
+<div id="warning-status" role="status" aria-live="polite" aria-atomic="true"></div>
 <div id="connection-status" class="visible">Kết nối tới máy chủ...</div>
 <div id="touch-controls" aria-label="Điều khiển trò chơi">
   <div class="cluster">
@@ -78,6 +85,37 @@
 const cv = document.getElementById("c");
 const ctx = cv.getContext("2d");
 let snap = null, offline = false;
+const benchmarkMode = new URLSearchParams(location.search).has("bench");
+let highContrast = localStorage.getItem("chonoi-high-contrast") === "true";
+const contrastToggle = document.getElementById("contrast-toggle");
+function applyContrast() {
+  document.body.classList.toggle("high-contrast", highContrast);
+  contrastToggle.setAttribute("aria-pressed", String(highContrast));
+  contrastToggle.textContent = "Tương phản cao: " + (highContrast ? "Bật" : "Tắt");
+}
+contrastToggle.addEventListener("click", () => { highContrast = !highContrast; localStorage.setItem("chonoi-high-contrast", String(highContrast)); applyContrast(); });
+applyContrast();
+if (benchmarkMode) {
+  highContrast = false; applyContrast();
+  contrastToggle.hidden = true;
+  document.getElementById("touch-controls").hidden = true;
+  const script = document.createElement("script"); script.src = "/bench.js"; document.head.appendChild(script);
+}
+function warningsFor(state) {
+  const warnings = [], player = state.player, meta = state.meta || {};
+  if (state.mode === "gather" && player) {
+    if (player.oxygen_ticks === 0) warnings.push("! HẾT HƠI — lên mặt nước ngay");
+    else if (player.oxygen_ticks < player.oxygen_max_ticks * .25) warnings.push("! OXY SẮP HẾT — lên mặt nước");
+    if ((state.monsters || []).some((monster) => {
+      const spec = ((meta.monsters || {}).species || {})[monster.kind] || {};
+      return player.pos[1] >= ((spec.depths || [10])[0]) && Math.hypot(monster.pos[0]-player.pos[0], monster.pos[1]-player.pos[1]) <= (spec.detect_radius || 10);
+    })) warnings.push("! THỦY QUÁI GẦN — tránh xa hoặc lên vùng nông");
+  }
+  const patienceMax = (meta.patience_s || 60) * 60;
+  const angry = (state.customers || []).filter((customer) => customer.state === "waiting" && customer.patience_ticks_left < patienceMax * .25);
+  if (angry.length) warnings.push("! KHÁCH SẮP GIẬN: " + angry.map((customer) => customer.table_id).join(", "));
+  return warnings;
+}
 
 // ---------- vào: phím ----------
 const down = new Set();
@@ -85,6 +123,7 @@ const MOVE_KEYS = { w: "u", arrowup: "u", s: "d", arrowdown: "d", a: "l", arrowl
 let queue = [], inflight = false, lastSent = "";
 
 function currentInput() {
+  if (benchmarkMode) return {move:[0,0],interact:false,catch:false};
   const mode = snap ? snap.mode : "gather";
   const dx = (down.has("r") ? 1 : 0) - (down.has("l") ? 1 : 0);
   let dy = (down.has("d") ? 1 : 0) - (down.has("u") ? 1 : 0);   // gather: xuống = d dương
@@ -182,6 +221,9 @@ async function poll() {
     const r = await fetch("/state", { cache: "no-store" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     snap = await r.json();
+    const warningText = warningsFor(snap).join("\n");
+    const warningStatus = document.getElementById("warning-status");
+    if (warningStatus.textContent !== warningText) warningStatus.textContent = warningText;
     offline = false;
     connectionStatus.classList.remove("visible");
   } catch (e) {
@@ -199,14 +241,14 @@ const KIND_NAME = { ca_loc: "cá lóc", ca_linh: "cá linh", ca_keo: "cá kèo",
 const kc = (k) => KIND_COLOR[k] || "#bbbbbb";
 
 function fit() {
-  const dpr = window.devicePixelRatio || 1;
-  const w = innerWidth, h = innerHeight;
+  const dpr = benchmarkMode ? 1 : (window.devicePixelRatio || 1);
+  const w = benchmarkMode ? 1280 : innerWidth, h = benchmarkMode ? 720 : innerHeight;
   if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   return [w, h];
 }
 function text(s, x, y, o = {}) {
-  ctx.font = (o.size || 14) + "px system-ui, sans-serif";
+  ctx.font = (highContrast ? Math.max(18, o.size || 14) : (o.size || 14)) + "px system-ui, sans-serif";
   ctx.fillStyle = o.color || "#e8eef2";
   ctx.textAlign = o.align || "left";
   ctx.textBaseline = o.base || "alphabetic";
@@ -283,6 +325,14 @@ function drawGather(w, h) {
     ctx.restore();
     text(f.id, sx(f.pos[0]), sy(f.pos[1]) - 0.7 * s, { size: 10, align: "center", color: "rgba(255,255,255,.8)" });
   });
+  // thủy quái dùng cùng snapshot với benchmark và bản chơi thường
+  (snap.monsters || []).forEach((monster) => {
+    ctx.fillStyle = highContrast ? "#ffffff" : "#9d70db";
+    ctx.strokeStyle = highContrast ? "#000000" : "#332144";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.ellipse(sx(monster.pos[0]), sy(monster.pos[1]), 1.5*s, .65*s, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    text(monster.id + " Cá Sấu", sx(monster.pos[0]), sy(monster.pos[1])-s, {size:12,align:"center",color:"#ffffff"});
+  });
   // người chơi
   const p = snap.player;
   if (p) {
@@ -315,9 +365,9 @@ function drawGather(w, h) {
     for (let i = 0; i < cap; i++) {
       const x0 = 14 + i * (sz + 4);
       ctx.fillStyle = "rgba(255,255,255,.12)"; ctx.fillRect(x0, y0, sz, sz);
-      if (snap.hold[i]) { ctx.fillStyle = kc(snap.hold[i]); ctx.fillRect(x0 + 3, y0 + 3, sz - 6, sz - 6); }
+      if (snap.hold[i]) { ctx.fillStyle = kc(typeof snap.hold[i] === "string" ? snap.hold[i] : snap.hold[i].kind); ctx.fillRect(x0 + 3, y0 + 3, sz - 6, sz - 6); }
     }
-    const names = {}; snap.hold.forEach((k) => (names[k] = (names[k] || 0) + 1));
+    const names = {}; snap.hold.forEach((entry) => { const kind = typeof entry === "string" ? entry : entry.kind; names[kind] = (names[kind] || 0) + 1; });
     text("Giỏ " + snap.hold.length + "/" + cap + "  " + Object.keys(names).map((k) => (KIND_NAME[k] || k) + "×" + names[k]).join(", "), 14, y0 + sz + 16, { size: 12, color: "#cfd8dc" });
   }
   text("WASD/mũi tên đi · E tương tác (bếp / bàn) · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
@@ -423,6 +473,9 @@ function frame() {
     if (snap.mode === "quan") drawQuan(w, h); else drawGather(w, h);
     eventLog(w, h);
     overlay(w, h);
+    const at = performance.now();
+    if (!window.chonoiFirstFrame) window.chonoiFirstFrame = {at, epoch:performance.timeOrigin + at};
+    if (window.chonoiFrame) window.chonoiFrame(at, snap);
   } else {
     text(offline ? "Không kết nối được máy chủ…" : "Đang tải…", w / 2, h / 2, { align: "center", size: 18 });
   }

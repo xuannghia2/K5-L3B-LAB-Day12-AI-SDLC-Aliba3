@@ -1,0 +1,21 @@
+{
+  "quan": {
+    "stock": {
+      "ca_loc": 1
+    },
+    "random_customers": false,
+    "customers": [
+      {
+        "id": "C1",
+        "table_id": "T1",
+        "dish_id": "ca_loc_nuong_trui",
+        "state": "waiting",
+        "order_status": "reserved",
+        "reserved": {
+          "ca_loc": 1
+        },
+        "patience_ticks_left": 40
+      }
+    ]
+  }
+}

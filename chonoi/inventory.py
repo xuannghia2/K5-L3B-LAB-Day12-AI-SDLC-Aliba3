@@ -17,7 +17,7 @@ KINDS_P2 = KINDS_P1 + ("ca_keo", "keo_neo")
 
 
 def validate_items(items, kinds=KINDS_P2, *, version="1.1"):
-    if version == "1.2":
+    if version in ("1.2", "1.3"):
         return validate_fresh_items(items, kinds)
     if not isinstance(items, dict):
         raise BadInput("items phải là object")
@@ -72,7 +72,7 @@ def hold_to_items(hold: list) -> dict:
 
 
 def write_inventory(path: str, items, *, version="1.1"):
-    if version == "1.2":
+    if version in ("1.2", "1.3"):
         items = sort_by_id(validate_fresh_items(items))
     else:
         items = {k: items[k] for k in sorted(items) if items[k] > 0}

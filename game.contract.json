@@ -438,5 +438,6 @@
         ]
       }
     }
-  }
+  },
+  "bench_cmd": "python3 -m chonoi.bench"
 }

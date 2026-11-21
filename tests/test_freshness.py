@@ -35,6 +35,15 @@ class FreshnessUnits(unittest.TestCase):
             with self.assertRaises(BadInput):
                 read_inventory(p, version="1.1")
 
+    def test_v13_keeps_v12_schema_and_rejects_count_inventory(self):
+        with Workdir() as w:
+            p = w.path("inventory.json")
+            write_inventory(p, [{"id": "I1", "kind": "ca_loc", "fresh": 29.9999}], version="1.3")
+            self.assertEqual(read_inventory(p, version="1.3"), read_inventory(p, version="1.2"))
+            write_inventory(p, {"ca_loc": 1}, version="1.1")
+            with self.assertRaises(BadInput):
+                read_inventory(p, version="1.3")
+
     def test_invalid_items_are_rejected(self):
         valid = {"id": "I1", "kind": "ca_linh", "fresh": 100}
         for bad in ({}, [valid, valid], [dict(valid, id="")], [dict(valid, kind="unknown")],

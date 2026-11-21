@@ -1,0 +1,26 @@
+{
+  "measured_s": 2.0045,
+  "first_frame_epoch_ms": 1795236506006.4,
+  "canvas": [
+    1280,
+    720
+  ],
+  "outer_window": [
+    1276,
+    802
+  ],
+  "hidden": false,
+  "scene": "gather",
+  "fish_count": 9,
+  "monster_count": 1,
+  "player_pos": [
+    2,
+    0
+  ],
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "headless": false,
+  "shared_manifest_version": "1.1",
+  "benchmark_freshness_profile": true,
+  "warmup_s": 3,
+  "seed": 42
+}

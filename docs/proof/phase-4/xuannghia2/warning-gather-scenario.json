@@ -1,0 +1,32 @@
+{
+  "gather": {
+    "player": {
+      "pos": [
+        60,
+        24
+      ],
+      "oxygen_ticks": 200
+    },
+    "random_fish": false,
+    "monsters": [
+      {
+        "id": "M1",
+        "kind": "ca_sau",
+        "pos": [
+          61,
+          24
+        ],
+        "waypoints": [
+          [
+            60,
+            24
+          ],
+          [
+            64,
+            24
+          ]
+        ]
+      }
+    ]
+  }
+}

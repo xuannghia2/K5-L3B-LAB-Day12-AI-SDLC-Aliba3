@@ -27,8 +27,8 @@ try {
     if ($Action -eq 'play') {
         & $pythonPath -m chonoi.live --mode gather --seed $Seed --port $Port
     } else {
-        # Includes integration with quan without changing that module.
-        & $pythonPath -m unittest test_gather_rules test_gather_headless test_gather_p2 test_freshness test_gather_p3 test_smoke_p1 test_python_starter_units test_quan_units test_live -v
+        # Phase 4: QA fixed the old TEAM fixture; run the whole suite.
+        & $pythonPath -m unittest discover -s tests -v
     }
     $runExitCode = $LASTEXITCODE
 } finally {

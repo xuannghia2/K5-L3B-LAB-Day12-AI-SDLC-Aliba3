@@ -12,13 +12,9 @@ python3 -m chonoi.headless --mode gather --seed 1 --ticks 600 --out out.jsonl
 
 Hai chế độ của contract v1.0: `gather` (buổi sáng: lặn và hái, nhìn ngang, vị trí `[x, d]`, `d` là độ sâu) và `quan` (buổi tối: mở quán, nhìn từ trên xuống, vị trí `[x, z]`). Chế độ `day` có từ phase sau.
 
-## Chơi thử trực tiếp trên trình duyệt (không cần cài gì)
+## Chơi thử trực tiếp trên trình duyệt
 
-```bash
-python3 -m chonoi.live --mode gather      # hoặc: --mode quan   [--seed N] [--port 8000]
-```
-
-Lệnh in một địa chỉ (mặc định `http://127.0.0.1:8000/`); mở nó bằng trình duyệt. Phím: **WASD / mũi tên** di chuyển, **E** (`interact`), **Space** (`catch`), **R** chơi lại. Cửa sổ chạy **cùng một lớp sim** với headless (60 tick/s) và chỉ **đọc snapshot**, nên nhóm viết luật tới đâu thì thanh oxy, Máu, giỏ, cá, nút hái... hiện tới đó (trường chưa có sẽ bị bỏ qua). Đây chỉ là hình khối tạm để thử luật; đồ họa thật do nhóm làm. Chơi `gather` rồi chuyển sang `quan`: thêm `--inventory-out kho.json` ở lệnh đầu và `--inventory kho.json` ở lệnh sau. File chỉ dùng thư viện chuẩn Python (`chonoi/live.py`, `chonoi/web/index.html`); đổi ngôn ngữ thì xóa hoặc thay bằng cửa sổ của nhóm.
+Xem phần **Chơi thử trực tiếp trên trình duyệt (Windows)** ở cuối tài liệu để chạy buổi sáng, buổi tối, nối kho hai buổi và điều khiển bàn phím.
 
 ## Công nghệ: tự chọn (starter chỉ là gợi ý, KHÔNG bắt buộc)
 
@@ -53,3 +49,48 @@ Lưu ý: `tools/check_team.py` (kiểm danh sách thành viên) là script Pytho
 ## Tài liệu trong repo
 
 [`TEAM.md`](../TEAM.md) (vai + thỏa thuận nhóm) · [`AGENTS.md`](../AGENTS.md) · `docs/contracts/` (hợp đồng tích hợp: nên chốt sớm, hình thức tự chọn) · `docs/{plan,verification,proof,adr,members}/` (gợi ý) · `docs/{clarify,standup,retro,ai-usage-log}.md`.
+
+## Chơi thử trực tiếp trên trình duyệt (Windows)
+
+Hai buổi là hai tiến trình riêng và được nối bằng file kho `kho.json`.
+
+### Chạy buổi sáng
+
+```powershell
+py -3 -m chonoi.live --mode gather --seed 1 --port 8000 --inventory-out kho.json
+```
+
+Mở `http://127.0.0.1:8000/`. Dùng `WASD/mũi tên` để bơi, `E` để hái/cập bến, `Space` để bắt cá và `R` để chơi lại.
+
+Chỉ khi buổi sáng kết thúc hợp lệ thì `kho.json` mới được ghi. Ngất hoặc hết tick theo cách chưa cập bến có thể không ghi kho mới; xem thông báo kết thúc trong game.
+
+### Chạy buổi tối
+
+Sau khi buổi sáng đã tạo `kho.json`, mở tiến trình thứ hai:
+
+```powershell
+py -3 -m chonoi.live --mode quan --seed 1 --port 8001 --inventory kho.json
+```
+
+Mở `http://127.0.0.1:8001/`. Dùng `WASD/mũi tên` để đi, `E` để tương tác bếp/bàn và `R` để chơi lại.
+
+### Nếu chỉ muốn thử buổi tối
+
+Có thể dùng kho mẫu không phụ thuộc buổi sáng:
+
+```powershell
+py -3 -m chonoi.live --mode quan --seed 1 --port 8001 --inventory docs/contracts/inventory.sample.json
+```
+
+Kho trống thì khách sẽ không gọi món nấu được và sẽ phát `no_dish`.
+
+### Quy trình nấu và phục vụ
+
+1. Chờ khách xuất hiện tại bàn `T1`.
+2. Đến gần bếp `B1` và nhấn `E` để nấu đơn cũ nhất được giữ nguyên liệu.
+3. Chờ bếp chuyển sang `ready`.
+4. Nhấn `E` tại bếp để bốc món lên tay.
+5. Mang món đến bàn `T1`, nhấn `E` để phục vụ.
+6. Chờ khách ăn xong; tiền, tip và uy tín được cập nhật theo contract.
+
+Nhấn `Ctrl+C` trong từng terminal để dừng server tương ứng.

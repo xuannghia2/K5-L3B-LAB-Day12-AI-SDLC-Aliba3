@@ -54,3 +54,52 @@ Hết giờ mỗi phase thì gắn tag rồi đi tiếp; chỗ chưa xong ghi tr
 
 - Dùng AI thoải mái; **không sao chép repo của nhóm khác**; bằng chứng phải thật.
 - Nhân vật, bối cảnh là bản gốc của lab; asset ngoài chỉ dùng CC0/CC-BY/MIT hoặc tự tạo, ghi nguồn trong `CREDITS.md`. Không commit API key, token, `.env`.
+
+### Chơi hai buổi trên Windows
+
+Lệnh dưới dùng launcher `py -3` của Windows. Hai tiến trình chạy trên hai cổng riêng để mở đồng thời trong trình duyệt.
+
+**1. Buổi sáng — thu thập và xuất kho**
+
+```powershell
+py -3 -m chonoi.live --mode gather --seed 1 --port 8000 --inventory-out kho.json
+```
+
+Mở `http://127.0.0.1:8000/`.
+
+- `WASD` hoặc mũi tên: bơi.
+- `E`: hái hoặc cập bến.
+- `Space`: bắt cá.
+- `R`: chơi lại.
+- Khi cập bến hoặc buổi kết thúc hợp lệ, giỏ được ghi vào `kho.json`.
+
+**2. Buổi tối — nạp kho rồi phục vụ**
+
+Chỉ mở sau khi buổi sáng đã tạo `kho.json`:
+
+```powershell
+py -3 -m chonoi.live --mode quan --seed 1 --port 8001 --inventory kho.json
+```
+
+Mở `http://127.0.0.1:8001/`.
+
+- `WASD` hoặc mũi tên: đi.
+- `E`: tương tác với bếp/bàn.
+- `R`: chơi lại.
+
+Luồng nấu: đến bếp `B1`, nhấn `E` để lấy đơn đủ nguyên liệu → chờ bếp chuyển `ready` → nhấn `E` tại bếp để lấy món → mang đến bàn `T1` rồi nhấn `E` để phục vụ.
+
+Nếu chưa có kho hoặc thử chạy quan độc lập, có thể dùng kho mẫu:
+
+```powershell
+py -3 -m chonoi.live --mode quan --seed 1 --port 8001 --inventory docs/contracts/inventory.sample.json
+```
+
+Chạy test live:
+
+```powershell
+$env:PYTHONPATH='tests;.'
+py -3 -m unittest test_live -v
+```
+
+Nhấn `Ctrl+C` trong terminal để dừng server. Đóng trình duyệt không dừng server; mỗi server phải dừng ở terminal tương ứng.

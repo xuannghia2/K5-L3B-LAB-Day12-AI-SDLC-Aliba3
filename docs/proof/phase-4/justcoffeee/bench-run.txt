@@ -1,0 +1,2 @@
+Rendering gather, seed 42, warmup 3s + measurement 30s
+{"avg_fps": 143.6369816904542, "p1_low_fps": 88.90684986558186, "frames": 4310, "measured_s": 30.006199999999254, "load_ms": 1924.099365234375}

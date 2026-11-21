@@ -1,0 +1,13 @@
+# 1) git clone
+clone ok: ba75b01
+# 2) cd
+cwd ok
+# 3) python3 -m chonoi.live --mode gather --seed 42 --port 8765 (background, then HTTP check)
+GET / -> 200
+<title>Quán Ăn Chợ Nổi — chơi thử</title>
+server stdout:
+Mở trình duyệt tại http://127.0.0.1:8765/  (chế độ gather, seed 42). Ctrl+C để dừng.
+# test suite in clean clone
+Ran 154 tests in 33.977s
+OK
+OK: 4 thành viên: xuannghia2, griin-03, Hunglunnn, justcoffeee

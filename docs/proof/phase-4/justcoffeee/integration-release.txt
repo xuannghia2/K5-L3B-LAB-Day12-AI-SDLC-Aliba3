@@ -1,0 +1,13 @@
+manifest contract_version: 1.1 | keys: ['bench_cmd', 'build_cmd', 'headless_cmd', 'run_cmd']
+
+## Tích hợp
+I1 --mode day: (2, 'đầu vào sai: --mode day chờ module vòng ngày được tích hợp')
+I2 soak_cmd khai trong manifest: False
+I3 profile 1.3 gather->quan: gather exit 0 | quan exit 0 | kho {"items":[{"id":"I1","kind":"ca_loc","fresh":99.99166666666666}]} | quan events ['customer_arrived']
+
+## Cổng phát hành (manifest mặc định, qua headless_cmd)
+R1 gather seed 42, 1800 tick x2: [(0, '234d074aedfc7a93'), (0, '234d074aedfc7a93')] -> OK
+R1 quan seed 42, 1800 tick x2: [(0, '57e8298c3a7e6351'), (0, '57e8298c3a7e6351')] -> OK
+R2 seed khác cho output khác (gather): 0 True
+R3 input hỏng -> exit: 2
+R4 mode lạ -> exit: 2

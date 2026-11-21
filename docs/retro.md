@@ -9,11 +9,15 @@
 - 1 hành động cho Phase 3: trước khi gắn tag, QA chạy cả suite và kiểm chéo mỗi module bằng test fixture (scenario dựng sẵn), ghi kết quả vào `docs/verification/`.
 
 ## Phase 4 (cuối)
-- Rà lại hành động Phase 2: đã làm chưa? vì sao?
-- Điều tốt / điều tệ:
-- Số liệu: số commit theo người, cách đọc code của nhau, token theo người:
-- Một lần AI sai và cách nhóm phát hiện:
-- Nếu làm lại, đổi gì:
+
+> QA (justcoffeee) soạn nháp từ lịch sử git và file kiểm chứng, trước khi Phase 4 kết thúc; **chưa được cả nhóm thông qua**, mọi người sửa/bổ sung trực tiếp.
+
+- Rà lại hành động Phase 2 ("QA chạy cả suite và kiểm chéo mỗi module bằng test fixture trước tag"): **đã làm, nhưng muộn**. QA vào cuộc từ Phase 3, tìm 7 lỗi quán (QA-P2-01..04, QA-P3-01..03); griin-03 sửa hết ở 139b2b8 và 537c88d. Tag `phase-3` (bc764b9) gắn khi QA-P3-01..03 còn mở; bản sửa vào sau tag.
+- Điều tốt: migration kho tách hai bước theo ADR-0001, không làm hỏng main; vòng QA → sửa → test hồi quy nhanh (lỗi tới bản sửa khoảng 10–15 phút); benchmark đạt ngưỡng trên hai máy; suite từ 61/62 tại cuối P1 (f9477e3) lên 154/154.
+- Điều tệ: vòng ngày/Shop/soak 10 ngày không có người nhận suốt từ Ticket-02, nên manifest vẫn 1.1 và chưa đủ điều kiện `v1.0.0`; QA vắng Phase 1–2 nên lỗi fixture có từ P1 lộ muộn; chưa ai chơi thử thật để kiểm cảnh báo.
+- Số liệu: commit theo tác giả trên main đến lúc ghi: xuannghia2 21, justcoffeee 12, Hunglunnn 6, griin-03 5 (9 commit starter của giảng viên không tính). Đọc code của nhau: xuannghia2 review toàn repo ([review](review/github-2026-11-21.md)); QA viết test độc lập cho quán và gather. Token theo người: không ai đo (nhật ký AI ghi "Không đo").
+- Một lần AI sai và cách nhóm phát hiện: luật quán viết cùng AI qua smoke test xanh nhưng khách nạp từ scenario không bao giờ được nấu (QA-P2-01, có từ P1); review của xuannghia2 và test QA độc lập cùng tái hiện qua headless, đánh dấu expectedFailure rồi chủ quán sửa.
+- Nếu làm lại, đổi gì: chốt người nhận vòng ngày/Shop ngay khi Ticket-02 mở; QA kiểm chéo từ Phase 1 bằng fixture; chỉ gắn tag khi không còn expectedFailure hoặc ghi rõ trong mô tả tag.
 
 ## Ghi nhận riêng — xuannghia2, Phase 1 (21/11/2026)
 

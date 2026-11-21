@@ -79,3 +79,7 @@ Lần kiểm GitHub mới nhất: main ở `df8f204`, chưa thấy commit quán 
 - Benchmark đã sửa DPI Windows tại 61fffb9, kiểm cả native window/canvas 1280×720; [ma trận P4](docs/verification/phase-4.md), [kế hoạch](docs/plan/phase-4.md), [credits](CREDITS.md).
 - Đã ghép UI 3e326c1 của Hùng: có phím/nút P, giỏ hiển thị freshness và phản tư cá nhân. Các nhận xét thiếu những mục này phía trên là ảnh chụp lần kiểm cũ. Stock/reserved cá thể và toàn ngày vẫn chưa được kiểm tích hợp.
 - Sau ghép: 137 test gồm 136 đạt và 1 expected failure thuộc fixture quán. Không ghi ngày/Shop/soak/release đã hoàn thành.
+
+### Đồng bộ cuối — quán và QA mới
+
+Đã ghép 139b2b8 cùng QA 5ca8212/6494f1d. Quán đã thêm hỗ trợ kho cá thể và sửa các lỗi fixture được review; suite sau ghép đạt **142/142, không expected failure** ([log](docs/proof/phase-4/xuannghia2/post-quan-merge-tests.txt)). Các nhận xét chưa có quán P3/lỗi fixture/expected failure phía trên là lịch sử lần kiểm trước. Manifest vẫn 1.1, chưa có xác nhận tích hợp mặc định v1.3/day/Shop/soak hay release toàn nhóm.

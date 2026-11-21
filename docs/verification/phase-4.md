@@ -13,3 +13,7 @@
 | Contract 1.3/soak 10 ngày/release/tag | Quán cá thể và day/Shop chưa có | Chưa đạt tích hợp nhóm; chưa tạo release/tag |
 
 Tái tạo: `python3 -m chonoi.bench --seed 42 --duration 30 --out bench.json`; `PYTHONPATH=tests:. python3 -m unittest discover -s tests -v` trên macOS/Linux, `.\tools\gather.ps1 test` trên Windows.
+
+## Kết quả cuối sau đồng bộ quán
+
+Đã ghép 139b2b8 (quán cá thể/validation) và QA 5ca8212/6494f1d: [suite mới](../proof/phase-4/xuannghia2/post-quan-merge-tests.txt) **142/142 đạt, không expected failure**. Nhận xét lỗi fixture ở các log trước là lịch sử. Hỗ trợ quán P3 đã được push; shared manifest vẫn 1.1, chưa xác nhận smoke mặc định v1.3 hoặc day/Shop/soak. Benchmark gather phía trên không bị đổi code/dữ liệu bởi các commit quán.

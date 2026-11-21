@@ -25,3 +25,7 @@ Trong GUI có nút Tương phản cao; cảnh báo chữ cho oxy thấp, quái g
 Lần đo sau ghép UI 3e326c1: avg 143.38 FPS, 1% low 81.35 FPS, load 473.81ms, 4302 frame trong 30.0037s. Native window và canvas đều 1280×720. [Kết quả](proof/phase-4/xuannghia2/bench-sized.json), [metadata](proof/phase-4/xuannghia2/bench-sized-metadata.json). Hai lần thử sau merge đã bị hủy do tab ẩn/timeout, không dùng làm kết quả; lần hợp lệ mới được lưu. Profile freshness riêng vẫn được ghi rõ.
 
 [Ma trận P4](verification/phase-4.md), [kế hoạch](plan/phase-4.md), [phản tư dưới 200 từ](members/xuannghia2.md), [credits](../CREDITS.md). Sau bổ sung có 137 test: 136 đạt, 1 expected failure fixture quán. UI P/freshness đã có commit mới của Hùng; Esc và tích hợp stock/reserved cá thể còn chờ. Không tự nhận day/Shop/soak/release đã hoàn tất.
+
+### Đồng bộ cuối — quán và QA mới
+
+Đã ghép 139b2b8 cùng QA 5ca8212/6494f1d. Quán đã thêm hỗ trợ kho cá thể và sửa các lỗi fixture được review; suite sau ghép đạt **142/142, không expected failure** ([log](proof/phase-4/xuannghia2/post-quan-merge-tests.txt)). Các nhận xét chưa có quán P3/lỗi fixture/expected failure phía trên là lịch sử lần kiểm trước. Manifest vẫn 1.1, chưa có xác nhận tích hợp mặc định v1.3/day/Shop/soak hay release toàn nhóm.

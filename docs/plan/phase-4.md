@@ -12,3 +12,5 @@ Nguồn: Ticket-04 trên lab board đã mở ngày 21/11/2026. Kế hoạch này
 | Tích hợp nhóm/release | Quán P3, day/Shop, soak 10 ngày, contract 1.3, gói phát hành/tag | Phụ thuộc nhóm, chưa ghi đạt |
 
 Chỉ bật schema chung khi đầu nhận quán sẵn sàng và kiểm hai đầu. Không xuất kết quả soak giả hoặc dùng một gather benchmark để thay soak toàn ngày.
+
+Cập nhật cuối: quán cá thể 139b2b8 đã có, QA hồi quy đã bỏ expectedFailure sau khi sửa luật; 142/142 test đạt. Việc còn lại là kiểm hai đầu qua luồng tích hợp, day/Shop/soak và bật manifest, không còn coi quán chưa có commit P3.

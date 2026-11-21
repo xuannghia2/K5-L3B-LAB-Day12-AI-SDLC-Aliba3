@@ -33,6 +33,12 @@ def summarize(intervals, measured_s, load_ms):
             "frames": count, "measured_s": measured_s, "load_ms": load_ms}
 
 
+def validate_render_surface(body):
+    if (body.get("canvas") != [1280, 720] or body.get("outer_window") != [1280, 720]
+            or body.get("hidden") is not False):
+        raise ValueError("render surface and native window must be 1280x720 and visible to rAF")
+
+
 def browser_binary(explicit=None):
     candidates = [explicit] if explicit else []
     for name in ("google-chrome", "chromium", "chromium-browser", "chrome", "msedge"):
@@ -41,6 +47,54 @@ def browser_binary(explicit=None):
                        str(Path(os.environ.get("PROGRAMFILES(X86)", "C:/Program Files (x86)")) / "Microsoft/Edge/Application/msedge.exe"),
                        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"])
     return next((str(Path(p)) for p in candidates if p and Path(p).is_file()), None)
+
+
+
+def size_windows_browser(process):
+    """Restore/size only the dedicated browser PID; never touch user browser windows.
+
+    Chromium may inherit a maximized startup state on Windows, ignoring window-size.
+    Other platforms retain Chromium's window-size and the renderer's size check.
+    """
+    if sys.platform != "win32":
+        return
+    import ctypes
+    from ctypes import wintypes
+
+    user32 = ctypes.WinDLL("user32", use_last_error=True)
+    callback_type = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
+    user32.EnumWindows.argtypes = [callback_type, wintypes.LPARAM]
+    user32.GetWindowThreadProcessId.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.DWORD)]
+    user32.IsWindowVisible.argtypes = [wintypes.HWND]
+    user32.ShowWindow.argtypes = [wintypes.HWND, ctypes.c_int]
+    user32.SetWindowPos.argtypes = [wintypes.HWND, wintypes.HWND, ctypes.c_int,
+                                  ctypes.c_int, ctypes.c_int, ctypes.c_int, wintypes.UINT]
+    user32.SetThreadDpiAwarenessContext.argtypes = [ctypes.c_void_p]
+    user32.SetThreadDpiAwarenessContext.restype = ctypes.c_void_p
+    previous_dpi = user32.SetThreadDpiAwarenessContext(ctypes.c_void_p(-4))
+    deadline = time.monotonic() + 8
+    while process.poll() is None and time.monotonic() < deadline:
+        windows = []
+
+        @callback_type
+        def collect(hwnd, _):
+            owner = wintypes.DWORD()
+            user32.GetWindowThreadProcessId(hwnd, ctypes.byref(owner))
+            if owner.value == process.pid and user32.IsWindowVisible(hwnd):
+                windows.append(hwnd)
+            return True
+
+        user32.EnumWindows(collect, 0)
+        if windows:
+            for hwnd in windows:
+                user32.ShowWindow(hwnd, 9)  # SW_RESTORE clears maximized state
+                user32.SetWindowPos(hwnd, None, 0, 0, 1280, 720, 0x0004 | 0x0010)
+            if previous_dpi:
+                user32.SetThreadDpiAwarenessContext(previous_dpi)
+            return
+        time.sleep(0.05)
+    if previous_dpi:
+        user32.SetThreadDpiAwarenessContext(previous_dpi)
 
 
 def main(argv=None):
@@ -96,8 +150,7 @@ def main(argv=None):
                 body = json.loads(self.rfile.read(size))
                 if body.get("error"):
                     raise ValueError(body["error"])
-                if body.get("canvas") != [1280, 720] or body.get("hidden"):
-                    raise ValueError("render surface must be 1280x720 and visible to rAF")
+                validate_render_surface(body)
                 if body["measured_s"] < args.duration:
                     raise ValueError("measurement shorter than requested")
                 result = summarize(body["intervals_s"], body["measured_s"], body["first_frame_epoch_ms"] - started_epoch_ms)
@@ -122,6 +175,8 @@ def main(argv=None):
         if args.headless:
             command.insert(1, "--headless=new")
         process = subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if not args.headless:
+            size_windows_browser(process)
         print(f"Rendering gather, seed {args.seed}, warmup 3s + measurement {args.duration:g}s", flush=True)
         if not finished.wait(args.duration + 45):
             print("Benchmark timed out before receiving real rendered frame data.", file=sys.stderr)

@@ -3,9 +3,22 @@
   window.resizeTo(1280, 720); // best effort for app windows; actual size is recorded
   const config = await (await fetch("/bench/config", { cache: "no-store" })).json();
   let measureStart = null, previous = null, sent = false;
+  const sizeDeadline = performance.now() + 10000;
+  let sizedAt = null;
   const intervals = [];
   window.chonoiFrame = (at, snapshot) => {
     if (sent || !snapshot || snapshot.mode !== "gather" || snapshot.error) return;
+    if (outerWidth !== 1280 || outerHeight !== 720) {
+      if (measureStart !== null || performance.now() > sizeDeadline) {
+        sent = true;
+        fetch("/bench/result", {method:"POST", body:JSON.stringify({
+          error:`Native window must be 1280x720; got ${outerWidth}x${outerHeight}`})});
+      }
+      sizedAt = null;
+      return;
+    }
+    if (sizedAt === null) sizedAt = at;
+    if (at - sizedAt < config.warmup_s * 1000) return;
     const first = window.chonoiFirstFrame;
     if (!first || at - first.at < config.warmup_s * 1000) return;
     if (document.hidden) {

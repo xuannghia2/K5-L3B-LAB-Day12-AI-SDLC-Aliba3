@@ -3,7 +3,7 @@
 import math
 import unittest
 
-from chonoi.bench import summarize
+from chonoi.bench import summarize, validate_render_surface
 
 
 class BenchStatistics(unittest.TestCase):
@@ -28,6 +28,22 @@ class BenchStatistics(unittest.TestCase):
                 ([0.01], 0, 0), ([0.01], 0.01, -1), ([0.01], 1, 0)):
             with self.subTest(intervals=intervals, duration=duration, load=load), self.assertRaises(ValueError):
                 summarize(intervals, duration, load)
+
+
+class BenchRenderConditions(unittest.TestCase):
+    def test_matching_canvas_cannot_hide_wrong_native_window(self):
+        with self.assertRaises(ValueError):
+            validate_render_surface({"canvas": [1280, 720], "outer_window": [1920, 1080], "hidden": False})
+
+    def test_wrong_canvas_hidden_or_missing_visibility_are_rejected(self):
+        for body in ({"canvas": [640, 360], "outer_window": [1280, 720], "hidden": False},
+                     {"canvas": [1280, 720], "outer_window": [1280, 720], "hidden": True},
+                     {"canvas": [1280, 720], "outer_window": [1280, 720]}):
+            with self.subTest(body=body), self.assertRaises(ValueError):
+                validate_render_surface(body)
+
+    def test_exact_visible_surface_is_accepted(self):
+        validate_render_surface({"canvas": [1280, 720], "outer_window": [1280, 720], "hidden": False})
 
 
 if __name__ == "__main__":

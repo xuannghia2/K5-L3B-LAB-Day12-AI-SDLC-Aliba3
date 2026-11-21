@@ -1,0 +1,7 @@
+contract_version 1.0 | stoves ['B1'] | tables ['T1'] | dishes ['ca_loc_nuong_trui', 'goi_bong_sung', 'lau_ca_linh_dien_dien']
+1 full cycle: ['customer_arrived', 'cook_started', 'dish_ready', 'dish_picked', 'served', 'paid'] | amount 72 = price 60 + tip 12 -> OK
+2 patience leave: [{'order_id': 'C1', 'table_id': 'T1', 'reason': 'patience', 'reputation': 2.5}] -> OK
+3 empty stock no_dish: OK
+4 closing: [{'order_id': 'C1', 'table_id': 'T1', 'reason': 'closing', 'reputation': 3.0}] [{'reason': 'time', 'money': 0, 'earned': 0, 'shift_earned': 0, 'reputation': 3.0}] -> OK
+5 fixture customer cooked (QA-P2-01): FAIL (lỗi đã có từ Phase 1)
+6 headless quan same seed: d8e0fea78ba9c6d6 -> OK

@@ -37,3 +37,5 @@
 | 4 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Review toàn lịch sử/đóng góp GitHub, clone sạch, 30s benchmark, cập nhật TEAM và bàn giao | Không đo | 122/122 test trên clone 802f7c1; tái hiện 4 lỗi fixture/quán và lỗi constructor v1.2, xác nhận day chưa có. Public Releases/Actions chưa có kết quả; không phát hành/tag khi thiếu DoD. Không sửa module thành viên trong review. |
 
 | 4 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Ghép QA df8f204 vừa push trong khi review; chạy lại suite | Không đo | 134 test: 133 đạt, 1 expected failure cho lỗi fixture quán, độc lập xác nhận phát hiện của review. Không đổi gameplay, không gọi suite hoàn toàn đạt. |
+
+| 2 | Phạm Hoàng Huy / justcoffeee | Claude Code (Opus 5.5) | QA bổ sung quán P2 (muộn): 12 test 2 bếp/4 bàn/6 món; chạy cả suite có python3 qua venv tạm (df8f204). QA bổ sung P1 tại f9477e3: suite + probe quán | Không đo | 134 test OK (1 expectedFailure). Phát hiện QA-P2-01 (khách từ scenario không được nấu), có từ P1. AI viết sai 1 test bàn đầy (quên khách T1 rời đúng tick lượt 5); đọc lại kiên nhẫn 3600 tick = 4 lượt rồi sửa test, không sửa luật. |

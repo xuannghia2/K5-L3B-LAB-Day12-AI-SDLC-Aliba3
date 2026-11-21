@@ -26,8 +26,43 @@ Kênh Zalo là thông tin đã có. Các quy tắc còn lại là **bản đề 
 - Vướng quá 10 phút: báo ngay trên Zalo, nêu lỗi và cách đã thử; trưởng nhóm điều phối người dự phòng hỗ trợ.
 - Standup: 5 phút trước khi kết thúc mỗi phase; mỗi người báo phần xong, phần còn vướng và phụ thuộc; mốc phase theo lab board.
 - Đọc code: cặp gather/quan và UI/QA review chéo; kiểm tra giao diện tích hợp, test và bằng chứng trước khi gộp.
-- Git: mỗi người dùng nhánh ngắn theo module và tài khoản riêng; mỗi người có ít nhất 3 commit có nội dung; làm cặp ghi `Co-authored-by:`.
+- Git: dùng tài khoản riêng, mỗi người ít nhất 3 commit có nội dung; làm cặp ghi `Co-authored-by:`. Phần xuannghia2 theo yêu cầu trưởng nhóm: hoàn thành, kiểm tra rồi push từng phần lên main; cách làm của thành viên khác do nhóm thống nhất.
 - Tích hợp: chạy toàn bộ test trước khi đẩy/gộp; ghi rõ lỗi có sẵn và lỗi mới, không đánh dấu đạt khi còn lỗi.
 - Hợp đồng: không tự đổi `game.contract.json`, schema kho hoặc `docs/contracts/`; thông báo cả nhóm và ghi lại quyết định trước khi đổi.
 - Tag/release: trưởng nhóm gắn `phase-1` đến `phase-4` theo mốc lab board sau khi đọc bằng chứng; chỉ tạo `v1.0.0` khi đủ điều kiện Phase 4.
-- Ghi chép: mỗi người cập nhật nhật ký AI, kiểm chứng và `docs/members/<handle>.md`; Phase 2–4 chờ đề được bổ sung.
+- Ghi chép: mỗi người cập nhật nhật ký AI, kiểm chứng và `docs/members/<handle>.md`; Phase 1–3 đã có đề, cập nhật phạm vi theo ticket mới thay vì suy diễn yêu cầu.
+
+## Phạm vi và bàn giao qua các phase
+
+Cập nhật **21/11/2026 (Asia/Saigon)** theo phân công gốc và commit đã có trên GitHub.
+Bảng này ghi phạm vi module và điểm cần phối hợp; không tự xác nhận thành viên đã làm xong công việc chưa có bằng chứng.
+
+| Thành viên | Phase 1 | Phase 2 | Phase 3 / phụ thuộc tích hợp |
+|---|---|---|---|
+| Cấn Xuân Nghĩa — xuannghia2 | Bơi, oxy/ngạt/ngất, giỏ, hái/bắt, cập bến/xuất kho | Cá bơi/sinh, Cá Sấu, rơi hàng, bất tử/recoil, số chuẩn và hook nâng cấp | Adapter kho cá thể, hao tươi gather, spoiled, lost LIFO, id liên tục, precision và bằng chứng; chờ quán để bật v1.2 chung |
+| Lê Thanh Tùng — griin-03 | Luật quán: khách/giữ chỗ, bếp/bưng/phục vụ, tiền/uy tín | Kiểm thử quán với 2 bếp, 4 bàn, 6 món | Điểm nối thuộc sim/quan: nhận cá thể, giữ theo id tươi nhất, hao kho/giữ lại, giá theo tươi; chưa thấy commit P3 tại lần kiểm này |
+| Nguyễn Mạnh Hùng — Hunglunnn | Giao diện trình duyệt theo client/ui | Các cập nhật UI responsive, điều khiển và menu/HUD đã push | Điểm nối thuộc client/ui: hiển thị item.fresh/hàng ươn và đọc hold/stock cá thể; chưa xác nhận đã tích hợp schema P3 |
+| Phạm Hoàng Huy — justcoffeee | QA theo phân công gốc | Kiểm hồi quy và bằng chứng theo phạm vi QA | Cần kiểm migration schema/ngưỡng 30 và lỗi test mẫu TEAM; chưa xác nhận kết quả QA P3 |
+
+## Tiến độ có bằng chứng
+
+| Phần | Bằng chứng | Trạng thái ghi nhận |
+|---|---|---|
+| Gather Phase 1 | [Bàn giao](docs/gather-xuannghia2.md), [kiểm chứng](docs/verification/phase-1.md) | Đã push; số liệu P1 giữ theo log lịch sử |
+| Gather Phase 2 | [Bàn giao](docs/gather-phase-2-xuannghia2.md), [kiểm chứng](docs/verification/phase-2.md) | Đã push; cá/Cá Sấu/kho mới và pause backend đã kiểm |
+| Adapter + gather Phase 3 | [ADR-0001](docs/adr/0001-fresh-inventory-migration.md), [bàn giao API](docs/gather-phase-3-xuannghia2.md), [kiểm chứng](docs/verification/phase-3.md) | Đã push; 17 test P3 và 100 test có phạm vi đạt với profile kiểm thử rõ ràng |
+| Quán Phase 2 | Commit [d180783](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/d180783), [ghi chép griin-03](docs/members/griin-03.md) | Có commit kiểm thử và ghi chép; không suy ra quán đã chuyển v1.2 |
+| UI đã push | Commit [9ea49c2](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/9ea49c2) | Có cập nhật UI; cần kiểm thực tế phần đọc freshness P3 |
+| Vòng ngày / Shop / tích hợp chung | [Kế hoạch P2](docs/plan/phase-2.md), [kế hoạch P3](docs/plan/phase-3.md) | Chưa có xác nhận người phụ trách và kết quả tích hợp đầy đủ |
+
+Lần kiểm GitHub trước cập nhật này: main ở `6f43876`, chưa thấy commit quán P3.
+Đây là ảnh chụp tiến độ tại lúc ghi, không phải trạng thái tự cập nhật theo GitHub.
+
+## Các điểm nhóm cần chốt tiếp
+
+- Xác nhận người phụ trách bộ điều phối `day`, Shop và chuyển pha; không mặc định giao thêm module cho thành viên khi chưa thống nhất.
+- Chủ sim/quan dùng adapter/ledger đã push để hoàn thiện đầu nhận v1.2; client/ui đọc trực tiếp fresh của từng cá thể.
+- Giữ manifest chung v1.1 trong thời gian chuyển. Sau khi hai đầu sẵn sàng, kiểm file kho và day, cập nhật fixture rồi mới bật v1.2 và gắn tag.
+- Dùng cùng IdAllocator xuyên pha/ngày; không tái sử dụng id đã dùng hoặc bỏ. File kho v1.2 là `items` dạng mảng, không nhận kho đếm.
+- QA xử lý test `test_template_is_rejected` bằng fixture bảng mẫu riêng; không làm sai TEAM.md để test xanh. Log suite hiện có ghi rõ lỗi nền này.
+- Trước khi chốt phase, từng thành viên tự đọc lại phần của mình và bổ sung phản tư/review/demo thực tế; không coi nội dung AI soạn là bằng chứng người đã review.

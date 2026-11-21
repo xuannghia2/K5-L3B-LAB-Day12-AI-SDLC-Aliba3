@@ -28,3 +28,7 @@
 | 3 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Gather hold cá thể, hao đầu tick, spoiled theo id, nhặt fresh đầy, lost LIFO cá thể, validator và JSONL/file giữ đủ chính xác | Không đo | 17 test P3 đạt với tuning v1.2 tường minh; toàn suite 103/104, lỗi TEAM nền. CLI-test gọi parser/headless thật với load_contract được patch sang fixture v1.2; chưa phải smoke mặc định hai tiến trình/quán. Vẫn giữ mặc định v1.1 vì GitHub chưa có quán P3. |
 
 | 3 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Công cụ tái tạo 5 ca profile v1.2, kiểm byte/precision, CHANGELOG/ADR/ma trận/API cho quán | Không đo | 17 test P3, 100/100 scope đạt; toàn suite 103/104 (TEAM nền). Repo chưa thấy quán P3 khi fetch lại. Giữ manifest v1.1, không ghi nhận smoke quán/day v1.2 hoặc tag nhóm. |
+
+| 1 | Phạm Hoàng Huy / justcoffeee | Claude Code (Opus 5.5) | Sửa `test_template_is_rejected` bằng fixture bảng mẫu; thêm test TEAM.md thật khớp team_size (2d809cc) | Không đo | test_team_check 5/5. Suite toàn repo trên Windows lỗi 39 test do thiếu `python3` cho headless_cmd; AI xem traceback, xác định là lỗi môi trường, không ghi đạt toàn repo. |
+
+| 3 | Phạm Hoàng Huy / justcoffeee | Claude Code (Opus 5.5) | QA độc lập migration v1.2: 12 test ngưỡng 30/roundtrip/schema/id, chạy lại verify_gather_p3 (beee0a3) | Không đo | 34/34 test liên quan đạt, sha256 khớp báo cáo xuannghia2. Phát hiện quán chưa xử lý fresh, manifest vẫn 1.1 → tích hợp chưa đạt. |

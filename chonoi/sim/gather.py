@@ -15,6 +15,7 @@ from ..ids import sort_by_id
 from ..inventory import hold_to_items
 from .ramp import ramp_velocity
 from .fish import FishPopulation
+from .monsters import MonsterPopulation
 
 TICK = 60.0
 AXES = ("x", "d")
@@ -24,8 +25,18 @@ class GatherSim:
     mode = "gather"
     phase = "gather"
 
-    def __init__(self, tuning, scenario, streams, ids):
-        t = tuning["gather"]
+    def __init__(self, tuning, scenario, streams, ids, *, day=1, active_upgrades=None):
+        t = dict(tuning["gather"])
+        for kind, level in (active_upgrades or {}).items():
+            if kind not in ("oxygen", "hp") or level == 0:
+                continue
+            rows = tuning.get("shop", {}).get("upgrades", {}).get(kind, [])
+            entry = next((row for row in rows if row["level"] == level), None)
+            if entry is None:
+                from ..errors import BadInput
+                raise BadInput(f"unsupported active upgrade: {kind}={level}")
+            key = "oxygen_max_s" if kind == "oxygen" else "hp_max"
+            t[key] = entry[key]
         self.t = t
         self.rng = streams
         self.ids = ids
@@ -59,6 +70,8 @@ class GatherSim:
         for coll in (self.nodes, self.fish):
             for e in coll:
                 ids.reserve(e["id"])
+        self.monster_population = MonsterPopulation(t, scenario, ids, day)
+        self.monsters = self.monster_population.monsters
         self.money = 0
         self.earned = 0
         self.reputation = tuning["quan"]["reputation_initial"]
@@ -76,6 +89,7 @@ class GatherSim:
                        "hp": self.hp, "hp_max": self.t["hp_max"], "zero_oxy_ticks": self.zero_oxy_ticks,
                        "invuln_ticks": self.invuln_ticks, "catch_cd_ticks": self.catch_cd_ticks,
                        "at_surface": self._at_surface()},
+            **({"monsters": [dict(m) for m in sort_by_id(self.monsters)]} if self.monster_population.t else {}),
             "hold": self.hold, "hold_count": len(self.hold),
             "hold_capacity": self.t["hold_capacity"],
             "nodes": [{"id": n["id"], "pos": n["pos"], "kind": n["kind"],
@@ -129,6 +143,23 @@ class GatherSim:
                         return events
             else:
                 self.zero_oxy_ticks = 0
+        # P2: all monsters move before at most one hit; choking was processed first.
+        self.monster_population.step(self.pos)
+        monster = self.monster_population.nearest_hit(self.pos)
+        if monster is not None and self.invuln_ticks == 0:
+            config = self.monster_population.t
+            self.hp = max(0, self.hp - 1)
+            lost = [self.hold.pop() for _ in range(math.floor(len(self.hold) * config["loss_ratio"]))]
+            self.invuln_ticks = config["invuln_ticks"]
+            self.monster_population.recoil(monster, self.pos)
+            events.append(("monster_hit", {"monster_id": monster["id"], "hp": self.hp,
+                                           "lost": lost, "pos": list(self.pos)}))
+            if self.hp == 0:
+                remaining = list(reversed(self.hold))
+                self.hold.clear()
+                events.append(("faint", {"cause": "monster", "lost": remaining, "hp": 0}))
+                self._finish("fainted", events)
+                return events
         # 3. interact: bến trước, rồi hái
         if inp.pressed("interact"):
             if self._in_dock():

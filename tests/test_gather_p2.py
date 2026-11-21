@@ -105,5 +105,105 @@ class FishP2(unittest.TestCase):
         self.assertEqual(s.fish, [])
 
 
+class MonstersP2(unittest.TestCase):
+    def monster(self, ident="M1", pos=None, **kw):
+        pos = pos or [50, 20]
+        return dict(id=ident, kind="ca_sau", pos=list(pos), waypoints=[list(pos), [pos[0] + 4, pos[1]]], **kw)
+
+    def sim(self, scenario=None, **kw):
+        base = {"random_fish": False, "player": {"pos": [50, 20]}, "monsters": [self.monster()]}
+        base.update(scenario or {})
+        return GatherSim(tuning_p2(), base, Streams(1), IdAllocator(), **kw)
+
+    def test_default_spawns_depend_on_day_and_fixture_replaces_them(self):
+        for day, count in ((1, 1), (2, 1), (3, 2), (5, 2)):
+            s = GatherSim(tuning_p2(), {"random_fish": False}, Streams(1), IdAllocator(), day=day)
+            self.assertEqual(len(s.monsters), count)
+        self.assertEqual(self.sim({"monsters": []}).monsters, [])
+
+    def test_hit_loses_floor_half_lifo_and_sets_invulnerability_recoil(self):
+        s = self.sim({"hold": ["ca_loc", "bong_sung", "ca_linh", "keo_neo", "ca_keo"]})
+        events = s.step(idle())
+        self.assertEqual(events, [("monster_hit", {"monster_id": "M1", "hp": 2,
+            "lost": ["ca_keo", "keo_neo"], "pos": [50, 20]})])
+        self.assertEqual(s.hold, ["ca_loc", "bong_sung", "ca_linh"])
+        self.assertEqual(s.invuln_ticks, 90)
+        self.assertEqual(s.monsters[0]["state_ticks_left"], 60)
+        self.assertEqual(s.monsters[0]["recoil_dir"], [1, 0])
+        s.step(idle())
+        self.assertAlmostEqual(s.monsters[0]["pos"][0], 50 + 2 / 60)
+        self.assertEqual(s.monsters[0]["state_ticks_left"], 59)
+
+    def test_only_one_nearest_hit_and_natural_id_tie(self):
+        s = self.sim({"monsters": [self.monster("M10"), self.monster("M2")]})
+        events = s.step(idle())
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0][1]["monster_id"], "M2")
+        self.assertEqual(next(m for m in s.monsters if m["id"] == "M10")["state"], "chase")
+
+    def test_invulnerable_contact_does_not_hit_or_recoil_and_boundary_expires(self):
+        s = self.sim({"player": {"pos": [50, 20], "invuln_ticks": 2}})
+        self.assertEqual(s.step(idle()), [])
+        self.assertEqual(s.monsters[0]["state"], "chase")
+        self.assertEqual(s.step(idle())[0][0], "monster_hit")
+
+    def test_choke_precedes_hit_and_does_not_drop_half_hold(self):
+        s = self.sim({"player": {"pos": [50, 20], "hp": 3, "oxygen_ticks": 0, "zero_oxy_ticks": 59},
+                      "hold": ["ca_loc", "ca_keo", "keo_neo"]})
+        events = s.step(idle())
+        self.assertEqual([e[0] for e in events], ["choke", "monster_hit"])
+        self.assertEqual(s.hp, 1)
+        self.assertEqual(events[-1][1]["lost"], ["keo_neo"])
+
+    def test_lethal_hit_has_remaining_losses_then_empty_inventory(self):
+        s = self.sim({"player": {"pos": [50, 20], "hp": 1},
+                      "hold": ["ca_loc", "bong_sung", "ca_keo"]})
+        events = s.step(idle("catch", "interact"))
+        self.assertEqual([e[0] for e in events], ["monster_hit", "faint", "gather_end"])
+        self.assertEqual(events[0][1]["lost"], ["ca_keo"])
+        self.assertEqual(events[1][1], {"cause": "monster", "hp": 0, "lost": ["bong_sung", "ca_loc"]})
+        self.assertEqual(events[-1][1]["inventory"], {"items": {}})
+
+    def test_patrol_speed_waypoint_change_then_depth_detection_and_hysteresis(self):
+        s = self.sim({"player": {"pos": [50, 0]}})
+        m = s.monsters[0]
+        m["pos"] = [53.99, 20]
+        s.step(idle())
+        self.assertEqual(m["pos"], [54, 20])
+        self.assertEqual(m["target_idx"], 0)
+        s.step(idle())
+        self.assertAlmostEqual(m["pos"][0], 54 - 1 / 60)
+        s.pos = [44, 20]
+        s.step(idle())
+        self.assertEqual(m["state"], "chase")
+        s.pos = [39, 20]
+        s.step(idle())
+        self.assertEqual(m["state"], "chase")
+        s.pos = [10, 20]
+        s.step(idle())
+        self.assertEqual(m["state"], "patrol")
+        s.pos = [m["pos"][0], 9.9]
+        s.step(idle())
+        self.assertEqual(m["state"], "patrol")
+
+    def test_recoil_final_tick_cannot_detect_or_hit(self):
+        m = self.monster(state="recoil", state_ticks_left=1, recoil_dir=[1, 0])
+        s = self.sim({"monsters": [m]})
+        self.assertEqual(s.step(idle()), [])
+        self.assertEqual(s.monsters[0]["state"], "patrol")
+        self.assertEqual(s.step(idle())[0][0], "monster_hit")
+
+    def test_active_upgrade_limits_are_local_and_support_day_integration(self):
+        t = tuning_p2()
+        t["shop"] = {"upgrades": {"oxygen": [{"level": 1, "oxygen_max_s": 45}],
+                                      "hp": [{"level": 2, "hp_max": 5}]}}
+        s = GatherSim(t, {"random_fish": False}, Streams(1), IdAllocator(), active_upgrades={"oxygen": 1, "hp": 2})
+        self.assertEqual(s.oxygen_max, 2700)
+        self.assertEqual(s.hp, 5)
+        self.assertEqual(s.snapshot()["player"]["hp_max"], 5)
+        self.assertEqual(t["gather"]["hp_max"], 3)
+        self.assertEqual(t["gather"]["oxygen_max_s"], 30)
+
+
 if __name__ == "__main__":
     unittest.main()

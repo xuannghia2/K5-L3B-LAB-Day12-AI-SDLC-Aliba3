@@ -14,3 +14,5 @@
 | 1 | Lê Thanh Tùng / griin-03 | Antigravity (Google DeepMind) | Triển khai hoàn thiện sim/quan (Lát 3 khách & vòng đời, Lát 4 bếp & phục vụ & kinh tế theo PRD-0 mục E, F), bổ sung test unit | Không có số đo token/chi phí | Chuẩn hóa toàn bộ thứ tự tick, payload event dish_ready, cook_started, served, paid, customer_left, quan_end theo đúng Test Contract v1.0 |
 
 | 2 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Cá bơi/phản xạ mép, đổi hướng theo tuổi, sinh có seed/clearance/trần, giữ fixture random_fish:false; dữ liệu gather chuẩn | Không đo | 8 test P2 mới đạt; cả suite 69/70, lỗi TEAM có sẵn. Chưa kích hoạt manifest v1.1 cho đến khi validator/giao diện nguyên liệu mới sẵn sàng. |
+
+| 2 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Cá Sấu tuần tra/chase, hit gần nhất, bất tử, recoil, mất hàng LIFO/ngất; hook day/active_upgrades | Không đo | 17 test P2 đạt, 9 test mới cho Cá Sấu/nâng cấp; cả suite 78/79, lỗi TEAM có sẵn. Đang tích hợp validator và manifest. |

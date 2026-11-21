@@ -4,16 +4,16 @@
 
 | Thành viên | GitHub handle | Module chính | Vai quy trình | Người dự phòng cho |
 |---|---|---|---|---|
-| | | `sim/gather` | | |
-| | | `sim/quan` | | |
-| | | `client/ui` | | |
-| | | `qa` | | |
+|Cấn Xuân Nghĩa  |xuannghia2 | `sim/gather` |Trưởng nhóm |X |
+|Lê Thanh Tùng | griin-03 | `sim/quan` | Thành viên |X |
+|Nguyễn Mạnh Hùng | Hunglunnn| `client/ui` |Thành viên | X|
+|Phạm  | | `qa` |Thành viên |X |
 
 **Vai quy trình:** PO (đầu mối hỏi giảng viên, giữ `docs/clarify.md`) · Integrator (giữ `docs/contracts/`, gắn tag) · QA lead · Scrum/Release. Có thể kiêm.
 
 ## Thỏa thuận làm việc nhóm (điền trong 15 phút kickoff, ≤ 10 dòng)
 
-- Kênh liên lạc: …
+- Kênh liên lạc: Zalo
 - Khi bất đồng về thiết kế: … (ví dụ: nói 2 phút, không xong thì Integrator quyết và ghi lại lý do)
 - Khi ai đó trễ hoặc vướng quá 10 phút: … (ví dụ: nói ngay trong kênh, người dự phòng nhận việc)
 - Giờ standup giữa phase: …

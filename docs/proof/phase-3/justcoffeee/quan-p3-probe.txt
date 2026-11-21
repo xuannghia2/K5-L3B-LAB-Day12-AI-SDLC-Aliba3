@@ -1,0 +1,11 @@
+J1 gather dock v1.2: (0, '') {"items":[{"id":"I1","kind":"ca_loc","fresh":99.99166666666666},{"id":"I2","kind":"ca_loc","fresh":39.99166666666667}]}
+J2 quan reads v1.2 kho: (0, '')
+   quan events: [('customer_arrived', {'order_id': 'C1', 'table_id': 'T1', 'dish_id': 'ca_loc_nuong_trui'})]
+   snapshot stock tick0: [{'id': 'I1', 'kind': 'ca_loc', 'fresh': 99.99166666666666}, {'id': 'I2', 'kind': 'ca_loc', 'fresh': 39.99166666666667}]
+G tie-break reserved ids: ['I10'] (natural order expects ['I2'])
+F freshest reserved: ['I2'] (expects ['I2'])
+P price: 53 items [{'id': 'I2', 'kind': 'ca_loc', 'fresh': 89.49583333333334}] list price 60
+H implicit-reserved over stock (v1.2 profile): (2, 'đầu vào sai: v1.2 items phải là mảng cá thể, không nhận kho đếm')
+H same on default v1.1 manifest: exit 0
+S spoil in stock: [{'item_id': 'I1', 'kind': 'ca_loc', 'location': 'stock'}] | order_status unfulfillable | reserved []
+R before: ['I1']

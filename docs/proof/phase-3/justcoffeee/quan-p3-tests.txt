@@ -1,0 +1,18 @@
+test_equal_freshness_tie_uses_natural_id_order (test_qa_p3_quan.KnownBugsP3.test_equal_freshness_tie_uses_natural_id_order)
+QA-P3-03: hòa fresh thì chọn theo chuỗi id ('I10' < 'I2') thay vì thứ tự tự nhiên ids.sort_by_id (I2 trước I10). ... expected failure
+test_v11_implicit_reservation_over_empty_stock_is_rejected (test_qa_p3_quan.KnownBugsP3.test_v11_implicit_reservation_over_empty_stock_is_rejected)
+QA-P3-02: khách fixture không ghi order_status/reserved, kho rỗng: validation bỏ qua, nấu được, kho -1. ... expected failure
+test_v12_fixture_customer_without_ingredients_is_not_cooked_for_free (test_qa_p3_quan.KnownBugsP3.test_v12_fixture_customer_without_ingredients_is_not_cooked_for_free)
+QA-P3-01: khách fixture gọi lau_mam, kho chỉ có 1 ca_loc: bếp vẫn cook_started, items [], giá đủ 200. ... expected failure
+test_cook_consumes_reserved_ids_and_prices_by_freshness (test_qa_p3_quan.ReserveAndPrice.test_cook_consumes_reserved_ids_and_prices_by_freshness) ... ok
+test_reserved_item_is_not_available_to_next_customer (test_qa_p3_quan.ReserveAndPrice.test_reserved_item_is_not_available_to_next_customer) ... ok
+test_reserves_freshest_item (test_qa_p3_quan.ReserveAndPrice.test_reserves_freshest_item) ... ok
+test_reserved_item_spoils_in_stock_and_order_becomes_unfulfillable (test_qa_p3_quan.StockSpoil.test_reserved_item_spoils_in_stock_and_order_becomes_unfulfillable) ... ok
+test_stock_decays_at_quan_rate (test_qa_p3_quan.StockSpoil.test_stock_decays_at_quan_rate) ... ok
+test_default_v11_manifest_still_rejects_item_list (test_qa_p3_quan.TwoProcessV12.test_default_v11_manifest_still_rejects_item_list) ... ok
+test_gather_dock_file_is_read_by_quan_unchanged (test_qa_p3_quan.TwoProcessV12.test_gather_dock_file_is_read_by_quan_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.045s
+
+OK (expected failures=3)

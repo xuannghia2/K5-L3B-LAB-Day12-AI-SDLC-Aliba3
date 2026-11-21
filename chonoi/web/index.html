@@ -6,11 +6,49 @@
 <title>Quán Ăn Chợ Nổi — chơi thử</title>
 <style>
   html, body { margin: 0; height: 100%; background: #10161c; color: #e8eef2; font: 14px/1.4 system-ui, sans-serif; overflow: hidden; }
-  canvas { display: block; width: 100vw; height: 100vh; }
+  canvas { display: block; width: 100vw; height: 100vh; touch-action: none; }
+
+  #touch-controls {
+    display: none;
+    position: fixed;
+    inset: auto 14px 18px;
+    z-index: 4;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  #touch-controls .cluster { display: grid; grid-template-columns: repeat(3, 58px); grid-template-rows: repeat(2, 58px); gap: 8px; }
+  #touch-controls .actions { display: flex; align-items: end; gap: 8px; }
+  #touch-controls button {
+    width: 58px; height: 58px; border: 1px solid rgba(255,255,255,.38); border-radius: 50%;
+    background: rgba(16,22,28,.72); color: #fff; font-size: 20px; font-weight: 700;
+    backdrop-filter: blur(5px); pointer-events: auto; touch-action: none; user-select: none;
+  }
+  #touch-controls button.action { width: 66px; height: 66px; font-size: 13px; }
+  #touch-controls button.pressed { background: rgba(255,138,61,.9); transform: scale(.96); }
+  #move-up { grid-column: 2; grid-row: 1; }
+  #move-left { grid-column: 1; grid-row: 2; }
+  #move-down { grid-column: 2; grid-row: 2; }
+  #move-right { grid-column: 3; grid-row: 2; }
+  @media (hover: none), (pointer: coarse), (max-width: 820px) {
+    #touch-controls { display: flex; }
+  }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
+<div id="touch-controls" aria-label="Điều khiển trò chơi">
+  <div class="cluster">
+    <button id="move-up" data-move="u" aria-label="Đi lên">▲</button>
+    <button id="move-left" data-move="l" aria-label="Đi trái">◀</button>
+    <button id="move-down" data-move="d" aria-label="Đi xuống">▼</button>
+    <button id="move-right" data-move="r" aria-label="Đi phải">▶</button>
+  </div>
+  <div class="actions">
+    <button id="act-interact" class="action" data-action="interact" aria-label="Tương tác">E</button>
+    <button id="act-catch" class="action" data-action="catch" aria-label="Bắt cá">BẮT</button>
+    <button id="act-restart" class="action" aria-label="Chơi lại">R</button>
+  </div>
+</div>
 <script>
 "use strict";
 /*
@@ -69,6 +107,50 @@ addEventListener("keyup", (e) => {
   pushInput();
 });
 addEventListener("blur", () => { down.clear(); pushInput(); });
+
+// ---------- điều khiển cảm ứng ----------
+document.querySelectorAll("[data-move]").forEach((button) => {
+  const direction = button.dataset.move;
+  button.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    button.setPointerCapture?.(e.pointerId);
+    button.classList.add("pressed");
+    down.add(direction);
+    pushInput();
+  });
+  const release = (e) => {
+    e.preventDefault();
+    button.classList.remove("pressed");
+    down.delete(direction);
+    pushInput();
+  };
+  button.addEventListener("pointerup", release);
+  button.addEventListener("pointercancel", release);
+});
+document.querySelectorAll("[data-action]").forEach((button) => {
+  const action = button.dataset.action;
+  button.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    button.setPointerCapture?.(e.pointerId);
+    button.classList.add("pressed");
+    down.add(action);
+    pushInput();
+  });
+  const release = (e) => {
+    e.preventDefault();
+    button.classList.remove("pressed");
+    down.delete(action);
+    pushInput();
+  };
+  button.addEventListener("pointerup", release);
+  button.addEventListener("pointercancel", release);
+});
+document.getElementById("act-restart").addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  fetch("/restart", { method: "POST" });
+  lastSent = "";
+  down.clear();
+});
 
 // ---------- ra: poll snapshot ----------
 async function poll() {

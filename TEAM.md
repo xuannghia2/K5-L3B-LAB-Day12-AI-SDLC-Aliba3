@@ -7,7 +7,7 @@
 |Cấn Xuân Nghĩa  |xuannghia2 | `sim/gather` |Trưởng nhóm |X |
 |Lê Thanh Tùng | griin-03 | `sim/quan` | Thành viên |X |
 |Nguyễn Mạnh Hùng | Hunglunnn| `client/ui` |Thành viên | X|
-|Phạm  | | `qa` |Thành viên |X |
+|Phạm Hoàng Huy |justcoffeee | `qa` |Thành viên |X |
 
 **Vai quy trình:** PO (đầu mối hỏi giảng viên, giữ `docs/clarify.md`) · Integrator (giữ `docs/contracts/`, gắn tag) · QA lead · Scrum/Release. Có thể kiêm.
 

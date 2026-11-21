@@ -1,0 +1,33 @@
+{
+  "shared_manifest_version": "1.1",
+  "test_profile_version": "1.2",
+  "note": "Only this verification process selects the v1.2 profile; not a live two-process quan integration.",
+  "cases": {
+    "threshold": {
+      "exit_code": 0,
+      "reason": "tick_limit",
+      "sha256": "eca81dc8e2f720b5fe2011f918a91e4f742cd56986373758874232e6c10894da"
+    },
+    "dock": {
+      "exit_code": 0,
+      "reason": "docked",
+      "sha256": "cb382739b8a318274eb6d253624aecb5235765cb8b79d75019ff1b6935fe8fb7"
+    },
+    "pickup": {
+      "exit_code": 0,
+      "reason": "tick_limit",
+      "sha256": "e71a22cddd05e28a0b3fd290af65798fff656aad437e88f0bfc2d044ea232bae"
+    },
+    "faint": {
+      "exit_code": 0,
+      "reason": "fainted",
+      "sha256": "9d3fa8210f548362630aa32ffa9f80cbe7d75101216e26cf9f0767185ae6d4b0"
+    },
+    "pickup-repeat": {
+      "exit_code": 0,
+      "reason": "tick_limit",
+      "sha256": "e71a22cddd05e28a0b3fd290af65798fff656aad437e88f0bfc2d044ea232bae"
+    }
+  },
+  "same_seed_identical_bytes": true
+}

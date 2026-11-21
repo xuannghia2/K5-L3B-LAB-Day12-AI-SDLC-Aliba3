@@ -1,0 +1,29 @@
+{
+  "gather": {
+    "random_fish": false,
+    "monsters": [],
+    "player": {
+      "pos": [
+        20,
+        0
+      ]
+    },
+    "hold": [
+      {
+        "id": "I20",
+        "kind": "ca_loc",
+        "fresh": 50
+      }
+    ],
+    "nodes": [
+      {
+        "id": "N1",
+        "kind": "keo_neo",
+        "pos": [
+          20,
+          0
+        ]
+      }
+    ]
+  }
+}

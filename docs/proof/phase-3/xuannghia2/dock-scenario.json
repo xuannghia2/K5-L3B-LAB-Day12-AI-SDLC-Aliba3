@@ -1,0 +1,18 @@
+{
+  "gather": {
+    "random_fish": false,
+    "monsters": [],
+    "hold": [
+      {
+        "id": "I10",
+        "kind": "ca_keo",
+        "fresh": 100
+      },
+      {
+        "id": "I2",
+        "kind": "keo_neo",
+        "fresh": 29.9999
+      }
+    ]
+  }
+}

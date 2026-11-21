@@ -1,0 +1,13 @@
+{
+  "gather": {
+    "random_fish": false,
+    "monsters": [],
+    "hold": [
+      {
+        "id": "I1",
+        "kind": "ca_linh",
+        "fresh": 30
+      }
+    ]
+  }
+}

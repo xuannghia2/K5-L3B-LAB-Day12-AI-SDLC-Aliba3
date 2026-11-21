@@ -1,0 +1,29 @@
+{
+  "gather": {
+    "random_fish": false,
+    "player": {
+      "pos": [
+        60,
+        24
+      ],
+      "hp": 1
+    },
+    "hold": [
+      {
+        "id": "I20",
+        "kind": "ca_loc",
+        "fresh": 100
+      },
+      {
+        "id": "I2",
+        "kind": "keo_neo",
+        "fresh": 50
+      },
+      {
+        "id": "I7",
+        "kind": "ca_keo",
+        "fresh": 30
+      }
+    ]
+  }
+}

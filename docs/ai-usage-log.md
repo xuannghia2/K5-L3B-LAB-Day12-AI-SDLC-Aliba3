@@ -26,3 +26,5 @@
 | 3 | Cấn Xuân Nghĩa / xuannghia2 | Codex | ADR migration, adapter kho cá thể chọn version, FreshnessLedger chính xác và kiểm ngưỡng/roundtrip | Không đo | 7 test adapter mới đạt. Giữ v1.1 mặc định; lúc kiểm GitHub main 2fd97cc chưa có quán P3. Bằng chứng adapter-stage-tests.txt ghi cả lỗi TEAM nền. |
 
 | 3 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Gather hold cá thể, hao đầu tick, spoiled theo id, nhặt fresh đầy, lost LIFO cá thể, validator và JSONL/file giữ đủ chính xác | Không đo | 17 test P3 đạt với tuning v1.2 tường minh; toàn suite 103/104, lỗi TEAM nền. CLI-test gọi parser/headless thật với load_contract được patch sang fixture v1.2; chưa phải smoke mặc định hai tiến trình/quán. Vẫn giữ mặc định v1.1 vì GitHub chưa có quán P3. |
+
+| 3 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Công cụ tái tạo 5 ca profile v1.2, kiểm byte/precision, CHANGELOG/ADR/ma trận/API cho quán | Không đo | 17 test P3, 100/100 scope đạt; toàn suite 103/104 (TEAM nền). Repo chưa thấy quán P3 khi fetch lại. Giữ manifest v1.1, không ghi nhận smoke quán/day v1.2 hoặc tag nhóm. |

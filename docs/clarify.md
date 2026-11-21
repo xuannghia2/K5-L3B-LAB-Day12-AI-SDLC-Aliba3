@@ -15,3 +15,10 @@ Nguồn đối chiếu XN-01 đến XN-03: [PRD-0](https://claude.ai/artifact/E3
 - Không đổi shape file kho; chỉ mở rộng danh sách kind nhận ca_keo và keo_neo theo đề. Dữ liệu v1.1 và thay đổi shared được công khai trong commit tích hợp để các module khác dùng.
 - Hook gather nhận `day` và `active_upgrades`; phần điều phối phải truyền cấp có hiệu lực từ ngày kế, không cấp vừa mua cùng ngày.
 - Đã hỏi người dùng về người phụ trách day/Shop/pause; chưa có phản hồi tại lúc ghi. Tiếp tục hoàn thiện gather độc lập; day/Shop/HUD còn chờ tích hợp, không gắn tag thay nhóm.
+
+## Phase 3 — quyết định migration xuannghia2
+
+- Ticket-03 thay shape kho, yêu cầu id/fresh và giảm tươi; ADR-0001 công khai tác động và thứ tự tích hợp.
+- Người dùng yêu cầu kiểm GitHub thay vì đoán tiến độ thành viên. Đã fetch nhánh và log: chỉ main, chưa thấy commit quán P3; các lần fetch sau adapter/gather cũng chưa có commit mới của quán.
+- Vì vậy chưa đổi manifest chung sang v1.2; adapter chọn version rõ ràng, test gather chạy profile riêng có ghi trong báo cáo. Sau khi chủ module quán push sẽ kiểm hai đầu rồi mới bật.
+- Không làm mở rộng dòng lũ/khách đặt trước trong phần gather lõi này.

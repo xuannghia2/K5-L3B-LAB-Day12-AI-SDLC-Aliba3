@@ -27,3 +27,9 @@
 ### Phase 2 — xuannghia2
 
 Cá và Cá Sấu được tách khỏi GatherSim, push sau từng lát có test. Fixture khóa actor giúp giữ test P1 khi bản mặc định đổi sang cá chuyển động. Nguy cơ tích hợp là số chuẩn làm đổi test quán (thêm bàn tạo thêm lượt khách), nên ca kiểm một đơn dùng đúng kho một đơn. Bước tiếp theo của nhóm là nối day/Shop/UI vào hook gather và chạy benchmark, không nhầm dữ liệu cấu hình đã đủ với gameplay toàn ngày đã đủ.
+
+### Phase 3 — xuannghia2
+
+Đổi schema ảnh hưởng cả hai đầu, nên tách adapter/gather và ghi rõ chưa bật mặc định trước khi quán hỗ trợ.
+Test nhiều tick và roundtrip phát hiện lý do không nên làm tròn fresh trong JSONL/file: số nhìn gần 30 có thể đổi nhánh.
+Bằng chứng profile phải ghi rõ cấu hình thay thế, không gọi nhầm là smoke quán/ngày thật. Bước tiếp theo là chủ quán nối ledger, giữ id và giá, rồi chạy migration trên main.

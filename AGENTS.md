@@ -40,3 +40,9 @@
 - Sửa có lý do ở framework: contract/scenario/inventory để nhận dữ liệu mới, inputs/headless/runner/live để pause dừng gameplay. Hai lệnh gather phía trên đã bao gồm test P2 và quan.
 - Điểm tích hợp ngày: `GatherSim(..., day=1, active_upgrades=None)`; xem `docs/gather-phase-2-xuannghia2.md`. Không coi dữ liệu day_plan/shop đã có là bộ điều phối ngày đã hoàn thành.
 - Các test P1 đổi do Ticket-02 được giải thích trong tài liệu bàn giao; lỗi QA mẫu TEAM vẫn giữ bằng chứng riêng.
+
+### Phase 3 — kho cá thể trong thời gian migration
+- Main giữ v1.1 trước khi quán sẵn sàng. P3 dùng `tuning.freshness` và adapter với `version="1.2"`; không tự biến kho đếm thành cá thể ở đầu đọc v1.2.
+- `FreshnessLedger` trả item dict JSON, giữ nhịp hao chính xác bên trong. Dùng cùng IdAllocator xuyên pha/ngày; sao item khi đưa vào snapshot/lost.
+- `fresh` không làm tròn trong JSONL. Chạy `.\tools\gather.ps1 test`; tái tạo ca P3: `python3 tools/verify_gather_p3.py --out docs/proof/phase-3/xuannghia2`.
+- Lệnh verify dùng profile riêng trong tiến trình, không phải smoke quán v1.2 mặc định. Xem ADR-0001 và docs/gather-phase-3-xuannghia2.md trước khi bật manifest.

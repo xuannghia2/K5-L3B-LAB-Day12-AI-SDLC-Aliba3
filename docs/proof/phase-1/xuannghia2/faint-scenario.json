@@ -10,7 +10,9 @@
       "zero_oxy_ticks": 59
     },
     "hold": [
-      "ca_loc"
+      "ca_loc",
+      "bong_sung",
+      "bong_dien_dien"
     ],
     "random_fish": false
   }

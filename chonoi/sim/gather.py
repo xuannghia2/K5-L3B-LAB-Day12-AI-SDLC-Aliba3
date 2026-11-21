@@ -5,7 +5,7 @@ Mặt cắt dòng sông nhìn NGANG: vị trí `[x, d]` (x sang phải, `d` đ�
 
 Phase 1: bơi, oxy, ngạt/ngất, giỏ, hái nút, bắt cá, cập bến và hết giờ.
 Mọi định lượng đọc từ tuning; danh sách bằng khoảng cách được ưu tiên theo id tự nhiên.
-Xem docs/gather-xuannghia2.md cho phạm vi và các giả định chờ đối chiếu PRD.
+Xem docs/gather-xuannghia2.md cho phạm vi và kết quả đối chiếu PRD-0 mục E/F/G.
 Các tính năng của phase sau chưa nằm trong khung này.
 """
 
@@ -111,7 +111,7 @@ class GatherSim:
             previous_oxygen = self.oxygen_ticks
             self.oxygen_ticks = max(0, self.oxygen_ticks - 1)
             if previous_oxygen > 0 and self.oxygen_ticks == 0:
-                events.append(("oxygen_empty", {"pos": list(self.pos)}))
+                events.append(("oxygen_empty", {"oxygen_ticks": 0}))
             if self.oxygen_ticks == 0:
                 self.zero_oxy_ticks += 1
                 if self.zero_oxy_ticks >= self.t["choke_interval_ticks"]:
@@ -119,8 +119,9 @@ class GatherSim:
                     self.hp = max(0, self.hp - 1)
                     events.append(("choke", {"hp": self.hp}))
                     if self.hp == 0:
+                        lost = list(reversed(self.hold))
                         self.hold.clear()
-                        events.append(("faint", {"pos": list(self.pos)}))
+                        events.append(("faint", {"cause": "choke", "lost": lost, "hp": 0}))
                         self._finish("fainted", events)
                         return events
             else:
@@ -154,12 +155,14 @@ class GatherSim:
         return min(candidates, key=lambda e: math.dist(self.pos, e["pos"]), default=None)
 
     def _collect(self, entity, quantity, name, id_field, events):
-        data = {id_field: entity["id"], "kind": entity["kind"], "qty": quantity}
-        if len(self.hold) + quantity > self.t["hold_capacity"]:
-            events.append(("hold_full", data))
+        free = self.t["hold_capacity"] - len(self.hold)
+        if quantity > free:
+            events.append(("hold_full", {"action": "gather" if name == "gather" else "catch",
+                                         id_field: entity["id"], "required": quantity, "free": free}))
             return False
         self.hold.extend([entity["kind"]] * quantity)
-        events.append((name, data))
+        amount_field = "amount" if name == "gather" else "yield"
+        events.append((name, {id_field: entity["id"], "kind": entity["kind"], amount_field: quantity}))
         return True
 
     def _at_surface(self) -> bool:

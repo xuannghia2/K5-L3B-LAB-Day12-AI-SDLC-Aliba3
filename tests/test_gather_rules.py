@@ -81,6 +81,7 @@ class CollectionRules(unittest.TestCase):
     setUp = GatherRules.setUp
     session = GatherRules.session
     names = GatherRules.names
+
     def node(self, ident="N1", pos=None, kind="bong_sung", **kw):
         return dict(id=ident, pos=pos or [20, 0], kind=kind, **kw)
 
@@ -93,7 +94,7 @@ class CollectionRules(unittest.TestCase):
         s = self.session(player={"pos": [20, 0]}, nodes=nodes, hold=["ca_loc"])
         rows = s.step(action((0, 0), "interact"))
         self.assertEqual(self.names(rows), ["gather"])
-        self.assertEqual(rows[0]["data"], {"node_id": "N2", "kind": "bong_sung", "qty": self.g["node_yield"]})
+        self.assertEqual(rows[0]["data"], {"node_id": "N2", "kind": "bong_sung", "amount": self.g["node_yield"]})
         self.assertEqual(s.sim.hold, ["ca_loc"] + ["bong_sung"] * self.g["node_yield"])
         self.assertEqual(next(n for n in s.sim.nodes if n["id"] == "N2")["regrow_ticks"],
                          round(self.g["regrow_s"] * 60))

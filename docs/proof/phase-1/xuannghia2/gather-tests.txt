@@ -19,6 +19,9 @@ test_surface_boundary_refills_caps_and_resets_choking (test_gather_rules.GatherR
 test_catch_determinism_includes_nonempty_events_and_inventory (test_gather_headless.GatherHeadless.test_catch_determinism_includes_nonempty_events_and_inventory) ... ok
 test_faint_writes_empty_inventory_and_exact_end_order (test_gather_headless.GatherHeadless.test_faint_writes_empty_inventory_and_exact_end_order) ... ok
 test_harvest_dock_exports_stock_that_quan_can_read (test_gather_headless.GatherHeadless.test_harvest_dock_exports_stock_that_quan_can_read) ... ok
+test_hold_full_schema_and_nearest_school_blocks_smaller_yield (test_gather_headless.GatherHeadless.test_hold_full_schema_and_nearest_school_blocks_smaller_yield) ... ok
+test_oxygen_empty_first_choke_exact_tick_and_payload (test_gather_headless.GatherHeadless.test_oxygen_empty_first_choke_exact_tick_and_payload) ... ok
+test_regrown_event_payload_and_harvest_on_same_tick (test_gather_headless.GatherHeadless.test_regrown_event_payload_and_harvest_on_same_tick) ... ok
 test_unfinished_gather_preserves_existing_inventory (test_gather_headless.GatherHeadless.test_unfinished_gather_preserves_existing_inventory) ... ok
 test_con_01_ticks_zero_and_end_line (test_smoke_p1.Contract.test_con_01_ticks_zero_and_end_line) ... ok
 test_con_02_deterministic_bytes (test_smoke_p1.Contract.test_con_02_deterministic_bytes) ... ok
@@ -54,6 +57,6 @@ test_session_steps_gather_and_dock (test_python_starter_units.Units.test_session
 test_state_input_and_clean_stop (test_live.LiveServerTest.test_state_input_and_clean_stop) ... ok
 
 ----------------------------------------------------------------------
-Ran 50 tests in 3.204s
+Ran 53 tests in 3.773s
 
 OK

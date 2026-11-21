@@ -1,6 +1,9 @@
 test_catch_determinism_includes_nonempty_events_and_inventory (test_gather_headless.GatherHeadless.test_catch_determinism_includes_nonempty_events_and_inventory) ... ok
 test_faint_writes_empty_inventory_and_exact_end_order (test_gather_headless.GatherHeadless.test_faint_writes_empty_inventory_and_exact_end_order) ... ok
 test_harvest_dock_exports_stock_that_quan_can_read (test_gather_headless.GatherHeadless.test_harvest_dock_exports_stock_that_quan_can_read) ... ok
+test_hold_full_schema_and_nearest_school_blocks_smaller_yield (test_gather_headless.GatherHeadless.test_hold_full_schema_and_nearest_school_blocks_smaller_yield) ... ok
+test_oxygen_empty_first_choke_exact_tick_and_payload (test_gather_headless.GatherHeadless.test_oxygen_empty_first_choke_exact_tick_and_payload) ... ok
+test_regrown_event_payload_and_harvest_on_same_tick (test_gather_headless.GatherHeadless.test_regrown_event_payload_and_harvest_on_same_tick) ... ok
 test_unfinished_gather_preserves_existing_inventory (test_gather_headless.GatherHeadless.test_unfinished_gather_preserves_existing_inventory) ... ok
 test_batch_collection_is_atomic_and_reads_yield (test_gather_rules.CollectionRules.test_batch_collection_is_atomic_and_reads_yield) ... ok
 test_catch_batch_wont_overflow_or_consume_fish (test_gather_rules.CollectionRules.test_catch_batch_wont_overflow_or_consume_fish) ... ok
@@ -66,6 +69,6 @@ Traceback (most recent call last):
 AssertionError: [] is not true
 
 ----------------------------------------------------------------------
-Ran 54 tests in 3.498s
+Ran 57 tests in 3.913s
 
 FAILED (failures=1)

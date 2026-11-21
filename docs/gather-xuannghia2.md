@@ -33,9 +33,9 @@ Linux/macOS: `PYTHONPATH=tests:. python3 -m unittest test_gather_rules test_gath
 
 ## Kết quả kiểm chứng thật
 
-- 18 test luật và 4 test headless mới: **22/22 đạt**.
-- Bộ lệnh kiểm tra gather + smoke + starter + live: **50/50 đạt**.
-- Toàn bộ repo: **53/54 đạt**, còn lỗi có sẵn `test_team_check.TeamCheck.test_template_is_rejected`.
+- 18 test luật và 7 test headless: **25/25 đạt** sau khi đối chiếu PRD-0.
+- Bộ lệnh kiểm tra gather + smoke + starter + live: **53/53 đạt**.
+- Toàn bộ repo: **56/57 đạt**, còn lỗi có sẵn `test_team_check.TeamCheck.test_template_is_rejected`.
   Test này đọc TEAM.md thật và đòi nó bị từ chối dù nhóm đã điền đủ 4 người.
   `python3 tools/check_team.py` trả mã 0, xác nhận danh sách hợp lệ.
   Không sửa test của phần QA để giữ phạm vi công việc; nhóm QA cần thay bằng fixture bảng mẫu riêng.
@@ -47,20 +47,31 @@ Bằng chứng: [kết quả gather](proof/phase-1/xuannghia2/gather-tests.txt),
 [log bắt cá](proof/phase-1/xuannghia2/fishing.log),
 [log ngất](proof/phase-1/xuannghia2/faint.log).
 
-## Các điểm cần đối chiếu PRD
+## Đối chiếu PRD-0 sau khi đăng nhập lab board
 
-Lab board chưa truy cập được trong phiên làm việc; repo chỉ có khung/contract v1.0 và TODO Phase 1.
-Các lựa chọn dưới đây là giả định triển khai, **chưa phải xác nhận của PO hoặc bằng chứng đạt test ẩn**:
+Ngày 21/11/2026 đã đọc trực tiếp [PRD-0 trên lab board](https://claude.ai/artifact/E35v787wSx2wDgPTNhMVDg#phase-1).
+Mục F xác nhận nhận đủ yield hoặc từ chối nguyên lượt; bắt hụt/thiếu chỗ không khởi tạo hồi chiêu.
+Hai lựa chọn ban đầu khớp đề. Mục E cho thấy payload ban đầu có lỗi; đã sửa như sau:
 
-1. Nhận trọn `node_yield`/`fish_yield` hoặc từ chối cả lượt bằng `hold_full` nếu giỏ thiếu chỗ.
-   Khi từ chối, nút/cá và giỏ không thay đổi.
-2. Hồi chiêu bắt cá chỉ bắt đầu khi bắt thành công; bấm hụt hoặc đầy giỏ không tốn hồi chiêu.
-3. Payload sự kiện mới: `gather`/`fish_caught`/`hold_full` có `node_id` hoặc `fish_id`, `kind`, `qty`;
-   `dive`/`surface`/`oxygen_empty`/`faint` có `pos`; `choke` có `hp`.
-   Phải đối chiếu schema sự kiện PRD trước khi tuyên bố tương thích đầy đủ bộ chấm ẩn.
+| Sự kiện | Payload đúng PRD-0 mục E |
+|---|---|
+| `gather` | `node_id`, `kind`, `amount` |
+| `node_regrown` | `node_id` |
+| `fish_caught` | `fish_id`, `kind`, `yield` |
+| `hold_full` | `action` (`gather`/`catch`), `node_id`/`fish_id`, `required`, `free` |
+| `dive`, `surface` | `pos` sau di chuyển |
+| `oxygen_empty` | `oxygen_ticks: 0` |
+| `choke` | `hp` sau trừ |
+| `faint` | `cause: "choke"`, `lost` theo thứ tự LIFO, `hp: 0` |
+| `gather_end` | `reason`, `inventory` theo schema kho |
 
-Người dùng xác nhận ngày 21/11/2026: yêu cầu Phase 2–4 chưa được phát hành, sẽ bổ sung sau.
-Không tự suy diễn luật phase sau, không gắn tag/release thay cả nhóm.
+Kiểm thử CLI kiểm tra chính xác các payload đã sửa, ngạt lần đầu ở tick 60 nếu oxy chạm 0 ở tick 1,
+và không thử đàn khác khi đàn gần nhất vượt số ô trống. File kho vẫn giữ nguyên schema mục G.
+Bằng chứng đã chạy lại trên bản tích hợp các commit UI của đồng đội đến `c69d61b`.
+
+Phase 2–4 được kiểm tra trực tiếp sau đăng nhập và vẫn hiển thị chưa phát hành tại thời điểm đối chiếu.
+Chỉ xác nhận phần gather đã kiểm chứng theo PRD-0; không xác nhận toàn bộ DoD Phase 1 của nhóm
+hoặc kết quả test ẩn. Tag/release chung cần chờ kiểm chứng các module còn lại.
 
 ## Gợi ý demo cho Xuân Nghĩa
 

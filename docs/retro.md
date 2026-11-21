@@ -19,3 +19,7 @@
 - Cần cải thiện: QA nên dùng fixture riêng cho bảng mẫu; PO cần đối chiếu cách xử lý yield thiếu chỗ, cooldown và payload sự kiện với PRD.
 - Bước tiếp theo: Xuân Nghĩa đọc lại code, chạy demo; tiếp tục Phase 2–4 khi đề được bổ sung.
 - Giới hạn: đây là ghi nhận từ phiên AI, không đại diện ý kiến retro của các thành viên khác.
+
+### Cập nhật sau đối chiếu PRD-0 — xuannghia2
+
+Đã mở lab board sau khi người dùng đăng nhập. Giả định yield/cooldown khớp mục F; payload ban đầu không khớp mục E nên đã sửa và bổ sung 3 test CLI (25 test gather tổng cộng). Bài học từ phiên AI: smoke test xanh chưa chứng minh đúng schema sự kiện; phải kiểm payload và thứ tự mất giỏ bằng tình huống cụ thể. Phase 2–4 vẫn khóa khi kiểm tra.

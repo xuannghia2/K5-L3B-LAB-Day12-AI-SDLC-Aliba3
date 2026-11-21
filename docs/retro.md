@@ -1,9 +1,12 @@
 # Retro nhóm
 
 ## Phase 2 (nhanh)
-- Điều tốt:
-- Điều tệ:
-- 1 hành động cho Phase 3:
+
+> QA (justcoffeee) tổng hợp muộn từ lịch sử git tới tag `phase-2` (`2fd97cc`) và các file kiểm chứng; **chưa được cả nhóm thông qua**, mọi người sửa/bổ sung trực tiếp.
+
+- Điều tốt: chia lát nhỏ, mỗi lát push kèm test (gather: cá bơi [ed00b32](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/ed00b32), Cá Sấu [621ce0b](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/621ce0b), dữ liệu v1.1 [2e54f27](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/2e54f27); quán 2 bếp/4 bàn/6 món [d180783](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/d180783)); số chuẩn Ticket-02 gom về `game.contract.json`; cả 3 module có commit trong phase.
+- Điều tệ: QA không có commit nào trong Phase 2, không ai kiểm chéo quán; lỗi fixture QA-P2-01 (có từ P1) chỉ lộ ra sau đó. Suite cả phase vẫn lỗi test TEAM nền. day/Shop/benchmark chưa có người nhận; commit quán dồn sát mốc (10:59–11:00).
+- 1 hành động cho Phase 3: trước khi gắn tag, QA chạy cả suite và kiểm chéo mỗi module bằng test fixture (scenario dựng sẵn), ghi kết quả vào `docs/verification/`.
 
 ## Phase 4 (cuối)
 - Rà lại hành động Phase 2: đã làm chưa? vì sao?

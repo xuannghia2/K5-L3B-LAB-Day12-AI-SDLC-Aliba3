@@ -1,0 +1,14 @@
+{
+ "quan": {
+  "stock": {
+   "ca_loc": 1
+  },
+  "customers": [
+   {
+    "id": "C1",
+    "table_id": "T1",
+    "dish_id": "unknown"
+   }
+  ]
+ }
+}

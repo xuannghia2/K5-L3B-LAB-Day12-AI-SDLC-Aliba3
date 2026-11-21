@@ -4,9 +4,15 @@ Kiểm sim/quan theo số chuẩn trong game.contract.json và thứ tự xử l
 chonoi/sim/quan.py (PRD-0 mục F). Bổ sung kiểm thử muộn sau mốc Phase 2, chạy trên code hiện tại.
 """
 
+import contextlib
+import io
+import json
 import math
+import os
+import tempfile
 import unittest
 
+from chonoi import headless
 from chonoi.contract import load_contract
 from chonoi.ids import IdAllocator
 from chonoi.inputs import InputState
@@ -165,6 +171,60 @@ class FixtureCustomers(unittest.TestCase):
                              "customers": [{"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui"}]})
         started = names(sim.step(PRESS), "cook_started")
         self.assertEqual([e["order_id"] for e in started], ["C1"])
+
+
+def run_quan_headless(scenario, frames=(), ticks=1):
+    """Chạy headless trong tiến trình (không cần python3 trên PATH); trả (mã thoát, tên sự kiện, có file output)."""
+    with tempfile.TemporaryDirectory() as d:
+        sc, inp, out = (os.path.join(d, n) for n in ("scenario.json", "inputs.json", "out.jsonl"))
+        with open(sc, "w", encoding="utf-8") as f:
+            json.dump({"quan": scenario}, f)
+        with open(inp, "w", encoding="utf-8") as f:
+            json.dump({"frames": list(frames)}, f)
+        with contextlib.redirect_stderr(io.StringIO()):
+            code = headless.main(["--mode", "quan", "--seed", "1", "--ticks", str(ticks),
+                                  "--scenario", sc, "--inputs", inp, "--out", out])
+        if not os.path.exists(out):
+            return code, [], False
+        with open(out, encoding="utf-8") as f:
+            rows = [json.loads(line) for line in f if line.strip()]
+        return code, [r["name"] for r in rows if r["type"] == "event"], True
+
+
+class FixtureValidation(unittest.TestCase):
+    """Ba lỗi fixture quán do review xuannghia2 tái hiện (docs/review/github-2026-11-21.md, mục 3, 4, 6).
+
+    QA tái hiện độc lập qua headless; đánh dấu expectedFailure cho chủ sim/quan (griin-03).
+    Khi sửa, bỏ @expectedFailure để test thành kiểm hồi quy.
+    """
+
+    @unittest.expectedFailure
+    def test_reserved_beyond_stock_is_rejected_or_not_cooked(self):
+        """QA-P2-02: kho rỗng, khách fixture đã giữ 1 ca_loc, interact ở B1 vẫn cook_started (kho âm)."""
+        scenario = {"player": {"pos": Q["stoves"][0]["pos"]}, "stock": {},
+                    "customers": [{"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui",
+                                   "order_status": "reserved", "reserved": {"ca_loc": 1}}]}
+        code, events, _ = run_quan_headless(scenario, [{"tick": 0, "interact": True}], ticks=2)
+        self.assertTrue(code == 2 or "cook_started" not in events,
+                        f"fixture mâu thuẫn kho phải bị từ chối (exit 2) hoặc không được nấu; exit={code}, events={events}")
+
+    @unittest.expectedFailure
+    def test_random_customers_false_disables_schedule(self):
+        """QA-P2-03: random_customers:false vẫn sinh khách ở first_customer_tick."""
+        code, events, _ = run_quan_headless({"random_customers": False, "stock": {"ca_loc": 1}},
+                                            ticks=FIRST + INTERVAL)
+        self.assertEqual(code, 0)
+        self.assertNotIn("customer_arrived", events)
+        self.assertNotIn("no_dish", events)
+
+    @unittest.expectedFailure
+    def test_unknown_dish_in_fixture_exits_2(self):
+        """QA-P2-04: khách fixture dish_id lạ được nhận, exit 0 và ghi output thay vì báo đầu vào sai."""
+        code, _, wrote = run_quan_headless({"stock": {"ca_loc": 1},
+                                            "customers": [{"id": "C1", "table_id": "T1", "dish_id": "unknown"}]},
+                                           ticks=0)
+        self.assertEqual(code, 2)
+        self.assertFalse(wrote, "đầu vào sai phải báo trước khi ghi output")
 
 
 if __name__ == "__main__":

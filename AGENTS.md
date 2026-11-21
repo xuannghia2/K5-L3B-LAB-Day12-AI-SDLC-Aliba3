@@ -50,3 +50,5 @@
 ### Phase 4 — benchmark và review
 - `python3 -m chonoi.bench --seed 42 --duration 30 --out bench.json`: render thật, warmup 3s; cần Chrome/Chromium/Edge. Đọc metadata trước kết luận về kích thước native/profile.
 - Manifest vẫn 1.1, chưa có day/soak; không gắn tag/release toàn nhóm dựa riêng vào suite xanh. Xem docs/review/github-2026-11-21.md.
+
+- Cập nhật QA df8f204: suite 134 test, 133 đạt và 1 expected failure (khách fixture thiếu order_status). Không báo 134/134 đạt hoặc coi expectedFailure là đã sửa.

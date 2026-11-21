@@ -55,7 +55,7 @@ Bảng này ghi phạm vi module và điểm cần phối hợp; không tự xá
 | UI đã push | Commit [9ea49c2](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/9ea49c2) | Có cập nhật UI; cần kiểm thực tế phần đọc freshness P3 |
 | Vòng ngày / Shop / tích hợp chung | [Kế hoạch P2](docs/plan/phase-2.md), [kế hoạch P3](docs/plan/phase-3.md) | Chưa có xác nhận người phụ trách và kết quả tích hợp đầy đủ |
 
-Lần kiểm GitHub mới nhất: main ở `802f7c1`, chưa thấy commit quán P3. Toàn suite 122/122 đạt trên clone sạch Windows; QA đã sửa lỗi TEAM cũ. Xem [review toàn repo](docs/review/github-2026-11-21.md).
+Lần kiểm GitHub mới nhất: main ở `df8f204`, chưa thấy commit quán P3. Clone sạch 802f7c1 đạt 122/122; sau ghép QA df8f204, 134 test gồm 133 đạt và 1 expected failure cho lỗi fixture quán. QA đã sửa lỗi TEAM cũ. Xem [review toàn repo](docs/review/github-2026-11-21.md).
 Đây là ảnh chụp tiến độ tại lúc ghi, không phải trạng thái tự cập nhật theo GitHub.
 
 ## Các điểm nhóm cần chốt tiếp
@@ -71,3 +71,5 @@ Lần kiểm GitHub mới nhất: main ở `802f7c1`, chưa thấy commit quán 
 
 - Xuân Nghĩa đã push benchmark render gather và cảnh báo/tương phản cao ở 802f7c1; [bàn giao](docs/gather-phase-4-xuannghia2.md).
 - Chưa đủ DoD toàn nhóm: quán cá thể, day/Shop/soak, UI fresh/pause, quyền cấp phép, phản tư Hùng và phát hành. Không đánh dấu hoàn thành thay thành viên khác.
+
+- QA mới: Huy đã push df8f204 với 12 test quán P2, trong đó 1 expectedFailure tái hiện lỗi fixture thiếu order_status; chưa phải lỗi đã sửa.

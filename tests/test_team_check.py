@@ -16,6 +16,22 @@ GOOD = """# TEAM
 | Dũng | dung-pham | qa | Scrum | ui |
 """
 
+# Bảng mẫu gốc của giảng viên (chưa điền handle/tên). Tách thành fixture để test
+# không phụ thuộc TEAM.md thật của nhóm (TEAM.md đã điền thì phải hợp lệ).
+TEMPLATE = """# TEAM
+
+**Tên nhóm:** …  **Số người:** …  (khớp `team_size` trong `game.contract.json`)
+
+| Thành viên | GitHub handle | Module chính | Vai quy trình | Người dự phòng cho |
+|---|---|---|---|---|
+| | | `sim/river` | | |
+| | | `sim/quan` | | |
+| | | `client/ui` | | |
+| | | `qa` | | |
+"""
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 class TeamCheck(unittest.TestCase):
     def test_good(self):
@@ -24,9 +40,13 @@ class TeamCheck(unittest.TestCase):
         self.assertEqual(check_team.validate(m, 4, actor="an-nguyen", event="pull_request"), [])
 
     def test_template_is_rejected(self):
-        with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "TEAM.md"), encoding="utf-8") as f:
-            m = check_team.parse_team(f.read())
-        self.assertTrue(check_team.validate(m, 4))
+        errs = check_team.validate(check_team.parse_team(TEMPLATE), 4)
+        self.assertTrue(any("GitHub handle chưa điền" in e for e in errs))
+        self.assertTrue(any("thiếu tên" in e for e in errs))
+
+    def test_real_team_matches_contract(self):
+        # TEAM.md thật của nhóm phải qua kiểm tra (đúng như CI chạy tools/check_team.py).
+        self.assertEqual(check_team.main(ROOT), 0)
 
     def test_wrong_size_duplicate_and_outsider(self):
         m = check_team.parse_team(GOOD)

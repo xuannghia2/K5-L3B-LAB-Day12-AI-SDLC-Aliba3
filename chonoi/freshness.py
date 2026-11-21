@@ -40,7 +40,9 @@ class FreshnessLedger:
         events = []
         for item in sort_by_id(items):
             ident = item["id"]
-            previous = self.values.get(ident, self._exact(item["fresh"]))
+            previous = self.values.get(ident)
+            if previous is None:
+                previous = self._exact(item["fresh"])
             current = max(Fraction(0), previous - self.rates[location])
             self.values[ident] = current
             item["fresh"] = float(current)
@@ -49,7 +51,8 @@ class FreshnessLedger:
         return events
 
     def spoiled(self, item):
-        return self.values.get(item["id"], self._exact(item["fresh"])) < self.threshold
+        value = self.values.get(item["id"])
+        return (self._exact(item["fresh"]) if value is None else value) < self.threshold
 
 
 def copy_items(items, *, sorted_ids=False):

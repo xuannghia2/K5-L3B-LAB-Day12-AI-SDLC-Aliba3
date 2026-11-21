@@ -1,0 +1,121 @@
+test_30_crosses_once_in_id_order_and_already_spoiled_stays_silent (test_freshness.FreshnessUnits.test_30_crosses_once_in_id_order_and_already_spoiled_stays_silent) ... ok
+test_exact_30_boundary_after_many_ticks (test_freshness.FreshnessUnits.test_exact_30_boundary_after_many_ticks) ... ok
+test_ids_continue_after_removed_items_with_shared_allocator (test_freshness.FreshnessUnits.test_ids_continue_after_removed_items_with_shared_allocator) ... ok
+test_invalid_items_are_rejected (test_freshness.FreshnessUnits.test_invalid_items_are_rejected) ... ok
+test_invalid_write_does_not_replace_previous_inventory (test_freshness.FreshnessUnits.test_invalid_write_does_not_replace_previous_inventory) ... ok
+test_roundtrip_to_quan_keeps_exact_grid_threshold (test_freshness.FreshnessUnits.test_roundtrip_to_quan_keeps_exact_grid_threshold) ... ok
+test_schema_versions_are_selected_explicitly (test_freshness.FreshnessUnits.test_schema_versions_are_selected_explicitly) ... ok
+test_catch_determinism_includes_nonempty_events_and_inventory (test_gather_headless.GatherHeadless.test_catch_determinism_includes_nonempty_events_and_inventory) ... ok
+test_faint_writes_empty_inventory_and_exact_end_order (test_gather_headless.GatherHeadless.test_faint_writes_empty_inventory_and_exact_end_order) ... ok
+test_harvest_dock_exports_stock_that_quan_can_read (test_gather_headless.GatherHeadless.test_harvest_dock_exports_stock_that_quan_can_read) ... ok
+test_hold_full_schema_and_nearest_school_blocks_smaller_yield (test_gather_headless.GatherHeadless.test_hold_full_schema_and_nearest_school_blocks_smaller_yield) ... ok
+test_oxygen_empty_first_choke_exact_tick_and_payload (test_gather_headless.GatherHeadless.test_oxygen_empty_first_choke_exact_tick_and_payload) ... ok
+test_regrown_event_payload_and_harvest_on_same_tick (test_gather_headless.GatherHeadless.test_regrown_event_payload_and_harvest_on_same_tick) ... ok
+test_unfinished_gather_preserves_existing_inventory (test_gather_headless.GatherHeadless.test_unfinished_gather_preserves_existing_inventory) ... ok
+test_catch_uses_position_before_fish_swims (test_gather_p2.FishP2.test_catch_uses_position_before_fish_swims) ... ok
+test_eight_initial_schools_unique_positions_and_seed (test_gather_p2.FishP2.test_eight_initial_schools_unique_positions_and_seed) ... ok
+test_no_swim_or_spawn_after_last_tick (test_gather_p2.FishP2.test_no_swim_or_spawn_after_last_tick) ... ok
+test_random_false_freezes_fixture_and_disables_spawn (test_gather_p2.FishP2.test_random_false_freezes_fixture_and_disables_spawn) ... ok
+test_reflection_keeps_remainder_and_corner_flips_both_axes (test_gather_p2.FishP2.test_reflection_keeps_remainder_and_corner_flips_both_axes) ... ok
+test_scheduled_spawn_age_zero_and_ids_after_fixture (test_gather_p2.FishP2.test_scheduled_spawn_age_zero_and_ids_after_fixture) ... ok
+test_spawn_cap_and_no_available_point (test_gather_p2.FishP2.test_spawn_cap_and_no_available_point) ... ok
+test_speed_and_turn_on_120th_swim_step (test_gather_p2.FishP2.test_speed_and_turn_on_120th_swim_step) ... ok
+test_inactive_extensions_and_shop_buttons_ignored_in_gather (test_gather_p2.GatherP2Cli.test_inactive_extensions_and_shop_buttons_ignored_in_gather) ... ok
+test_invalid_monster_and_age_exit_2_before_output (test_gather_p2.GatherP2Cli.test_invalid_monster_and_age_exit_2_before_output) ... ok
+test_monster_faint_outputs_remaining_lifo_and_empty_inventory (test_gather_p2.GatherP2Cli.test_monster_faint_outputs_remaining_lifo_and_empty_inventory) ... ok
+test_new_ingredients_export_and_import_unchanged_schema (test_gather_p2.GatherP2Cli.test_new_ingredients_export_and_import_unchanged_schema) ... ok
+test_pause_freezes_timers_and_resume_runs_same_outer_tick (test_gather_p2.GatherP2Cli.test_pause_freezes_timers_and_resume_runs_same_outer_tick) ... ok
+test_swimming_and_scheduled_spawn_deterministic_bytes (test_gather_p2.GatherP2Cli.test_swimming_and_scheduled_spawn_deterministic_bytes) ... ok
+test_active_upgrade_limits_are_local_and_support_day_integration (test_gather_p2.MonstersP2.test_active_upgrade_limits_are_local_and_support_day_integration) ... ok
+test_choke_precedes_hit_and_does_not_drop_half_hold (test_gather_p2.MonstersP2.test_choke_precedes_hit_and_does_not_drop_half_hold) ... ok
+test_default_spawns_depend_on_day_and_fixture_replaces_them (test_gather_p2.MonstersP2.test_default_spawns_depend_on_day_and_fixture_replaces_them) ... ok
+test_hit_loses_floor_half_lifo_and_sets_invulnerability_recoil (test_gather_p2.MonstersP2.test_hit_loses_floor_half_lifo_and_sets_invulnerability_recoil) ... ok
+test_invulnerable_contact_does_not_hit_or_recoil_and_boundary_expires (test_gather_p2.MonstersP2.test_invulnerable_contact_does_not_hit_or_recoil_and_boundary_expires) ... ok
+test_lethal_hit_has_remaining_losses_then_empty_inventory (test_gather_p2.MonstersP2.test_lethal_hit_has_remaining_losses_then_empty_inventory) ... ok
+test_only_one_nearest_hit_and_natural_id_tie (test_gather_p2.MonstersP2.test_only_one_nearest_hit_and_natural_id_tie) ... ok
+test_patrol_speed_waypoint_change_then_depth_detection_and_hysteresis (test_gather_p2.MonstersP2.test_patrol_speed_waypoint_change_then_depth_detection_and_hysteresis) ... ok
+test_recoil_final_tick_cannot_detect_or_hit (test_gather_p2.MonstersP2.test_recoil_final_tick_cannot_detect_or_hit) ... ok
+test_fish_yield_allocates_three_distinct_ids (test_gather_p3.GatherP3.test_fish_yield_allocates_three_distinct_ids) ... ok
+test_monster_loss_and_faint_preserve_pick_order_not_id_order (test_gather_p3.GatherP3.test_monster_loss_and_faint_preserve_pick_order_not_id_order) ... ok
+test_paused_session_does_not_decay_or_spoil_until_resume (test_gather_p3.GatherP3.test_paused_session_does_not_decay_or_spoil_until_resume) ... ok
+test_pickup_gets_new_id_full_freshness_and_decays_next_step (test_gather_p3.GatherP3.test_pickup_gets_new_id_full_freshness_and_decays_next_step) ... ok
+test_spoil_order_before_dock_and_retains_all_spoiled_items (test_gather_p3.GatherP3.test_spoil_order_before_dock_and_retains_all_spoiled_items) ... ok
+test_spoil_precedes_choke_faint_and_lost_contains_decayed_items (test_gather_p3.GatherP3.test_spoil_precedes_choke_faint_and_lost_contains_decayed_items) ... ok
+test_spoiled_items_still_occupy_capacity_and_snapshot_is_detached (test_gather_p3.GatherP3.test_spoiled_items_still_occupy_capacity_and_snapshot_is_detached) ... ok
+test_full_precision_export_matches_event_and_final_snapshot (test_gather_p3.GatherP3Headless.test_full_precision_export_matches_event_and_final_snapshot) ... ok
+test_limit_does_not_overwrite_v12_inventory (test_gather_p3.GatherP3Headless.test_limit_does_not_overwrite_v12_inventory) ... ok
+test_threshold_event_tick_and_invalid_legacy_hold (test_gather_p3.GatherP3Headless.test_threshold_event_tick_and_invalid_legacy_hold) ... ok
+test_batch_collection_is_atomic_and_reads_yield (test_gather_rules.CollectionRules.test_batch_collection_is_atomic_and_reads_yield) ... ok
+test_catch_batch_wont_overflow_or_consume_fish (test_gather_rules.CollectionRules.test_catch_batch_wont_overflow_or_consume_fish) ... ok
+test_catch_cooldown_expires_before_action (test_gather_rules.CollectionRules.test_catch_cooldown_expires_before_action) ... ok
+test_catch_nearest_then_natural_id_removes_one_school (test_gather_rules.CollectionRules.test_catch_nearest_then_natural_id_removes_one_school) ... ok
+test_catch_requires_underwater_target_in_range (test_gather_rules.CollectionRules.test_catch_requires_underwater_target_in_range) ... ok
+test_dock_precedes_node_catch_and_timeout (test_gather_rules.CollectionRules.test_dock_precedes_node_catch_and_timeout) ... ok
+test_full_hold_leaves_node_and_cooldown_unchanged (test_gather_rules.CollectionRules.test_full_hold_leaves_node_and_cooldown_unchanged) ... ok
+test_gather_picks_nearest_then_natural_id_once_per_press (test_gather_rules.CollectionRules.test_gather_picks_nearest_then_natural_id_once_per_press) ... ok
+test_hold_keeps_pick_order_for_lifo (test_gather_rules.CollectionRules.test_hold_keeps_pick_order_for_lifo) ... ok
+test_last_tick_collects_before_timeout (test_gather_rules.CollectionRules.test_last_tick_collects_before_timeout) ... ok
+test_real_input_edges_do_not_repeat_harvest (test_gather_rules.CollectionRules.test_real_input_edges_do_not_repeat_harvest) ... ok
+test_regrowth_happens_before_interaction (test_gather_rules.CollectionRules.test_regrowth_happens_before_interaction) ... ok
+test_surface_and_range_gate_harvesting (test_gather_rules.CollectionRules.test_surface_and_range_gate_harvesting) ... ok
+test_choke_interval_reads_tuning_and_ignores_invulnerability (test_gather_rules.GatherRules.test_choke_interval_reads_tuning_and_ignores_invulnerability) ... ok
+test_crossings_emit_once_and_use_final_position (test_gather_rules.GatherRules.test_crossings_emit_once_and_use_final_position) ... ok
+test_faint_precedes_actions_and_time_and_clears_inventory (test_gather_rules.GatherRules.test_faint_precedes_actions_and_time_and_clears_inventory) ... ok
+test_oxygen_drains_and_empty_event_is_an_edge (test_gather_rules.GatherRules.test_oxygen_drains_and_empty_event_is_an_edge) ... ok
+test_surface_boundary_refills_caps_and_resets_choking (test_gather_rules.GatherRules.test_surface_boundary_refills_caps_and_resets_choking) ... ok
+test_quan_snapshot_exposes_contract_menu (test_live.LiveServerTest.test_quan_snapshot_exposes_contract_menu) ... ok
+test_state_input_and_clean_stop (test_live.LiveServerTest.test_state_input_and_clean_stop) ... ok
+test_bad_frames_raise (test_python_starter_units.Units.test_bad_frames_raise) ... ok
+test_catch_is_a_v10_button_and_attack_is_not (test_python_starter_units.Units.test_catch_is_a_v10_button_and_attack_is_not) ... ok
+test_id_allocator_continues_after_max (test_python_starter_units.Units.test_id_allocator_continues_after_max) ... ok
+test_id_sorting (test_python_starter_units.Units.test_id_sorting) ... ok
+test_input_edges_and_inherit (test_python_starter_units.Units.test_input_edges_and_inherit) ... ok
+test_live_inputs_keep_fast_tap_edge (test_python_starter_units.Units.test_live_inputs_keep_fast_tap_edge) ... ok
+test_session_steps_gather_and_dock (test_python_starter_units.Units.test_session_steps_gather_and_dock) ... ok
+test_customer_arrived_and_reserved (test_quan_units.QuanSimTest.test_customer_arrived_and_reserved) ... ok
+test_customer_spawn_and_no_dish (test_quan_units.QuanSimTest.test_customer_spawn_and_no_dish) ... ok
+test_full_cooking_serving_eating_cycle (test_quan_units.QuanSimTest.test_full_cooking_serving_eating_cycle) ... ok
+test_phase2_multi_stoves_and_tables (test_quan_units.QuanSimTest.test_phase2_multi_stoves_and_tables) ... ok
+test_phase2_six_dishes_and_new_ingredients (test_quan_units.QuanSimTest.test_phase2_six_dishes_and_new_ingredients) ... ok
+test_quan_init_defaults (test_quan_units.QuanSimTest.test_quan_init_defaults) ... ok
+test_con_01_ticks_zero_and_end_line (test_smoke_p1.Contract.test_con_01_ticks_zero_and_end_line) ... ok
+test_con_02_deterministic_bytes (test_smoke_p1.Contract.test_con_02_deterministic_bytes) ... ok
+test_con_03_bad_input_exit_2 (test_smoke_p1.Contract.test_con_03_bad_input_exit_2) ... ok
+test_con_03_old_and_future_modes_rejected (test_smoke_p1.Contract.test_con_03_old_and_future_modes_rejected) ... ok
+test_gather_snapshot_has_gather_fields (test_smoke_p1.Contract.test_gather_snapshot_has_gather_fields) ... ok
+test_scenario_out_of_domain_exit_2 (test_smoke_p1.Contract.test_scenario_out_of_domain_exit_2) ... ok
+test_inv_01_gather_writes_inventory_quan_reads_it (test_smoke_p1.Integration.test_inv_01_gather_writes_inventory_quan_reads_it)
+Ví dụ smoke test trong PRD-0 mục G: cập bến ở tick 0, quán đọc kho đúng nội dung. ... ok
+test_inv_01_not_written_when_tick_limit_first (test_smoke_p1.Integration.test_inv_01_not_written_when_tick_limit_first) ... ok
+test_inv_bad_schema_exit_2 (test_smoke_p1.Integration.test_inv_bad_schema_exit_2) ... ok
+test_inventory_and_scenario_stock_conflict (test_smoke_p1.Integration.test_inventory_and_scenario_stock_conflict) ... ok
+test_inventory_flags_mode_mismatch_exit_2 (test_smoke_p1.Integration.test_inventory_flags_mode_mismatch_exit_2) ... ok
+test_move_01_swim_speed_after_ramp (test_smoke_p1.Movement.test_move_01_swim_speed_after_ramp)
+Bỏ 6 tick tăng tốc rồi đo 60 tick: quãng ≈ swim_speed × 1 s (±0.1). Ngang, xuống, chéo (không nhanh hơn). ... ok
+test_move_02_heading_positive_is_down (test_smoke_p1.Movement.test_move_02_heading_positive_is_down) ... ok
+test_move_03_edge_clamp (test_smoke_p1.Movement.test_move_03_edge_clamp)
+Chặn từng mép của vùng nước, kể cả d không âm (không bay lên khỏi mặt nước) và đáy d = 30. ... ok
+test_move_mep_vel_ve_0 (test_smoke_p1.Movement.test_move_mep_vel_ve_0) ... ok
+test_move_ramp_doi_huong_trong_tran (test_smoke_p1.Movement.test_move_ramp_doi_huong_trong_tran)
+Đảo từ +speed sang -speed: vận tốc chạm mục tiêu sau tối đa ramp_max_ticks tick kể từ lúc đổi input. ... ok
+test_time_ends_gather_and_keeps_hold (test_smoke_p1.Movement.test_time_ends_gather_and_keeps_hold) ... ok
+test_khoi_sai_mode_exit_2 (test_smoke_p1.ScenarioModes.test_khoi_sai_mode_exit_2) ... ok
+test_quan_fixture_khong_hop_le_exit_2 (test_smoke_p1.ScenarioModes.test_quan_fixture_khong_hop_le_exit_2) ... ok
+test_quan_player_vel_hop_le (test_smoke_p1.ScenarioModes.test_quan_player_vel_hop_le) ... ok
+test_good (test_team_check.TeamCheck.test_good) ... ok
+test_template_is_rejected (test_team_check.TeamCheck.test_template_is_rejected) ... FAIL
+test_too_few_members (test_team_check.TeamCheck.test_too_few_members) ... ok
+test_wrong_size_duplicate_and_outsider (test_team_check.TeamCheck.test_wrong_size_duplicate_and_outsider) ... ok
+
+======================================================================
+FAIL: test_template_is_rejected (test_team_check.TeamCheck.test_template_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Vin\K5-L3B-LAB-Day12-AI-SDLC-Aliba3\tests\test_team_check.py", line 29, in test_template_is_rejected
+    self.assertTrue(check_team.validate(m, 4))
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 104 tests in 6.222s
+
+FAILED (failures=1)

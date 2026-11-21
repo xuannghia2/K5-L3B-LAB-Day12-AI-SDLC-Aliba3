@@ -13,6 +13,7 @@ Mã G2 là nhãn nội bộ, dẫn mục tương ứng của Ticket-02.
 | G2-INPUT — 4.3 | Fixture mâu thuẫn trả 2 trước tạo output | [test CLI](../proof/phase-2/xuannghia2/gather-tests.txt) | Đạt các trường gather đã kiểm |
 | G2-REGRESSION | 81 test có phạm vi; toàn suite 85 test | [scope](../proof/phase-2/xuannghia2/gather-tests.txt), [toàn bộ](../proof/phase-2/xuannghia2/all-tests.txt) | 81/81 đạt; toàn repo 84/85, lỗi TEAM có sẵn |
 | DAY/SHOP/UI/benchmark/tag | Chuyển pha, Shop, nhiều ngày, HUD, hiệu năng một Ngày, tag nhóm | Chưa có | Chưa xác nhận, cần tích hợp |
+| G2-UI — pause/Cá Sấu/HUD | Client P, overlay paused, hiển thị monsters và giỏ an toàn | Test live P2 | 42 test P2/P3/live/freshness đạt trên Windows |
 
 Chi tiết giao diện và lý do cập nhật test P1: [bàn giao](../gather-phase-2-xuannghia2.md).
 

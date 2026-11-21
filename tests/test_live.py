@@ -48,6 +48,10 @@ class LiveServerTest(unittest.TestCase):
             self.assertIn(b'id="connection-status"', html)
             self.assertIn(b'data-action="interact"', html)
             self.assertIn(b'data-action="catch"', html)
+            self.assertIn(b'data-action="pause"', html)
+            self.assertIn(b"snap.monsters", html)
+            self.assertIn(b"itemKind", html)
+            self.assertIn(b"itemFresh", html)
             deadline = time.time() + 3
             while time.time() < deadline:
                 st2 = json.loads(_get(base + "/state")[1])
@@ -56,6 +60,16 @@ class LiveServerTest(unittest.TestCase):
                 time.sleep(0.05)
             self.assertGreater(st2["tick"], st["tick"], "mô phỏng phải chạy nền")
             self.assertGreater(st2["player"]["pos"][0], st["player"]["pos"][0], "input phải tác động tới sim")
+            self.assertEqual(_post(base + "/input", {"pause": True}), 200)
+            deadline = time.time() + 1
+            paused = None
+            while time.time() < deadline:
+                paused = json.loads(_get(base + "/state")[1])
+                if paused["state"] == "paused":
+                    break
+                time.sleep(0.02)
+            self.assertEqual(paused["state"], "paused")
+            self.assertIn("monsters", paused)
         finally:
             server.stop()
         self.assertFalse(server.game._thread.is_alive())

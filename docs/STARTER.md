@@ -60,7 +60,7 @@ Hai buổi là hai tiến trình riêng và được nối bằng file kho `kho.
 py -3 -m chonoi.live --mode gather --seed 1 --port 8000 --inventory-out kho.json
 ```
 
-Mở `http://127.0.0.1:8000/`. Dùng `WASD/mũi tên` để bơi, `E` để hái/cập bến, `Space` để bắt cá và `R` để chơi lại.
+Mở `http://127.0.0.1:8000/`. Dùng `WASD/mũi tên` để bơi, `E` để hái/cập bến, `Space` để bắt cá, `P` để tạm dừng/tiếp tục và `R` để chơi lại.
 
 Chỉ khi buổi sáng kết thúc hợp lệ thì `kho.json` mới được ghi. Ngất hoặc hết tick theo cách chưa cập bến có thể không ghi kho mới; xem thông báo kết thúc trong game.
 
@@ -72,7 +72,7 @@ Sau khi buổi sáng đã tạo `kho.json`, mở tiến trình thứ hai:
 py -3 -m chonoi.live --mode quan --seed 1 --port 8001 --inventory kho.json
 ```
 
-Mở `http://127.0.0.1:8001/`. Dùng `WASD/mũi tên` để đi, `E` để tương tác bếp/bàn và `R` để chơi lại.
+Mở `http://127.0.0.1:8001/`. Dùng `WASD/mũi tên` để đi, `E` để tương tác bếp/bàn, `P` để tạm dừng/tiếp tục và `R` để chơi lại.
 
 ### Nếu chỉ muốn thử buổi tối
 

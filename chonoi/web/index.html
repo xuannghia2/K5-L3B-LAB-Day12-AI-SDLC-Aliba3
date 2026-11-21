@@ -73,6 +73,7 @@
     <button type="button" id="act-interact" class="action" data-action="interact" aria-label="Tương tác">E</button>
     <button type="button" id="act-catch" class="action" data-action="catch" aria-label="Bắt cá">BẮT</button>
     <button type="button" id="act-restart" class="action" aria-label="Chơi lại">R</button>
+    <button type="button" id="act-pause" class="action" data-action="pause" aria-label="Tạm dừng">P</button>
   </div>
 </div>
 <script>
@@ -80,7 +81,7 @@
 /*
  * Client chơi trực tiếp (starter). CHỈ ĐỌC snapshot từ GET /state và gửi phím qua POST /input.
  * Trường nào snapshot chưa có thì bỏ qua (nhóm viết luật tới đâu, hình hiện tới đó). Hình khối tạm, thay bằng đồ họa của nhóm.
- * Phím: WASD / mũi tên = di chuyển · E = interact · Space = catch · R = chơi lại.
+ * Phím: WASD / mũi tên = di chuyển · E = interact · Space = catch · P = pause · R = chơi lại.
  */
 const cv = document.getElementById("c");
 const ctx = cv.getContext("2d");
@@ -128,7 +129,7 @@ function currentInput() {
   const dx = (down.has("r") ? 1 : 0) - (down.has("l") ? 1 : 0);
   let dy = (down.has("d") ? 1 : 0) - (down.has("u") ? 1 : 0);   // gather: xuống = d dương
   if (mode === "quan") dy = -dy;                                // quan: lên (bắc) = z dương
-  return { move: [dx, dy], interact: down.has("interact"), catch: down.has("catch") };
+  return { move: [dx, dy], interact: down.has("interact"), catch: down.has("catch"), pause: down.has("pause") };
 }
 function pushInput() {
   const s = JSON.stringify(currentInput());
@@ -154,6 +155,7 @@ addEventListener("keydown", (e) => {
   if (MOVE_KEYS[k]) { down.add(MOVE_KEYS[k]); e.preventDefault(); }
   else if (k === "e") down.add("interact");
   else if (k === " ") { down.add("catch"); e.preventDefault(); }
+  else if (k === "p") down.add("pause");
   else if (k === "r") { fetch("/restart", { method: "POST" }); lastSent = ""; down.clear(); }
   pushInput();
 });
@@ -162,6 +164,7 @@ addEventListener("keyup", (e) => {
   if (MOVE_KEYS[k]) down.delete(MOVE_KEYS[k]);
   else if (k === "e") down.delete("interact");
   else if (k === " ") down.delete("catch");
+  else if (k === "p") down.delete("pause");
   pushInput();
 });
 addEventListener("blur", () => { down.clear(); pushInput(); });
@@ -274,8 +277,15 @@ function eventLog(w, h) {
 function overlay(w, h) {
   if (offline) text("Mất kết nối tới máy chủ (đã tắt chưa?)", w / 2, 30, { align: "center", color: "#ff8a80", size: 16 });
   if (snap.error) text("Luật của nhóm báo lỗi — xem terminal. R để chơi lại.", w / 2, 52, { align: "center", color: "#ff8a80", size: 15 });
+  if (snap.state === "paused") {
+    ctx.fillStyle = "rgba(0,0,0,.58)";
+    ctx.fillRect(w / 2 - 170, h / 2 - 45, 340, 90);
+    text("TẠM DỪNG", w / 2, h / 2 - 10, { align: "center", size: 24 });
+    text("Nhấn P để tiếp tục", w / 2, h / 2 + 22, { align: "center", color: "#cfd8dc" });
+  }
   if (snap.finished) {
-    ctx.fillStyle = "rgba(0,0,0,.55)"; ctx.fillRect(w / 2 - 190, h / 2 - 50, 380, 100);
+    ctx.fillStyle = "rgba(0,0,0,.55)";
+    ctx.fillRect(w / 2 - 190, h / 2 - 50, 380, 100);
     text("Buổi " + (snap.mode === "gather" ? "sáng" : "tối") + " kết thúc: " + (snap.reason || ""), w / 2, h / 2 - 12, { align: "center", size: 20 });
     text("Nhấn R để chơi lại", w / 2, h / 2 + 20, { align: "center", color: "#cfd8dc" });
   }
@@ -325,13 +335,16 @@ function drawGather(w, h) {
     ctx.restore();
     text(f.id, sx(f.pos[0]), sy(f.pos[1]) - 0.7 * s, { size: 10, align: "center", color: "rgba(255,255,255,.8)" });
   });
-  // thủy quái dùng cùng snapshot với benchmark và bản chơi thường
-  (snap.monsters || []).forEach((monster) => {
-    ctx.fillStyle = highContrast ? "#ffffff" : "#9d70db";
-    ctx.strokeStyle = highContrast ? "#000000" : "#332144";
-    ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.ellipse(sx(monster.pos[0]), sy(monster.pos[1]), 1.5*s, .65*s, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    text(monster.id + " Cá Sấu", sx(monster.pos[0]), sy(monster.pos[1])-s, {size:12,align:"center",color:"#ffffff"});
+  // quái P2: Cá Sấu
+  (snap.monsters || []).forEach((m) => {
+    const pos = m.pos || [0, 0];
+    const px = sx(pos[0]), py = sy(pos[1]);
+    ctx.save(); ctx.translate(px, py);
+    ctx.fillStyle = m.mode === "chase" ? "#d94a38" : (highContrast ? "#ffffff" : "#9d70db");
+    ctx.beginPath(); ctx.ellipse(0, 0, 1.15 * s, 0.55 * s, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-0.9 * s, 0); ctx.lineTo(-1.7 * s, -0.55 * s); ctx.lineTo(-1.7 * s, 0.55 * s); ctx.fill();
+    ctx.restore();
+    text(m.id, px, py - 1.25 * s, { size: 10, align: "center", color: "#ffe1d7" });
   });
   // người chơi
   const p = snap.player;
@@ -365,12 +378,18 @@ function drawGather(w, h) {
     for (let i = 0; i < cap; i++) {
       const x0 = 14 + i * (sz + 4);
       ctx.fillStyle = "rgba(255,255,255,.12)"; ctx.fillRect(x0, y0, sz, sz);
-      if (snap.hold[i]) { ctx.fillStyle = kc(typeof snap.hold[i] === "string" ? snap.hold[i] : snap.hold[i].kind); ctx.fillRect(x0 + 3, y0 + 3, sz - 6, sz - 6); }
+      if (snap.hold[i]) {
+        const kind = itemKind(snap.hold[i]);
+        const fresh = itemFresh(snap.hold[i]);
+        ctx.fillStyle = fresh !== null && fresh < (snap.meta?.freshness?.spoiled_below ?? 30) ? "#6b6b6b" : kc(kind);
+        ctx.fillRect(x0 + 3, y0 + 3, sz - 6, sz - 6);
+      }
     }
-    const names = {}; snap.hold.forEach((entry) => { const kind = typeof entry === "string" ? entry : entry.kind; names[kind] = (names[kind] || 0) + 1; });
+    const names = {};
+    snap.hold.forEach((item) => { const kind = itemKind(item); names[kind] = (names[kind] || 0) + 1; });
     text("Giỏ " + snap.hold.length + "/" + cap + "  " + Object.keys(names).map((k) => (KIND_NAME[k] || k) + "×" + names[k]).join(", "), 14, y0 + sz + 16, { size: 12, color: "#cfd8dc" });
   }
-  text("WASD/mũi tên đi · E tương tác (bếp / bàn) · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
+  text("WASD/mũi tên bơi · E hái/cập bến · Space bắt cá · P tạm dừng · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
 }
 
 // ----- cảnh QUÁN: nhìn từ trên xuống, x sang phải, z lên (bắc) -----
@@ -426,7 +445,7 @@ function drawQuan(w, h) {
     text("Chưa có kho nguyên liệu — khởi động bằng --inventory kho.json", 14, 74, { size: 12, color: "#ffb74d" });
   }
   drawMenuPanel(w, h, 64);
-  text("WASD/mũi tên đi · E tương tác (bếp / bàn) · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
+  text("WASD/mũi tên đi · E tương tác (bếp/bàn) · P tạm dừng · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
 }
 
 // ----- bảng thực đơn -----
@@ -464,6 +483,29 @@ function drawMenuPanel(w, h, top) {
     text(canCook ? "Có thể nấu" : "Thiếu nguyên liệu", panelX + 12, y + 40, { size: 11, color: canCook ? "#79d68a" : "#ff9d91" });
   });
 }
+
+// ----- quái P2: Cá Sấu -----
+function drawMonsters(w, h) {
+  (snap.monsters || []).forEach((m) => {
+    const pos = m.pos || [0, 0];
+    const px = sx(pos[0]), py = sy(pos[1]);
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.fillStyle = m.mode === "chase" ? "#d94a38" : "#4d7a70";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 1.15 * s, 0.55 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-0.9 * s, 0); ctx.lineTo(-1.7 * s, -0.55 * s); ctx.lineTo(-1.7 * s, 0.55 * s); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(0.55 * s, -0.15 * s, 0.08 * s, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    text(m.id, px, py - 1.25 * s, { size: 10, align: "center", color: "#ffe1d7" });
+  });
+}
+
+const itemKind = (item) => typeof item === "string" ? item : (item?.kind || "khong_ro");
+const itemFresh = (item) => typeof item === "object" && item !== null && typeof item.fresh === "number" ? item.fresh : null;
 
 function frame() {
   requestAnimationFrame(frame);  // đặt trước để lỗi vẽ không làm dừng vòng lặp

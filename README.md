@@ -71,6 +71,7 @@ Mở `http://127.0.0.1:8000/`.
 - `E`: hái hoặc cập bến.
 - `Space`: bắt cá.
 - `R`: chơi lại.
+- `P`: tạm dừng/tiếp tục.
 - Khi cập bến hoặc buổi kết thúc hợp lệ, giỏ được ghi vào `kho.json`.
 
 **2. Buổi tối — nạp kho rồi phục vụ**
@@ -86,6 +87,7 @@ Mở `http://127.0.0.1:8001/`.
 - `WASD` hoặc mũi tên: đi.
 - `E`: tương tác với bếp/bàn.
 - `R`: chơi lại.
+- `P`: tạm dừng/tiếp tục.
 
 Luồng nấu: đến bếp `B1`, nhấn `E` để lấy đơn đủ nguyên liệu → chờ bếp chuyển `ready` → nhấn `E` tại bếp để lấy món → mang đến bàn `T1` rồi nhấn `E` để phục vụ.
 

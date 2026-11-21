@@ -12,6 +12,7 @@ Nhãn G3 là mã nội bộ dẫn luật Ticket-03, không tự nhận mã AC ch
 | G3-EXPORT | Kho sorted id, fresh đủ precision khớp event/snapshot; tick limit giữ file cũ | [dock](../proof/phase-3/xuannghia2/dock.log), [kho](../proof/phase-3/xuannghia2/dock-inventory.json) | Đạt profile kiểm thử gather v1.2 |
 | G3-DET | Cùng seed so byte output | [sha256](../proof/phase-3/xuannghia2/verification-report.json) | Đạt |
 | G3-REG | 17 test P3; 100 test có phạm vi; suite 104 test | [scope](../proof/phase-3/xuannghia2/gather-tests.txt), [suite](../proof/phase-3/xuannghia2/gather-stage-tests.txt) | 17/17 và 100/100 đạt; toàn repo 103/104, lỗi TEAM cũ |
+| G3-UI-HOLD — client cá thể | Giỏ UI nhận chuỗi v1.1 và object {kind,fresh}; vật phẩm dưới ngưỡng ươn đổi màu | Test live/freshness | Chưa bật mặc định v1.2, chưa tích hợp quán/day |
 | V1.2-MAIN / QUAN / DAY / HUD / TAG | Bật mặc định và smoke hai tiến trình/day, giữ chỗ/giá, HUD, tag | Chưa có | Chưa đạt tích hợp nhóm; chờ module quán/ngày/UI |
 
 [ADR](../adr/0001-fresh-inventory-migration.md) và [bàn giao API](../gather-phase-3-xuannghia2.md).

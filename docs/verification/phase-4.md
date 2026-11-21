@@ -32,7 +32,7 @@ Ticket-04 suy ra từ ma trận trên, kế hoạch và bàn giao P4 của xuann
 | QA4-V13 | Profile 1.3 trong tiến trình: gather cập bến ghi kho cá thể, quán nạp và có khách | [integration-release](../proof/phase-4/justcoffeee/integration-release.txt) | Đạt profile; **manifest chung vẫn 1.1** nên chưa bật mặc định |
 | **QA4-DAY** | `--mode day` | [integration-release](../proof/phase-4/justcoffeee/integration-release.txt) | **Chưa đạt**: exit 2 "chờ module vòng ngày"; không có `soak_cmd`; không thể kiểm 10 ngày/Shop |
 | QA4-UI-CONTRAST | justcoffeee tự mở GUI gather (`py -3 -m chonoi.live --mode gather --seed 42`) và bấm nút Tương phản cao | Quan sát thủ công của justcoffeee, không có ảnh chụp | Đạt: nút hoạt động đúng |
-| QA4-UI-WARN | Ba cảnh báo chữ (oxy thấp, quái gần, khách sắp hết kiên nhẫn) khi chơi thật | — | **Chưa kiểm**: QA chưa xác nhận khi chơi thật; chỉ có quan sát fixture pause của xuannghia2 |
+| QA4-UI-WARN | justcoffeee tự chơi GUI và quan sát ba cảnh báo chữ (oxy thấp, quái gần, khách sắp hết kiên nhẫn) | Quan sát thủ công của justcoffeee, không có ảnh chụp; bổ sung cho quan sát fixture pause của xuannghia2 | Đạt: cả ba cảnh báo hiển thị đúng |
 
 ### Cổng phát hành (QA)
 

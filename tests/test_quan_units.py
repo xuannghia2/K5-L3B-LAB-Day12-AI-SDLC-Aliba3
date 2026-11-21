@@ -149,6 +149,62 @@ class QuanSimTest(unittest.TestCase):
         self.assertEqual([s["id"] for s in sim.stoves], ["B1", "B2"])
         self.assertEqual([t["id"] for t in sim.tables], ["T1", "T2", "T3", "T4"])
 
+    def test_phase3_freshness_decay_and_spoil_re_reserve(self):
+        # Kiểm tra hao tươi, biến cố spoiled và re-reserve hoặc unfulfillable trong Quan
+        import json
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        tuning = load_contract()["tuning"]
+        tuning["freshness"] = json.loads((root / "data" / "freshness-p3.json").read_text())
+
+        # Tạo kho với 1 cá lóc sắp ươn (fresh = 30.0) và 1 cá lóc tươi (fresh = 100.0)
+        items = [
+            {"id": "I1", "kind": "ca_loc", "fresh": 30.0},
+            {"id": "I2", "kind": "ca_loc", "fresh": 100.0}
+        ]
+        # Khách C1 giữ I2 (tươi nhất), khách C2 giữ I1 (sắp ươn)
+        scenario = {
+            "random_customers": False,
+            "customers": [
+                {"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui", "order_status": "reserved", "reserved_item_ids": ["I2"]},
+                {"id": "C2", "table_id": "T2", "dish_id": "ca_loc_nuong_trui", "order_status": "reserved", "reserved_item_ids": ["I1"]}
+            ]
+        }
+        sim = QuanSim(tuning=tuning, scenario=scenario, streams=Streams(1), ids=IdAllocator(), inventory=items)
+        # Tick 1: I1 giảm từ 30.0 xuống < 30.0 -> phát spoiled, C2 nhả I1 và thử re-reserve nhưng hết cá lóc -> unfulfillable
+        events = sim.step(make_input())
+        spoiled_ev = [e for e in events if e[0] == "spoiled"]
+        self.assertEqual(len(spoiled_ev), 1)
+        self.assertEqual(spoiled_ev[0][1]["item_id"], "I1")
+        self.assertEqual(spoiled_ev[0][1]["location"], "stock")
+        c2 = next(c for c in sim.customers if c["id"] == "C2")
+        self.assertEqual(c2["order_status"], "unfulfillable")
+
+    def test_phase3_pricing_by_freshness(self):
+        # Giá niêm yết của ca_loc_nuong_trui là 60.
+        # Ở tick 1, cá thể I1 (ban đầu 80.0) bị hao 0.25/60 còn ~79.995833...
+        # base_price = floor(60 * 79.995833 / 100) = floor(47.9975) = 47.
+        import json
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        tuning = load_contract()["tuning"]
+        tuning["freshness"] = json.loads((root / "data" / "freshness-p3.json").read_text())
+
+        items = [{"id": "I1", "kind": "ca_loc", "fresh": 80.0}]
+        scenario = {
+            "player": {"pos": [2.0, 8.0]},  # đứng sát bếp B1
+            "random_customers": False,
+            "customers": [
+                {"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui", "order_status": "reserved", "reserved_item_ids": ["I1"]}
+            ]
+        }
+        sim = QuanSim(tuning=tuning, scenario=scenario, streams=Streams(1), ids=IdAllocator(), inventory=items)
+        events = sim.step(make_input(interact=True))
+        cook_ev = [e for e in events if e[0] == "cook_started"]
+        self.assertEqual(len(cook_ev), 1)
+        self.assertEqual(cook_ev[0][1]["base_price"], 47)
+        self.assertEqual(cook_ev[0][1]["items"], [{"id": "I1", "kind": "ca_loc", "fresh": 80.0 - 0.25 / 60}])
+
 
 if __name__ == "__main__":
     unittest.main()

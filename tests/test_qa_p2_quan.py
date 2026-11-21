@@ -155,13 +155,11 @@ class Payment(unittest.TestCase):
 
 
 class FixtureCustomers(unittest.TestCase):
-    @unittest.expectedFailure
     def test_fixture_waiting_customer_can_be_cooked(self):
-        """LỖI ĐÃ BIẾT (QA-P2-01): khách nạp từ scenario không có order_status nên bếp idle bỏ qua.
+        """ĐÃ SỬA (QA-P2-01): khách nạp từ scenario được gán order_status='reserved' mặc định nên bếp idle nhận nấu.
 
         Tái hiện qua headless: scenario quan có customers=[{id C1, table T1, dish ca_loc_nuong_trui}],
-        stock ca_loc 1, người chơi đứng ở B1 và nhấn interact -> không có cook_started.
-        Khi chủ sim/quan sửa, bỏ @expectedFailure (unittest sẽ báo 'unexpected success').
+        stock ca_loc 1, người chơi đứng ở B1 và nhấn interact -> có cook_started.
         """
         sim = make(scenario={"player": {"pos": Q["stoves"][0]["pos"]}, "stock": {"ca_loc": 1},
                              "customers": [{"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui"}]})

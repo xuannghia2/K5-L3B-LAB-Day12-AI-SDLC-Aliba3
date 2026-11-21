@@ -199,8 +199,38 @@ def _validate_quan(b, tuning):
         raise BadInput("player.vel phải là [x, z]")
     table_ids = [c.get("table_id") for c in b.get("customers", [])]
     known = {t["id"] for t in tuning["quan"]["tables"]} | {t.get("id") for t in b.get("tables", [])}
+    menu = tuning.get("menu", {})
     for c in b.get("customers", []):
         if not isinstance(c.get("table_id"), str) or c["table_id"] not in known:
             raise BadInput(f"customers.{c['id']}: table_id phải là bàn có thật")
+        dish_id = c.get("dish_id")
+        if dish_id is not None and dish_id not in menu:
+            raise BadInput(f"customers.{c['id']}: món ăn không tồn tại trong menu: {dish_id}")
     if len(table_ids) != len(set(table_ids)):
         raise BadInput("hai khách cùng bàn")
+
+    # Kiểm tra tính nhất quán giữa kho và giữ chỗ nếu có reserved
+    stock_input = b.get("stock")
+    if stock_input is not None:
+        stock_counts = {}
+        if isinstance(stock_input, list):
+            for item in stock_input:
+                stock_counts[item["kind"]] = stock_counts.get(item["kind"], 0) + 1
+        elif isinstance(stock_input, dict):
+            stock_counts = dict(stock_input)
+        
+        total_reserved = {}
+        for c in b.get("customers", []):
+            if c.get("order_status") == "reserved" or c.get("reserved"):
+                res = c.get("reserved")
+                if res is None and c.get("dish_id") in menu:
+                    res = menu[c["dish_id"]]["recipe"]
+                if isinstance(res, dict):
+                    for k, q in res.items():
+                        total_reserved[k] = total_reserved.get(k, 0) + q
+                elif isinstance(res, list):
+                    # res có thể là list id hoặc items
+                    pass
+        for k, q in total_reserved.items():
+            if stock_counts.get(k, 0) < q:
+                raise BadInput(f"kho không đủ cho lượng hàng đã giữ chỗ: {k} cần {q} nhưng kho chỉ có {stock_counts.get(k, 0)}")

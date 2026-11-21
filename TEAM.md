@@ -83,3 +83,7 @@ Lần kiểm GitHub mới nhất: main ở `df8f204`, chưa thấy commit quán 
 ### Đồng bộ cuối — quán và QA mới
 
 Đã ghép 139b2b8 cùng QA 5ca8212/6494f1d. Quán đã thêm hỗ trợ kho cá thể và sửa các lỗi fixture được review; suite sau ghép đạt **142/142, không expected failure** ([log](docs/proof/phase-4/xuannghia2/post-quan-merge-tests.txt)). Các nhận xét chưa có quán P3/lỗi fixture/expected failure phía trên là lịch sử lần kiểm trước. Manifest vẫn 1.1, chưa có xác nhận tích hợp mặc định v1.3/day/Shop/soak hay release toàn nhóm.
+
+## Tag do trưởng nhóm yêu cầu
+
+Đã tạo và push annotated tag `phase-1` → `f9477e3`, `phase-2` → `2fd97cc`, `phase-3` → `bc764b9` ngày 21/11/2026. Tag là snapshot có chú thích giới hạn; không đặt lùi thời gian hoặc xác nhận toàn DoD. [Đối chiếu tag](docs/phase-tags.md). QA mới tại phase-3: 152 test, 149 đạt và 3 expectedFailure; số 142/142 phía trên là lần kiểm trước khi QA thêm ca mới.

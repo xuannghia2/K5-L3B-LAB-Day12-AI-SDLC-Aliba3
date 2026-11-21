@@ -124,6 +124,31 @@ class QuanSimTest(unittest.TestCase):
         self.assertGreater(sim.reputation, 3.0)
         self.assertEqual(len(sim.customers), 0)
 
+    def test_phase2_six_dishes_and_new_ingredients(self):
+        # Kiểm tra 6 món và nguyên liệu mới (ca_keo, keo_neo) theo Ticket-02
+        tuning = load_contract()["tuning"]
+        menu = tuning["menu"]
+        self.assertEqual(len(menu), 6)
+        self.assertIn("canh_chua_ca_loc", menu)
+        self.assertIn("ca_keo_nuong", menu)
+        self.assertIn("lau_mam", menu)
+
+        # Thử nấu món lẩu mắm cần cả 4 loại nguyên liệu
+        sim = make_quan(inventory={"ca_linh": 2, "ca_keo": 1, "keo_neo": 1, "bong_dien_dien": 1})
+        empty_input = make_input()
+        for _ in range(120):
+            sim.step(empty_input)
+        self.assertEqual(len(sim.customers), 1)
+        cust = sim.customers[0]
+        self.assertEqual(cust["dish_id"], "lau_mam")
+        self.assertEqual(cust["reserved"], {"ca_linh": 2, "ca_keo": 1, "keo_neo": 1, "bong_dien_dien": 1})
+
+    def test_phase2_multi_stoves_and_tables(self):
+        # Kiểm tra 2 bếp B1, B2 và 4 bàn T1-T4
+        sim = make_quan(inventory={"ca_loc": 5})
+        self.assertEqual([s["id"] for s in sim.stoves], ["B1", "B2"])
+        self.assertEqual([t["id"] for t in sim.tables], ["T1", "T2", "T3", "T4"])
+
 
 if __name__ == "__main__":
     unittest.main()

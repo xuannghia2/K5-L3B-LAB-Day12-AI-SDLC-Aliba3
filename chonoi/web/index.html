@@ -8,10 +8,28 @@
   html, body { margin: 0; height: 100%; background: #10161c; color: #e8eef2; font: 14px/1.4 system-ui, sans-serif; overflow: hidden; }
   canvas { display: block; width: 100vw; height: 100vh; touch-action: none; }
 
+  #connection-status {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top));
+    left: 50%;
+    z-index: 5;
+    transform: translateX(-50%);
+    display: none;
+    max-width: calc(100vw - 40px);
+    padding: 7px 12px;
+    border: 1px solid rgba(255,138,128,.65);
+    border-radius: 999px;
+    background: rgba(72,24,24,.88);
+    color: #ffd7d2;
+    font-size: 12px;
+    text-align: center;
+  }
+  #connection-status.visible { display: block; }
+
   #touch-controls {
     display: none;
     position: fixed;
-    inset: auto 14px 18px;
+    inset: auto 14px max(18px, env(safe-area-inset-bottom));
     z-index: 4;
     justify-content: space-between;
     pointer-events: none;
@@ -36,17 +54,18 @@
 </head>
 <body>
 <canvas id="c"></canvas>
+<div id="connection-status" class="visible">Kết nối tới máy chủ...</div>
 <div id="touch-controls" aria-label="Điều khiển trò chơi">
   <div class="cluster">
-    <button id="move-up" data-move="u" aria-label="Đi lên">▲</button>
-    <button id="move-left" data-move="l" aria-label="Đi trái">◀</button>
-    <button id="move-down" data-move="d" aria-label="Đi xuống">▼</button>
-    <button id="move-right" data-move="r" aria-label="Đi phải">▶</button>
+    <button type="button" id="move-up" data-move="u" aria-label="Đi lên">▲</button>
+    <button type="button" id="move-left" data-move="l" aria-label="Đi trái">◀</button>
+    <button type="button" id="move-down" data-move="d" aria-label="Đi xuống">▼</button>
+    <button type="button" id="move-right" data-move="r" aria-label="Đi phải">▶</button>
   </div>
   <div class="actions">
-    <button id="act-interact" class="action" data-action="interact" aria-label="Tương tác">E</button>
-    <button id="act-catch" class="action" data-action="catch" aria-label="Bắt cá">BẮT</button>
-    <button id="act-restart" class="action" aria-label="Chơi lại">R</button>
+    <button type="button" id="act-interact" class="action" data-action="interact" aria-label="Tương tác">E</button>
+    <button type="button" id="act-catch" class="action" data-action="catch" aria-label="Bắt cá">BẮT</button>
+    <button type="button" id="act-restart" class="action" aria-label="Chơi lại">R</button>
   </div>
 </div>
 <script>
@@ -107,6 +126,11 @@ addEventListener("keyup", (e) => {
   pushInput();
 });
 addEventListener("blur", () => { down.clear(); pushInput(); });
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) { down.clear(); pushInput(); }
+});
+
+const connectionStatus = document.getElementById("connection-status");
 
 // ---------- điều khiển cảm ứng ----------
 document.querySelectorAll("[data-move]").forEach((button) => {
@@ -156,9 +180,15 @@ document.getElementById("act-restart").addEventListener("pointerdown", (e) => {
 async function poll() {
   try {
     const r = await fetch("/state", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
     snap = await r.json();
     offline = false;
-  } catch (e) { offline = true; }
+    connectionStatus.classList.remove("visible");
+  } catch (e) {
+    offline = true;
+    connectionStatus.textContent = "Mất kết nối tới máy chủ — đang thử lại";
+    connectionStatus.classList.add("visible");
+  }
   setTimeout(poll, 16);
 }
 poll();

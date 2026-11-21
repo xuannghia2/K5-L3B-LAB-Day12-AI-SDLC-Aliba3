@@ -44,6 +44,10 @@ class LiveServerTest(unittest.TestCase):
             code, html = _get(base + "/")
             self.assertEqual(code, 200)
             self.assertIn(b"<canvas", html)
+            self.assertIn(b'id="touch-controls"', html)
+            self.assertIn(b'id="connection-status"', html)
+            self.assertIn(b'data-action="interact"', html)
+            self.assertIn(b'data-action="catch"', html)
             deadline = time.time() + 3
             while time.time() < deadline:
                 st2 = json.loads(_get(base + "/state")[1])

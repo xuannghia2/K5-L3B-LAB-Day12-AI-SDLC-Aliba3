@@ -221,7 +221,9 @@ def _validate_quan(b, tuning):
         
         total_reserved = {}
         for c in b.get("customers", []):
-            if c.get("order_status") == "reserved" or c.get("reserved"):
+            st = c.get("state", "waiting")
+            # Khách waiting mặc định là reserved kể cả khi không ghi order_status/reserved tường minh
+            if st == "waiting" or c.get("order_status") == "reserved" or c.get("reserved"):
                 res = c.get("reserved")
                 if res is None and c.get("dish_id") in menu:
                     res = menu[c["dish_id"]]["recipe"]
@@ -229,7 +231,6 @@ def _validate_quan(b, tuning):
                     for k, q in res.items():
                         total_reserved[k] = total_reserved.get(k, 0) + q
                 elif isinstance(res, list):
-                    # res có thể là list id hoặc items
                     pass
         for k, q in total_reserved.items():
             if stock_counts.get(k, 0) < q:

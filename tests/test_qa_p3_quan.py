@@ -138,25 +138,17 @@ class StockSpoil(unittest.TestCase):
 
 
 class KnownBugsP3(unittest.TestCase):
-    """Lỗi QA tìm thấy khi kiểm 139b2b8; đánh dấu expectedFailure cho chủ sim/quan (griin-03).
+    """Kiểm tra hồi quy cho các ca QA P3 đã được sửa (griin-03)."""
 
-    Khi sửa, bỏ @expectedFailure để test thành kiểm hồi quy.
-    """
-
-    @unittest.expectedFailure
     def test_v12_fixture_customer_without_ingredients_is_not_cooked_for_free(self):
-        """QA-P3-01: khách fixture gọi lau_mam, kho chỉ có 1 ca_loc: bếp vẫn cook_started, items [], giá đủ 200."""
+        """QA-P3-01: khách fixture gọi lau_mam, kho chỉ có 1 ca_loc: không đủ nguyên liệu thì không được nấu."""
         sim = make([{"id": "I1", "kind": "ca_loc", "fresh": 100}],
                    {"player": {"pos": B1}, "customers": [{"id": "C1", "table_id": "T1", "dish_id": "lau_mam"}]})
         started = names(sim.step(PRESS), "cook_started")
         self.assertEqual(started, [], f"không đủ nguyên liệu thì không được nấu: {started}")
 
-    @unittest.expectedFailure
     def test_v11_implicit_reservation_over_empty_stock_is_rejected(self):
-        """QA-P3-02: khách fixture không ghi order_status/reserved, kho rỗng: validation bỏ qua, nấu được, kho -1.
-
-        Biến thể của QA-P2-02 (bản sửa chỉ đếm khách có order_status/reserved ghi tường minh).
-        """
+        """QA-P3-02: khách fixture không ghi order_status/reserved, kho rỗng: validation từ chối BadInput."""
         with tempfile.TemporaryDirectory() as d:
             sc = write(os.path.join(d, "s.json"), {"quan": {"player": {"pos": B1}, "stock": {},
                        "customers": [{"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui"}]}})
@@ -171,9 +163,8 @@ class KnownBugsP3(unittest.TestCase):
                     cooked = any(json.loads(l).get("name") == "cook_started" for l in f if l.strip())
         self.assertTrue(code == 2 or not cooked, f"exit={code}, cook_started={cooked}")
 
-    @unittest.expectedFailure
     def test_equal_freshness_tie_uses_natural_id_order(self):
-        """QA-P3-03: hòa fresh thì chọn theo chuỗi id ('I10' < 'I2') thay vì thứ tự tự nhiên ids.sort_by_id (I2 trước I10)."""
+        """QA-P3-03: hòa fresh thì chọn theo thứ tự tự nhiên ids.sort_by_id (I2 trước I10)."""
         sim = make([{"id": "I10", "kind": "ca_loc", "fresh": 80}, {"id": "I2", "kind": "ca_loc", "fresh": 80}])
         run(sim, FIRST)
         self.assertEqual(sim.customers[0]["reserved_item_ids"], ["I2"])

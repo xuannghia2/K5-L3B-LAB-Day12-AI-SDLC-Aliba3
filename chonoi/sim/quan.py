@@ -106,7 +106,9 @@ class QuanSim:
                 if c.get("state") == "waiting" and c.get("order_status") == "reserved":
                     dish = c.get("dish_id")
                     if dish and dish in self.menu and not c.get("reserved_item_ids"):
-                        self._assign_fresh_reserved(c)
+                        ok = self._assign_fresh_reserved(c)
+                        if not ok:
+                            c["order_status"] = "unfulfillable"
 
         self.money = 0
         self.earned = 0
@@ -198,7 +200,8 @@ class QuanSim:
             if len(matching) < count:
                 return False
             # Sắp theo fresh giảm dần, hòa theo id tự nhiên
-            matching.sort(key=lambda it: (-it["fresh"], it["id"]))
+            matching = sort_by_id(matching)
+            matching.sort(key=lambda it: it["fresh"], reverse=True)
             selected_ids.extend([it["id"] for it in matching[:count]])
 
         cust["reserved_item_ids"] = selected_ids

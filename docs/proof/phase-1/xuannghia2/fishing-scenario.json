@@ -1,0 +1,29 @@
+{
+  "gather": {
+    "player": {
+      "pos": [
+        20,
+        5
+      ]
+    },
+    "fish": [
+      {
+        "id": "F10",
+        "kind": "ca_linh",
+        "pos": [
+          20,
+          5
+        ]
+      },
+      {
+        "id": "F2",
+        "kind": "ca_loc",
+        "pos": [
+          20,
+          5
+        ]
+      }
+    ],
+    "time_left_ticks": 35
+  }
+}

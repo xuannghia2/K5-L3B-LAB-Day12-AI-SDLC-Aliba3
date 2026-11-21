@@ -27,3 +27,9 @@
 
 ## Skills / hooks của nhóm
 - (Ghi tên và khi nào dùng; tối thiểu 2 skill/hook/command nhóm tự viết, đặt ở `.agents/skills/` hoặc tương đương.)
+
+### Hai command cho phần gather (xuannghia2, Phase 1)
+- `.\tools\gather.ps1 test`: chạy luật gather, headless, smoke, starter và live; dùng trước khi bàn giao thay đổi gather. Lệnh có phạm vi, không thay thế chạy toàn bộ suite trước push.
+- `.\tools\gather.ps1 play -Seed 1 -Port 8000`: mở server chơi thử gather; dùng để người review kiểm bơi, oxy, hái/bắt và cập bến.
+- Windows: script ưu tiên môi trường riêng `.tools/python` cạnh repo hoặc `CHONOI_PYTHON`, chỉ đổi biến môi trường trong thời gian chạy. Smoke test vẫn dùng `python3` theo contract.
+- Lỗi nền đã xác minh: `test_team_check.test_template_is_rejected` phụ thuộc TEAM.md thật nên fail sau khi điền nhóm; xem log `docs/proof/phase-1/xuannghia2/all-tests.txt`. Không sửa luật/team để làm test này xanh.

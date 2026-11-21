@@ -1,0 +1,71 @@
+test_catch_determinism_includes_nonempty_events_and_inventory (test_gather_headless.GatherHeadless.test_catch_determinism_includes_nonempty_events_and_inventory) ... ok
+test_faint_writes_empty_inventory_and_exact_end_order (test_gather_headless.GatherHeadless.test_faint_writes_empty_inventory_and_exact_end_order) ... ok
+test_harvest_dock_exports_stock_that_quan_can_read (test_gather_headless.GatherHeadless.test_harvest_dock_exports_stock_that_quan_can_read) ... ok
+test_unfinished_gather_preserves_existing_inventory (test_gather_headless.GatherHeadless.test_unfinished_gather_preserves_existing_inventory) ... ok
+test_batch_collection_is_atomic_and_reads_yield (test_gather_rules.CollectionRules.test_batch_collection_is_atomic_and_reads_yield) ... ok
+test_catch_batch_wont_overflow_or_consume_fish (test_gather_rules.CollectionRules.test_catch_batch_wont_overflow_or_consume_fish) ... ok
+test_catch_cooldown_expires_before_action (test_gather_rules.CollectionRules.test_catch_cooldown_expires_before_action) ... ok
+test_catch_nearest_then_natural_id_removes_one_school (test_gather_rules.CollectionRules.test_catch_nearest_then_natural_id_removes_one_school) ... ok
+test_catch_requires_underwater_target_in_range (test_gather_rules.CollectionRules.test_catch_requires_underwater_target_in_range) ... ok
+test_dock_precedes_node_catch_and_timeout (test_gather_rules.CollectionRules.test_dock_precedes_node_catch_and_timeout) ... ok
+test_full_hold_leaves_node_and_cooldown_unchanged (test_gather_rules.CollectionRules.test_full_hold_leaves_node_and_cooldown_unchanged) ... ok
+test_gather_picks_nearest_then_natural_id_once_per_press (test_gather_rules.CollectionRules.test_gather_picks_nearest_then_natural_id_once_per_press) ... ok
+test_hold_keeps_pick_order_for_lifo (test_gather_rules.CollectionRules.test_hold_keeps_pick_order_for_lifo) ... ok
+test_last_tick_collects_before_timeout (test_gather_rules.CollectionRules.test_last_tick_collects_before_timeout) ... ok
+test_real_input_edges_do_not_repeat_harvest (test_gather_rules.CollectionRules.test_real_input_edges_do_not_repeat_harvest) ... ok
+test_regrowth_happens_before_interaction (test_gather_rules.CollectionRules.test_regrowth_happens_before_interaction) ... ok
+test_surface_and_range_gate_harvesting (test_gather_rules.CollectionRules.test_surface_and_range_gate_harvesting) ... ok
+test_choke_interval_reads_tuning_and_ignores_invulnerability (test_gather_rules.GatherRules.test_choke_interval_reads_tuning_and_ignores_invulnerability) ... ok
+test_crossings_emit_once_and_use_final_position (test_gather_rules.GatherRules.test_crossings_emit_once_and_use_final_position) ... ok
+test_faint_precedes_actions_and_time_and_clears_inventory (test_gather_rules.GatherRules.test_faint_precedes_actions_and_time_and_clears_inventory) ... ok
+test_oxygen_drains_and_empty_event_is_an_edge (test_gather_rules.GatherRules.test_oxygen_drains_and_empty_event_is_an_edge) ... ok
+test_surface_boundary_refills_caps_and_resets_choking (test_gather_rules.GatherRules.test_surface_boundary_refills_caps_and_resets_choking) ... ok
+test_state_input_and_clean_stop (test_live.LiveServerTest.test_state_input_and_clean_stop) ... ok
+test_bad_frames_raise (test_python_starter_units.Units.test_bad_frames_raise) ... ok
+test_catch_is_a_v10_button_and_attack_is_not (test_python_starter_units.Units.test_catch_is_a_v10_button_and_attack_is_not) ... ok
+test_id_allocator_continues_after_max (test_python_starter_units.Units.test_id_allocator_continues_after_max) ... ok
+test_id_sorting (test_python_starter_units.Units.test_id_sorting) ... ok
+test_input_edges_and_inherit (test_python_starter_units.Units.test_input_edges_and_inherit) ... ok
+test_live_inputs_keep_fast_tap_edge (test_python_starter_units.Units.test_live_inputs_keep_fast_tap_edge) ... ok
+test_session_steps_gather_and_dock (test_python_starter_units.Units.test_session_steps_gather_and_dock) ... ok
+test_con_01_ticks_zero_and_end_line (test_smoke_p1.Contract.test_con_01_ticks_zero_and_end_line) ... ok
+test_con_02_deterministic_bytes (test_smoke_p1.Contract.test_con_02_deterministic_bytes) ... ok
+test_con_03_bad_input_exit_2 (test_smoke_p1.Contract.test_con_03_bad_input_exit_2) ... ok
+test_con_03_old_and_future_modes_rejected (test_smoke_p1.Contract.test_con_03_old_and_future_modes_rejected) ... ok
+test_gather_snapshot_has_gather_fields (test_smoke_p1.Contract.test_gather_snapshot_has_gather_fields) ... ok
+test_scenario_out_of_domain_exit_2 (test_smoke_p1.Contract.test_scenario_out_of_domain_exit_2) ... ok
+test_inv_01_gather_writes_inventory_quan_reads_it (test_smoke_p1.Integration.test_inv_01_gather_writes_inventory_quan_reads_it)
+Ví dụ smoke test trong PRD-0 mục G: cập bến ở tick 0, quán đọc kho đúng nội dung. ... ok
+test_inv_01_not_written_when_tick_limit_first (test_smoke_p1.Integration.test_inv_01_not_written_when_tick_limit_first) ... ok
+test_inv_bad_schema_exit_2 (test_smoke_p1.Integration.test_inv_bad_schema_exit_2) ... ok
+test_inventory_and_scenario_stock_conflict (test_smoke_p1.Integration.test_inventory_and_scenario_stock_conflict) ... ok
+test_inventory_flags_mode_mismatch_exit_2 (test_smoke_p1.Integration.test_inventory_flags_mode_mismatch_exit_2) ... ok
+test_move_01_swim_speed_after_ramp (test_smoke_p1.Movement.test_move_01_swim_speed_after_ramp)
+Bỏ 6 tick tăng tốc rồi đo 60 tick: quãng ≈ swim_speed × 1 s (±0.1). Ngang, xuống, chéo (không nhanh hơn). ... ok
+test_move_02_heading_positive_is_down (test_smoke_p1.Movement.test_move_02_heading_positive_is_down) ... ok
+test_move_03_edge_clamp (test_smoke_p1.Movement.test_move_03_edge_clamp)
+Chặn từng mép của vùng nước, kể cả d không âm (không bay lên khỏi mặt nước) và đáy d = 30. ... ok
+test_move_mep_vel_ve_0 (test_smoke_p1.Movement.test_move_mep_vel_ve_0) ... ok
+test_move_ramp_doi_huong_trong_tran (test_smoke_p1.Movement.test_move_ramp_doi_huong_trong_tran)
+Đảo từ +speed sang -speed: vận tốc chạm mục tiêu sau tối đa ramp_max_ticks tick kể từ lúc đổi input. ... ok
+test_time_ends_gather_and_keeps_hold (test_smoke_p1.Movement.test_time_ends_gather_and_keeps_hold) ... ok
+test_khoi_sai_mode_exit_2 (test_smoke_p1.ScenarioModes.test_khoi_sai_mode_exit_2) ... ok
+test_quan_fixture_khong_hop_le_exit_2 (test_smoke_p1.ScenarioModes.test_quan_fixture_khong_hop_le_exit_2) ... ok
+test_quan_player_vel_hop_le (test_smoke_p1.ScenarioModes.test_quan_player_vel_hop_le) ... ok
+test_good (test_team_check.TeamCheck.test_good) ... ok
+test_template_is_rejected (test_team_check.TeamCheck.test_template_is_rejected) ... FAIL
+test_too_few_members (test_team_check.TeamCheck.test_too_few_members) ... ok
+test_wrong_size_duplicate_and_outsider (test_team_check.TeamCheck.test_wrong_size_duplicate_and_outsider) ... ok
+
+======================================================================
+FAIL: test_template_is_rejected (test_team_check.TeamCheck.test_template_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Vin\K5-L3B-LAB-Day12-AI-SDLC-Aliba3\tests\test_team_check.py", line 29, in test_template_is_rejected
+    self.assertTrue(check_team.validate(m, 4))
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 54 tests in 3.498s
+
+FAILED (failures=1)

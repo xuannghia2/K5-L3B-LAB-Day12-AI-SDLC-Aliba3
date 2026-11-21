@@ -1,0 +1,16 @@
+{
+  "frames": [
+    {
+      "tick": 0,
+      "catch": true
+    },
+    {
+      "tick": 1,
+      "catch": false
+    },
+    {
+      "tick": 30,
+      "catch": true
+    }
+  ]
+}

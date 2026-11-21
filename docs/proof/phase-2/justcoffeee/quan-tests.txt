@@ -1,0 +1,24 @@
+test_each_dish_is_chosen_when_only_its_recipe_is_in_stock (test_qa_p2_quan.CustomersAndTables.test_each_dish_is_chosen_when_only_its_recipe_is_in_stock) ... ok
+test_full_tables_skip_turn_without_no_dish (test_qa_p2_quan.CustomersAndTables.test_full_tables_skip_turn_without_no_dish) ... ok
+test_lau_mam_needs_all_five_ingredients (test_qa_p2_quan.CustomersAndTables.test_lau_mam_needs_all_five_ingredients) ... ok
+test_reserved_stock_blocks_second_order (test_qa_p2_quan.CustomersAndTables.test_reserved_stock_blocks_second_order) ... ok
+test_spawns_fill_tables_in_id_order (test_qa_p2_quan.CustomersAndTables.test_spawns_fill_tables_in_id_order) ... ok
+test_table_freed_by_patience_is_reused_same_tick (test_qa_p2_quan.CustomersAndTables.test_table_freed_by_patience_is_reused_same_tick) ... ok
+test_fixture_waiting_customer_can_be_cooked (test_qa_p2_quan.FixtureCustomers.test_fixture_waiting_customer_can_be_cooked)
+LỖI ĐÃ BIẾT (QA-P2-01): khách nạp từ scenario không có order_status nên bếp idle bỏ qua. ... expected failure
+test_full_cycle_tip_is_floor_of_price_times_rate (test_qa_p2_quan.Payment.test_full_cycle_tip_is_floor_of_price_times_rate) ... ok
+test_contract_has_two_stoves_four_tables_six_dishes (test_qa_p2_quan.Ticket02Layout.test_contract_has_two_stoves_four_tables_six_dishes) ... ok
+test_stoves_are_not_both_in_interact_range (test_qa_p2_quan.Ticket02Layout.test_stoves_are_not_both_in_interact_range) ... ok
+test_cook_consumes_exact_recipe_and_sets_price (test_qa_p2_quan.TwoStoves.test_cook_consumes_exact_recipe_and_sets_price) ... ok
+test_two_stoves_cook_oldest_orders_in_parallel (test_qa_p2_quan.TwoStoves.test_two_stoves_cook_oldest_orders_in_parallel) ... ok
+test_customer_arrived_and_reserved (test_quan_units.QuanSimTest.test_customer_arrived_and_reserved) ... ok
+test_customer_spawn_and_no_dish (test_quan_units.QuanSimTest.test_customer_spawn_and_no_dish) ... ok
+test_full_cooking_serving_eating_cycle (test_quan_units.QuanSimTest.test_full_cooking_serving_eating_cycle) ... ok
+test_phase2_multi_stoves_and_tables (test_quan_units.QuanSimTest.test_phase2_multi_stoves_and_tables) ... ok
+test_phase2_six_dishes_and_new_ingredients (test_quan_units.QuanSimTest.test_phase2_six_dishes_and_new_ingredients) ... ok
+test_quan_init_defaults (test_quan_units.QuanSimTest.test_quan_init_defaults) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.070s
+
+OK (expected failures=1)

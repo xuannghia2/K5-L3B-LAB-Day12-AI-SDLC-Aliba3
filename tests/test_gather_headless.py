@@ -10,6 +10,7 @@ from helpers import Workdir, events, frames, read_jsonl, run_headless, snapshots
 
 class GatherHeadless(unittest.TestCase):
     def run_case(self, w, scenario, inputs, ticks, name="g"):
+        scenario = dict({"random_fish": False, "monsters": []}, **scenario)
         sc = write_json(w.path(name + "-scenario.json"), {"gather": scenario})
         inp = write_json(w.path(name + "-inputs.json"), frames(*inputs))
         out, inv = w.path(name + ".jsonl"), w.path(name + "-inventory.json")

@@ -23,3 +23,7 @@
 ### Cập nhật sau đối chiếu PRD-0 — xuannghia2
 
 Đã mở lab board sau khi người dùng đăng nhập. Giả định yield/cooldown khớp mục F; payload ban đầu không khớp mục E nên đã sửa và bổ sung 3 test CLI (25 test gather tổng cộng). Bài học từ phiên AI: smoke test xanh chưa chứng minh đúng schema sự kiện; phải kiểm payload và thứ tự mất giỏ bằng tình huống cụ thể. Phase 2–4 vẫn khóa khi kiểm tra.
+
+### Phase 2 — xuannghia2
+
+Cá và Cá Sấu được tách khỏi GatherSim, push sau từng lát có test. Fixture khóa actor giúp giữ test P1 khi bản mặc định đổi sang cá chuyển động. Nguy cơ tích hợp là số chuẩn làm đổi test quán (thêm bàn tạo thêm lượt khách), nên ca kiểm một đơn dùng đúng kho một đơn. Bước tiếp theo của nhóm là nối day/Shop/UI vào hook gather và chạy benchmark, không nhầm dữ liệu cấu hình đã đủ với gameplay toàn ngày đã đủ.

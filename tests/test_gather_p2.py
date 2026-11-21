@@ -205,5 +205,91 @@ class MonstersP2(unittest.TestCase):
         self.assertEqual(t["gather"]["oxygen_max_s"], 30)
 
 
+class GatherP2Cli(unittest.TestCase):
+    def run_case(self, w, scenario, frames=None, ticks=1, name="p2"):
+        from helpers import run_headless, write_json, read_jsonl
+        sc = write_json(w.path(name + ".json"), {"gather": scenario})
+        inp = write_json(w.path(name + "-inputs.json"), {"frames": frames or []})
+        out = w.path(name + ".log")
+        inv = w.path(name + "-inventory.json")
+        code, err = run_headless("--mode", "gather", "--seed", "9", "--scenario", sc,
+            "--inputs", inp, "--ticks", str(ticks), "--snapshot-every", "1", "--out", out, "--inventory-out", inv)
+        return code, err, read_jsonl(out) if Path(out).exists() else [], inv
+
+    def test_new_ingredients_export_and_import_unchanged_schema(self):
+        from helpers import Workdir, run_headless, read_jsonl
+        with Workdir() as w:
+            code, err, rows, inv = self.run_case(w, {"hold": ["ca_keo", "keo_neo"],
+                "random_fish": False, "monsters": []}, [{"tick": 0, "interact": True}])
+            self.assertEqual(code, 0, err)
+            self.assertEqual(json.loads(Path(inv).read_text()), {"items": {"ca_keo": 1, "keo_neo": 1}})
+            code, err = run_headless("--mode", "quan", "--seed", "9", "--ticks", "0",
+                "--inventory", inv, "--out", w.path("quan.log"))
+            self.assertEqual(code, 0, err)
+            self.assertEqual(read_jsonl(w.path("quan.log"))[0]["stock"], {"ca_keo": 1, "keo_neo": 1})
+
+    def test_pause_freezes_timers_and_resume_runs_same_outer_tick(self):
+        from helpers import Workdir
+        with Workdir() as w:
+            code, err, rows, _ = self.run_case(w, {"player": {"pos": [20, 5], "oxygen_ticks": 10},
+                "monsters": [], "fish": []}, [{"tick": 0, "pause": True, "catch": True},
+                {"tick": 2, "pause": False}, {"tick": 3, "pause": True}], ticks=4)
+            self.assertEqual(code, 0, err)
+            snaps = {r["tick"]: r for r in rows if r["type"] == "snapshot"}
+            for tick in (1, 2, 3):
+                self.assertEqual(snaps[tick]["sim_tick"], 0)
+                self.assertEqual(snaps[tick]["phase_tick"], 0)
+                self.assertEqual(snaps[tick]["player"]["oxygen_ticks"], 10)
+                self.assertEqual(snaps[tick]["state"], "paused")
+            self.assertEqual(snaps[4]["sim_tick"], 1)
+            self.assertEqual(snaps[4]["player"]["oxygen_ticks"], 9)
+            self.assertEqual([(r["name"], r["tick"]) for r in rows if r["type"] == "event"], [("paused", 1), ("resumed", 4)])
+
+    def test_invalid_monster_and_age_exit_2_before_output(self):
+        from helpers import Workdir
+        valid = {"id": "M1", "kind": "ca_sau", "pos": [50, 20], "waypoints": [[50, 20], [54, 20]]}
+        bads = [{"fish": [{"id": "F1", "kind": "ca_keo", "pos": [50, 24], "age_ticks": -1}]},
+            {"monsters": [dict(valid, target_idx=2)]}, {"monsters": [dict(valid, state="recoil")]},
+            {"monsters": [dict(valid, state="recoil", state_ticks_left=1, recoil_dir=[2, 0])]},
+            {"monsters": [dict(valid, pos=[50, 5])]}, {"monsters": [valid, valid]},
+            {"player": {"heading_deg": float("nan")}}]
+        for scenario in bads:
+            with self.subTest(scenario=scenario), Workdir() as w:
+                code, _, rows, inv = self.run_case(w, scenario)
+                self.assertEqual(code, 2)
+                self.assertEqual(rows, [])
+                self.assertFalse(Path(inv).exists())
+
+    def test_monster_faint_outputs_remaining_lifo_and_empty_inventory(self):
+        from helpers import Workdir
+        with Workdir() as w:
+            code, err, rows, inv = self.run_case(w, {"player": {"pos": [60, 24], "hp": 1},
+                "hold": ["ca_loc", "keo_neo", "ca_keo"], "random_fish": False})
+            self.assertEqual(code, 0, err)
+            events = [r for r in rows if r["type"] == "event"]
+            self.assertEqual([r["name"] for r in events], ["monster_hit", "faint", "gather_end"])
+            self.assertEqual(events[0]["data"]["lost"], ["ca_keo"])
+            self.assertEqual(events[1]["data"], {"cause": "monster", "hp": 0, "lost": ["keo_neo", "ca_loc"]})
+            self.assertEqual(json.loads(Path(inv).read_text()), {"items": {}})
+
+    def test_swimming_and_scheduled_spawn_deterministic_bytes(self):
+        from helpers import Workdir
+        with Workdir() as w:
+            a = self.run_case(w, {"monsters": []}, ticks=720, name="a")
+            b = self.run_case(w, {"monsters": []}, ticks=720, name="b")
+            self.assertEqual(a[0], 0, a[1])
+            self.assertEqual(b[0], 0, b[1])
+            self.assertEqual(Path(w.path("a.log")).read_bytes(), Path(w.path("b.log")).read_bytes())
+            self.assertEqual([r["tick"] for r in a[2] if r.get("name") == "fish_spawned"], [360, 720])
+
+    def test_inactive_extensions_and_shop_buttons_ignored_in_gather(self):
+        from helpers import Workdir
+        with Workdir() as w:
+            code, err, rows, _ = self.run_case(w, {"random_fish": False, "monsters": []},
+                [{"tick": 0, "attack": True, "photo": True, "shop_done": True, "buy": "oxygen"}])
+            self.assertEqual(code, 0, err)
+            self.assertFalse([r for r in rows if r["type"] == "event"])
+
+
 if __name__ == "__main__":
     unittest.main()

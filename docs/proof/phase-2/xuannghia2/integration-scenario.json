@@ -1,0 +1,15 @@
+{
+  "gather": {
+    "hold": [
+      "ca_loc",
+      "ca_keo",
+      "ca_keo",
+      "keo_neo",
+      "bong_dien_dien",
+      "ca_linh",
+      "ca_linh"
+    ],
+    "random_fish": false,
+    "monsters": []
+  }
+}

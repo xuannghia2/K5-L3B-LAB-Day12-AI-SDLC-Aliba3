@@ -1,0 +1,17 @@
+{
+  "gather": {
+    "player": {
+      "pos": [
+        60,
+        24
+      ],
+      "hp": 1
+    },
+    "hold": [
+      "ca_loc",
+      "keo_neo",
+      "ca_keo"
+    ],
+    "random_fish": false
+  }
+}

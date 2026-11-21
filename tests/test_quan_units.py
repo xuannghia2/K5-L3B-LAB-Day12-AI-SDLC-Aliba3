@@ -39,8 +39,8 @@ class QuanSimTest(unittest.TestCase):
         self.assertEqual(sim.stock, {"ca_loc": 2})
         self.assertEqual(sim.pos, [8, 5])
         self.assertEqual(sim.reputation, 3.0)
-        self.assertEqual(len(sim.stoves), 1)
-        self.assertEqual(len(sim.tables), 1)
+        self.assertEqual(len(sim.stoves), 2)  # Ticket-02 standard data
+        self.assertEqual(len(sim.tables), 4)  # Ticket-02 standard data
 
     def test_customer_spawn_and_no_dish(self):
         # Không có nguyên liệu -> tại tick 120 (first_customer_tick) sẽ phát no_dish
@@ -73,8 +73,8 @@ class QuanSimTest(unittest.TestCase):
         self.assertEqual(sim.customers[0]["reserved"], {"ca_loc": 1})
 
     def test_full_cooking_serving_eating_cycle(self):
-        # 1 khách đến, người chơi đến bếp nấu, bếp chín, bốc món, mang đến bàn phục vụ, khách ăn và trả tiền
-        sim = make_quan(inventory={"ca_loc": 2})
+        # Ticket-02 has more tables: use stock for exactly one order to keep this a single-order cycle.
+        sim = make_quan(inventory={"ca_loc": 1})
         empty_input = make_input()
         for _ in range(120):
             sim.step(empty_input)
@@ -89,7 +89,7 @@ class QuanSimTest(unittest.TestCase):
         self.assertEqual(cook_ev[0][1]["order_id"], "C1")
         self.assertEqual(cook_ev[0][1]["items"], ["ca_loc"])
         self.assertEqual(sim.stoves[0]["state"], "cooking")
-        self.assertEqual(sim.stock["ca_loc"], 1)  # Đã trừ 1 nguyên liệu khỏi kho
+        self.assertEqual(sim.stock["ca_loc"], 0)  # Đã trừ 1 nguyên liệu khỏi kho
 
         # 3. Chờ nấu xong (ca_loc_nuong_trui nấu trong 6s = 360 ticks)
         for _ in range(360):

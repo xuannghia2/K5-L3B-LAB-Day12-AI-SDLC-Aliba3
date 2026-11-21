@@ -16,3 +16,5 @@
 | 2 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Cá bơi/phản xạ mép, đổi hướng theo tuổi, sinh có seed/clearance/trần, giữ fixture random_fish:false; dữ liệu gather chuẩn | Không đo | 8 test P2 mới đạt; cả suite 69/70, lỗi TEAM có sẵn. Chưa kích hoạt manifest v1.1 cho đến khi validator/giao diện nguyên liệu mới sẵn sàng. |
 
 | 2 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Cá Sấu tuần tra/chase, hit gần nhất, bất tử, recoil, mất hàng LIFO/ngất; hook day/active_upgrades | Không đo | 17 test P2 đạt, 9 test mới cho Cá Sấu/nâng cấp; cả suite 78/79, lỗi TEAM có sẵn. Đang tích hợp validator và manifest. |
+
+| 2 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Tích hợp số chuẩn v1.1, validator, kho 6 kind, input/pause backend, dữ liệu kế hoạch/nâng cấp, smoke hai tiến trình và tài liệu bàn giao | Không đo | 23 test P2 / 48 test gather đạt; 81/81 scope, toàn repo 84/85, lỗi mẫu TEAM có sẵn. Sửa test P1 vì số cá/bếp/bàn/input đổi; đã ghi lý do. day/Shop/HUD/benchmark một Ngày chưa được xác nhận hoàn thành. |

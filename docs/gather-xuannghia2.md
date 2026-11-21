@@ -81,3 +81,7 @@ hoặc kết quả test ẩn. Tag/release chung cần chờ kiểm chứng các 
 4. Mở hai log bằng chứng để xem bắt cá/hết giờ và ngất/xuất kho rỗng.
 
 Đây là kịch bản demo đề xuất; không phải tuyên bố người dùng đã tự demo hoặc review.
+
+## Bản Phase 2
+
+Các số và log trên là kết quả bàn giao Phase 1. Bản hiện tại đã chuyển dữ liệu v1.1; xem [gather Phase 2](gather-phase-2-xuannghia2.md) cho kiểm chứng mới và các phần chờ tích hợp.

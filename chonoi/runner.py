@@ -43,28 +43,37 @@ class Session:
         self.tuning = tuning
         self.sim = build_sim(mode, tuning, scenario, seed, inventory)
         self.tick = 0
+        self.sim_tick = 0
+        self.paused = False
 
     @property
     def done(self) -> bool:
         return self.sim.done
 
     def snapshot(self) -> dict:
-        s = _common(self.sim, self.tick, self.tick, self.tick, self.tuning, "finished" if self.sim.done else "playing")
+        state = "finished" if self.sim.done else "paused" if self.paused else "playing"
+        s = _common(self.sim, self.tick, self.sim_tick, self.sim_tick, self.tuning, state)
         s.update(self.sim.snapshot())
         return s
 
     def step(self, inp) -> list:
         """Chạy một bước với `inp` (chonoi.inputs.InputState); trả các dòng event (tick = k + 1)."""
-        events = self.sim.step(inp)
         self.tick += 1
+        events = []
+        if inp.pressed("pause"):
+            self.paused = not self.paused
+            events.append(("paused" if self.paused else "resumed", {}))
+        if not self.paused:
+            self.sim_tick += 1
+            events.extend(self.sim.step(inp))
         return [{"type": "event", "tick": self.tick, "phase": self.sim.phase, "name": name, "data": data}
                 for name, data in events]
 
     def end_row(self) -> dict:
         sim = self.sim
-        score = _common(sim, self.tick, self.tick, self.tick, self.tuning, "")["score"]
-        return {"type": "end", "ticks": self.tick, "sim_tick": self.tick, "mode": sim.mode,
-                "state": "finished" if sim.done else "playing",
+        score = _common(sim, self.tick, self.sim_tick, self.sim_tick, self.tuning, "")["score"]
+        return {"type": "end", "ticks": self.tick, "sim_tick": self.sim_tick, "mode": sim.mode,
+                "state": "finished" if sim.done else "paused" if self.paused else "playing",
                 "reason": sim.reason if sim.done else "tick_limit",
                 "money": sim.money, "earned": sim.earned, "reputation": sim.reputation, "score": score}
 

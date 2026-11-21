@@ -18,7 +18,7 @@ class GatherRules(unittest.TestCase):
         self.g = self.tuning["gather"]
 
     def session(self, **scenario):
-        return Session("gather", self.tuning, scenario, 7)
+        return Session("gather", self.tuning, dict(random_fish=False, monsters=[], **scenario), 7)
 
     def names(self, rows):
         return [r["name"] for r in rows]

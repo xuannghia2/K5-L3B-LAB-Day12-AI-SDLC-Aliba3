@@ -28,7 +28,7 @@ try {
         & $pythonPath -m chonoi.live --mode gather --seed $Seed --port $Port
     } else {
         # Includes integration with quan without changing that module.
-        & $pythonPath -m unittest test_gather_rules test_gather_headless test_smoke_p1 test_python_starter_units test_live -v
+        & $pythonPath -m unittest test_gather_rules test_gather_headless test_gather_p2 test_smoke_p1 test_python_starter_units test_quan_units test_live -v
     }
     $runExitCode = $LASTEXITCODE
 } finally {

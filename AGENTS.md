@@ -33,3 +33,10 @@
 - `.\tools\gather.ps1 play -Seed 1 -Port 8000`: mở server chơi thử gather; dùng để người review kiểm bơi, oxy, hái/bắt và cập bến.
 - Windows: script ưu tiên môi trường riêng `.tools/python` cạnh repo hoặc `CHONOI_PYTHON`, chỉ đổi biến môi trường trong thời gian chạy. Smoke test vẫn dùng `python3` theo contract.
 - Lỗi nền đã xác minh: `test_team_check.test_template_is_rejected` phụ thuộc TEAM.md thật nên fail sau khi điền nhóm; xem log `docs/proof/phase-1/xuannghia2/all-tests.txt`. Không sửa luật/team để làm test này xanh.
+
+### Phase 2 — gather và phụ thuộc shared (xuannghia2)
+- `game.contract.json` đã chuyển dữ liệu v1.1; cá mặc định là số 8 thay danh sách sáu đàn. Dữ liệu gather chuẩn tham chiếu thêm ở `data/gather-p2.json`.
+- `fish.py` giữ bơi/sinh, `monsters.py` giữ Cá Sấu; vẫn dùng Streams và IdAllocator. Fixture `random_fish:false` tắt bơi/sinh; `monsters:[]` tắt quái mặc định.
+- Sửa có lý do ở framework: contract/scenario/inventory để nhận dữ liệu mới, inputs/headless/runner/live để pause dừng gameplay. Hai lệnh gather phía trên đã bao gồm test P2 và quan.
+- Điểm tích hợp ngày: `GatherSim(..., day=1, active_upgrades=None)`; xem `docs/gather-phase-2-xuannghia2.md`. Không coi dữ liệu day_plan/shop đã có là bộ điều phối ngày đã hoàn thành.
+- Các test P1 đổi do Ticket-02 được giải thích trong tài liệu bàn giao; lỗi QA mẫu TEAM vẫn giữ bằng chứng riêng.

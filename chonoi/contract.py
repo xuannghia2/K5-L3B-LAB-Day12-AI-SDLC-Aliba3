@@ -81,20 +81,26 @@ def _validate_gather(g):
     nodes = g.get("nodes")
     if not isinstance(nodes, list) or not nodes:
         raise BadInput("tuning.gather.nodes phải là mảng không rỗng")
+    node_kinds = {"bong_dien_dien", "bong_sung"}
+    if isinstance(g.get("fish_initial"), int):
+        node_kinds.add("keo_neo")
     seen, kinds = set(), set()
     for n in nodes:
         if not isinstance(n, dict) or not isinstance(n.get("id"), str) or n["id"] in seen:
             raise BadInput("tuning.gather.nodes: mỗi nút cần id duy nhất")
         seen.add(n["id"])
-        if n.get("kind") not in ("bong_dien_dien", "bong_sung"):
+        if n.get("kind") not in node_kinds:
             raise BadInput(f"tuning.gather.nodes.{n['id']}: kind phải là bong_dien_dien hoặc bong_sung")
         kinds.add(n["kind"])
         _pos_in(f"gather.nodes.{n['id']}.pos", n.get("pos"), b, ("x", "d"))
         if n["pos"][1] != 0:
             raise BadInput(f"tuning.gather.nodes.{n['id']}: nút hái nằm ở mặt nước (d = 0)")
-    if kinds != {"bong_dien_dien", "bong_sung"}:
+    if kinds != node_kinds:
         raise BadInput("tuning.gather.nodes phải có ít nhất một nút mỗi loại (bong_dien_dien, bong_sung)")
     fish = g.get("fish_initial")
+    if isinstance(fish, int) and not isinstance(fish, bool):
+        _validate_gather_p2(g)
+        return
     if not isinstance(fish, list) or len(fish) != 6:
         raise BadInput("tuning.gather.fish_initial phải là danh sách đúng 6 đàn")
     seen = set()
@@ -107,6 +113,47 @@ def _validate_gather(g):
         _pos_in(f"gather.fish_initial.{f['id']}.pos", f.get("pos"), b, ("x", "d"))
         if f["pos"][1] <= g["surface_depth"]:
             raise BadInput(f"tuning.gather.fish_initial.{f['id']}: đàn cá phải ở dưới nước")
+
+
+def _validate_gather_p2(g):
+    for key in ("fish_initial", "fish_turn_ticks", "fish_max", "fish_spawn_ticks"):
+        _int_between("gather." + key, g.get(key), 1, 100000)
+    if g["fish_initial"] > g["fish_max"]:
+        raise BadInput("fish_initial vượt fish_max")
+    for key in ("fish_speed", "fish_spawn_clearance"):
+        _between("gather." + key, g.get(key), 0.001, 100)
+    kinds = {"ca_linh", "ca_loc", "ca_keo"}
+    for key in ("fish_depths", "fish_spawn_depths", "fish_weights", "fish_yield"):
+        if not isinstance(g.get(key), dict) or set(g[key]) != kinds:
+            raise BadInput(f"gather.{key}: cần đủ ba loài cá")
+    x_bounds = g.get("fish_x")
+    if not isinstance(x_bounds, list) or len(x_bounds) != 2 or not (g["bounds"]["x"][0] <= x_bounds[0] < x_bounds[1] <= g["bounds"]["x"][1]):
+        raise BadInput("fish_x ngoài miền")
+    xs = g.get("fish_spawn_x")
+    if not isinstance(xs, list) or not xs or any(not _num(x) or not x_bounds[0] <= x <= x_bounds[1] for x in xs):
+        raise BadInput("fish_spawn_x không hợp lệ")
+    for kind in sorted(kinds):
+        depths = g["fish_depths"][kind]
+        if not isinstance(depths, list) or len(depths) != 2 or not (g["surface_depth"] < depths[0] < depths[1] <= g["bounds"]["d"][1]):
+            raise BadInput("fish_depths không hợp lệ")
+        points = g["fish_spawn_depths"][kind]
+        if not isinstance(points, list) or not points or any(not _num(d) or not depths[0] <= d <= depths[1] for d in points):
+            raise BadInput("fish_spawn_depths không hợp lệ")
+        _between("fish_weights." + kind, g["fish_weights"][kind], 0.000001, 100)
+    monsters = g.get("monsters")
+    if not isinstance(monsters, dict) or not isinstance(monsters.get("species"), dict) or "ca_sau" not in monsters["species"]:
+        raise BadInput("thiếu cấu hình Cá Sấu")
+    _int_between("monsters.invuln_ticks", monsters.get("invuln_ticks"), 1, 100000)
+    _between("monsters.loss_ratio", monsters.get("loss_ratio"), 0, 1)
+    for spec in monsters["species"].values():
+        for key in ("patrol_speed", "chase_speed", "detect_radius", "exit_radius", "hit_radius", "recoil_dist"):
+            _between("monsters." + key, spec.get(key), 0.001, 1000)
+        _int_between("monsters.recoil_ticks", spec.get("recoil_ticks"), 1, 100000)
+        depths = spec.get("depths")
+        if not isinstance(depths, list) or len(depths) != 2 or not (0 <= depths[0] < depths[1] <= g["bounds"]["d"][1]):
+            raise BadInput("monsters.depths không hợp lệ")
+        if spec["exit_radius"] < spec["detect_radius"]:
+            raise BadInput("monster exit_radius nhỏ hơn detect_radius")
 
 
 def validate_tuning(t):

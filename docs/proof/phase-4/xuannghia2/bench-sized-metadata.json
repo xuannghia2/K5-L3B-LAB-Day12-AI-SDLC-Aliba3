@@ -1,6 +1,6 @@
 {
-  "measured_s": 30.003400000000372,
-  "first_frame_epoch_ms": 1795238054094.9001,
+  "measured_s": 30.003700000001118,
+  "first_frame_epoch_ms": 1795238352842.2002,
   "canvas": [
     1280,
     720
@@ -11,7 +11,7 @@
   ],
   "hidden": false,
   "scene": "gather",
-  "fish_count": 8,
+  "fish_count": 12,
   "monster_count": 1,
   "player_pos": [
     2,

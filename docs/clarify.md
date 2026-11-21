@@ -22,3 +22,10 @@ Nguồn đối chiếu XN-01 đến XN-03: [PRD-0](https://claude.ai/artifact/E3
 - Người dùng yêu cầu kiểm GitHub thay vì đoán tiến độ thành viên. Đã fetch nhánh và log: chỉ main, chưa thấy commit quán P3; các lần fetch sau adapter/gather cũng chưa có commit mới của quán.
 - Vì vậy chưa đổi manifest chung sang v1.2; adapter chọn version rõ ràng, test gather chạy profile riêng có ghi trong báo cáo. Sau khi chủ module quán push sẽ kiểm hai đầu rồi mới bật.
 - Không làm mở rộng dòng lũ/khách đặt trước trong phần gather lõi này.
+
+## Phase 4 — bổ sung Xuân Nghĩa
+
+- Ticket-04 đã mở; câu XN-04 là trạng thái lịch sử. Không dùng tình trạng khóa ở P1 để bỏ qua yêu cầu mới.
+- Lần benchmark cũ canvas đúng nhưng cửa sổ sai do DPI; đã sửa đặt kích thước cửa sổ riêng và từ chối phép đo sai, lưu bằng chứng mới thay vì sửa số cũ.
+- Source native sizing tham khảo API chính thức: [SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos), [GetWindowThreadProcessId](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowthreadprocessid). Chỉ áp dụng lên PID browser benchmark do tiến trình tạo.
+- Chưa tự chọn giấy phép hay tạo release/tag toàn nhóm khi migration/day/soak chưa đủ.

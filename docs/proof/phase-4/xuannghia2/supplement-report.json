@@ -1,0 +1,20 @@
+{
+  "base_commit": "61fffb9",
+  "working_tree_changes": [
+    "bench.py: activate dedicated benchmark window on Windows"
+  ],
+  "date": "2026-11-21",
+  "timezone": "Asia/Saigon",
+  "benchmark": "bench-sized.json",
+  "metadata": "bench-sized-metadata.json",
+  "invalid_attempts": [
+    "tab hidden: rejected",
+    "timeout: rejected"
+  ],
+  "tests": "supplement-tests.txt",
+  "limitations": [
+    "freshness profile injected only for benchmark; shared manifest 1.1",
+    "macOS/Linux not executed",
+    "known restaurant expectedFailure; day/Shop/soak missing"
+  ]
+}

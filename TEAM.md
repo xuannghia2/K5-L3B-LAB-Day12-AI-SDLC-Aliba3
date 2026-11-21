@@ -73,3 +73,9 @@ Lần kiểm GitHub mới nhất: main ở `df8f204`, chưa thấy commit quán 
 - Chưa đủ DoD toàn nhóm: quán cá thể, day/Shop/soak, UI fresh/pause, quyền cấp phép, phản tư Hùng và phát hành. Không đánh dấu hoàn thành thay thành viên khác.
 
 - QA mới: Huy đã push df8f204 với 12 test quán P2, trong đó 1 expectedFailure tái hiện lỗi fixture thiếu order_status; chưa phải lỗi đã sửa.
+
+### Bổ sung phần Xuân Nghĩa và đồng bộ mới
+
+- Benchmark đã sửa DPI Windows tại 61fffb9, kiểm cả native window/canvas 1280×720; [ma trận P4](docs/verification/phase-4.md), [kế hoạch](docs/plan/phase-4.md), [credits](CREDITS.md).
+- Đã ghép UI 3e326c1 của Hùng: có phím/nút P, giỏ hiển thị freshness và phản tư cá nhân. Các nhận xét thiếu những mục này phía trên là ảnh chụp lần kiểm cũ. Stock/reserved cá thể và toàn ngày vẫn chưa được kiểm tích hợp.
+- Sau ghép: 137 test gồm 136 đạt và 1 expected failure thuộc fixture quán. Không ghi ngày/Shop/soak/release đã hoàn thành.

@@ -67,6 +67,7 @@ def size_windows_browser(process):
     user32.GetWindowThreadProcessId.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.DWORD)]
     user32.IsWindowVisible.argtypes = [wintypes.HWND]
     user32.ShowWindow.argtypes = [wintypes.HWND, ctypes.c_int]
+    user32.SetForegroundWindow.argtypes = [wintypes.HWND]
     user32.SetWindowPos.argtypes = [wintypes.HWND, wintypes.HWND, ctypes.c_int,
                                   ctypes.c_int, ctypes.c_int, ctypes.c_int, wintypes.UINT]
     user32.SetThreadDpiAwarenessContext.argtypes = [ctypes.c_void_p]
@@ -88,7 +89,8 @@ def size_windows_browser(process):
         if windows:
             for hwnd in windows:
                 user32.ShowWindow(hwnd, 9)  # SW_RESTORE clears maximized state
-                user32.SetWindowPos(hwnd, None, 0, 0, 1280, 720, 0x0004 | 0x0010)
+                user32.SetWindowPos(hwnd, None, 0, 0, 1280, 720, 0x0040)
+                user32.SetForegroundWindow(hwnd)
             if previous_dpi:
                 user32.SetThreadDpiAwarenessContext(previous_dpi)
             return

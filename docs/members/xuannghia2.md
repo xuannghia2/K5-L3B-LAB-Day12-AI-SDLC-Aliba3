@@ -1,11 +1,13 @@
-# xuannghia2 — Cấn Xuân Nghĩa
+# Cấn Xuân Nghĩa — xuannghia2
 
-Bản Codex soạn; cần tự đọc, bổ sung phản tư trước khi nộp. Chưa xác nhận review/demo thủ công.
+Phản tư dự thảo do Codex tổng hợp từ công việc có bằng chứng; chưa xác nhận tự demo hoặc review thủ công của người dùng.
 
-- Phụ trách gather, Phase 1–4: oxy/ngạt/ngất, hái/bắt, cá bơi/sinh, Cá Sấu, kho cá thể, hao tươi, benchmark/cảnh báo.
-- Bằng chứng: [P1](../verification/phase-1.md), [P2](../verification/phase-2.md), [P3](../verification/phase-3.md), [P4](../gather-phase-4-xuannghia2.md).
-- AI ban đầu dùng payload qty và thiếu lost LIFO. Đọc PRD rồi sửa, kiểm CLI; xem commit 1d9083e.
-- P3 đã có adapter/ledger, giữ precision và id. Manifest vẫn 1.1 vì quán chưa nhận cá thể; không gọi profile riêng là tích hợp toàn ngày.
-- P4: clean clone 802f7c1 đạt 122/122 test. Benchmark avg 143.22/low 80.27 FPS, load 1.05s; native window chưa đúng kích thước dù canvas đúng.
-- Review còn tìm thấy lỗi quán ngoài suite. Bài học từ phiên AI: kiểm bất biến và giao diện module trước khi dựa vào số test xanh.
-- Chưa hoàn thành day/Shop/soak/release toàn nhóm; cần phối hợp chủ quán/UI/QA. Không có số token đo được.
+Tôi phụ trách gather: oxy/ngạt/ngất, hái/bắt, cá bơi/sinh, Cá Sấu, kho cá thể và hao tươi. Phase 4 bổ sung benchmark render, cảnh báo chữ và chế độ tương phản cao.
+
+AI ban đầu dùng sai payload qty và thiếu lost LIFO. Đối chiếu PRD rồi kiểm CLI giúp sửa lỗi. Lần đo đầu canvas đúng nhưng cửa sổ sai do DPI Windows; đã sửa và thêm test từ chối phép đo sai kích thước.
+
+Bài học là kiểm hợp đồng giữa module và dữ liệu đầu ra, không chỉ nhìn suite xanh. Sau ghép UI mới, 137 test có 136 đạt và một lỗi quán đã biết. Manifest vẫn 1.1 vì quán chưa nhận kho cá thể; không gọi profile riêng là tích hợp toàn ngày.
+
+Bước tiếp theo là phối hợp quán/QA để nối migration và day/Shop/soak trước release. Không có số token đo được.
+
+Bằng chứng: [P3](../verification/phase-3.md), [P4](../verification/phase-4.md).

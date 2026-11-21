@@ -37,3 +37,7 @@ Bằng chứng profile phải ghi rõ cấu hình thay thế, không gọi nhầ
 ### Phase 4 — ghi nhận từ phiên AI xuannghia2
 
 QA sửa fixture TEAM và thêm 12 ca migration giúp suite đạt 122/122 trên clone sạch. Tuy vậy review thực thi còn tìm ra sinh khách bất chấp cờ tắt, fixture không nấu và nấu từ kho rỗng. Điều cần đổi là kiểm bất biến và giao diện giữa module trước khi chốt schema. Benchmark đo thật có metadata phát hiện cửa sổ native không khớp canvas; không sửa số để đạt. Chưa có số token đo được hay ý kiến retro tập thể. Cần nhóm chốt chủ day/Shop và hoàn tất migration trước release.
+
+### Bổ sung P4 — Xuân Nghĩa
+
+Đã sửa nguyên nhân DPI khiến native window khác canvas và thêm ba ca hồi quy để không nhận phép đo sai. Giữ dữ liệu benchmark cũ làm lịch sử, lần mới lưu riêng. UI mới của Hùng được ghép trước lần kiểm cuối; suite có 136 đạt + một expected failure. Hành động cần tiếp tục: kiểm luồng toàn ngày và thống nhất đầu nhận schema trước bật manifest. Đây là ghi nhận phiên AI, không thay ý kiến retro tập thể.

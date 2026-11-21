@@ -52,3 +52,5 @@
 - Manifest vẫn 1.1, chưa có day/soak; không gắn tag/release toàn nhóm dựa riêng vào suite xanh. Xem docs/review/github-2026-11-21.md.
 
 - Cập nhật QA df8f204: suite 134 test, 133 đạt và 1 expected failure (khách fixture thiếu order_status). Không báo 134/134 đạt hoặc coi expectedFailure là đã sửa.
+
+- P4 bổ sung 61fffb9: benchmark kiểm native window/canvas 1280×720, Windows restore/resize chỉ PID browser riêng và xử lý DPI. Ghép UI 3e326c1: suite 137 test, 136 đạt + 1 expected failure. Bằng chứng mới ở bench-sized*.json và supplement-tests.txt; log cũ giữ nguyên lịch sử.

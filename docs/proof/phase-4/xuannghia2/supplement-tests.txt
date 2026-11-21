@@ -143,7 +143,7 @@ test_too_few_members (test_team_check.TeamCheck.test_too_few_members) ... ok
 test_wrong_size_duplicate_and_outsider (test_team_check.TeamCheck.test_wrong_size_duplicate_and_outsider) ... ok
 
 ----------------------------------------------------------------------
-Ran 137 tests in 7.567s
+Ran 137 tests in 7.449s
 
 OK (expected failures=1)
 OK: 4 thành viên: xuannghia2, griin-03, Hunglunnn, justcoffeee

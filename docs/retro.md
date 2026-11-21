@@ -33,3 +33,7 @@ Cá và Cá Sấu được tách khỏi GatherSim, push sau từng lát có test
 Đổi schema ảnh hưởng cả hai đầu, nên tách adapter/gather và ghi rõ chưa bật mặc định trước khi quán hỗ trợ.
 Test nhiều tick và roundtrip phát hiện lý do không nên làm tròn fresh trong JSONL/file: số nhìn gần 30 có thể đổi nhánh.
 Bằng chứng profile phải ghi rõ cấu hình thay thế, không gọi nhầm là smoke quán/ngày thật. Bước tiếp theo là chủ quán nối ledger, giữ id và giá, rồi chạy migration trên main.
+
+### Phase 4 — ghi nhận từ phiên AI xuannghia2
+
+QA sửa fixture TEAM và thêm 12 ca migration giúp suite đạt 122/122 trên clone sạch. Tuy vậy review thực thi còn tìm ra sinh khách bất chấp cờ tắt, fixture không nấu và nấu từ kho rỗng. Điều cần đổi là kiểm bất biến và giao diện giữa module trước khi chốt schema. Benchmark đo thật có metadata phát hiện cửa sổ native không khớp canvas; không sửa số để đạt. Chưa có số token đo được hay ý kiến retro tập thể. Cần nhóm chốt chủ day/Shop và hoàn tất migration trước release.

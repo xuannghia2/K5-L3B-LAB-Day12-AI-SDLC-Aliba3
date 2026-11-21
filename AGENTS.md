@@ -29,10 +29,10 @@
 - (Ghi tên và khi nào dùng; tối thiểu 2 skill/hook/command nhóm tự viết, đặt ở `.agents/skills/` hoặc tương đương.)
 
 ### Hai command cho phần gather (xuannghia2, Phase 1)
-- `.\tools\gather.ps1 test`: chạy luật gather, headless, smoke, starter và live; dùng trước khi bàn giao thay đổi gather. Lệnh có phạm vi, không thay thế chạy toàn bộ suite trước push.
+- `.\tools\gather.ps1 test`: chạy toàn bộ unittest discover; dùng trước khi bàn giao/push.
 - `.\tools\gather.ps1 play -Seed 1 -Port 8000`: mở server chơi thử gather; dùng để người review kiểm bơi, oxy, hái/bắt và cập bến.
 - Windows: script ưu tiên môi trường riêng `.tools/python` cạnh repo hoặc `CHONOI_PYTHON`, chỉ đổi biến môi trường trong thời gian chạy. Smoke test vẫn dùng `python3` theo contract.
-- Lỗi nền đã xác minh: `test_team_check.test_template_is_rejected` phụ thuộc TEAM.md thật nên fail sau khi điền nhóm; xem log `docs/proof/phase-1/xuannghia2/all-tests.txt`. Không sửa luật/team để làm test này xanh.
+- Lỗi TEAM lịch sử trong log P1 đã được QA sửa bằng fixture riêng tại 2d809cc; suite hiện tại 122/122 đạt trên clone sạch Windows.
 
 ### Phase 2 — gather và phụ thuộc shared (xuannghia2)
 - `game.contract.json` đã chuyển dữ liệu v1.1; cá mặc định là số 8 thay danh sách sáu đàn. Dữ liệu gather chuẩn tham chiếu thêm ở `data/gather-p2.json`.
@@ -46,3 +46,7 @@
 - `FreshnessLedger` trả item dict JSON, giữ nhịp hao chính xác bên trong. Dùng cùng IdAllocator xuyên pha/ngày; sao item khi đưa vào snapshot/lost.
 - `fresh` không làm tròn trong JSONL. Chạy `.\tools\gather.ps1 test`; tái tạo ca P3: `python3 tools/verify_gather_p3.py --out docs/proof/phase-3/xuannghia2`.
 - Lệnh verify dùng profile riêng trong tiến trình, không phải smoke quán v1.2 mặc định. Xem ADR-0001 và docs/gather-phase-3-xuannghia2.md trước khi bật manifest.
+
+### Phase 4 — benchmark và review
+- `python3 -m chonoi.bench --seed 42 --duration 30 --out bench.json`: render thật, warmup 3s; cần Chrome/Chromium/Edge. Đọc metadata trước kết luận về kích thước native/profile.
+- Manifest vẫn 1.1, chưa có day/soak; không gắn tag/release toàn nhóm dựa riêng vào suite xanh. Xem docs/review/github-2026-11-21.md.

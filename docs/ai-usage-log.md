@@ -33,3 +33,5 @@
 
 | 3 | Phạm Hoàng Huy / justcoffeee | Claude Code (Opus 5.5) | QA độc lập migration v1.2: 12 test ngưỡng 30/roundtrip/schema/id, chạy lại verify_gather_p3 (beee0a3) | Không đo | 34/34 test liên quan đạt, sha256 khớp báo cáo xuannghia2. Phát hiện quán chưa xử lý fresh, manifest vẫn 1.1 → tích hợp chưa đạt. |
 | 4 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Benchmark gather render thật, 3s warmup/30s đo; cảnh báo chữ và tương phản cao; adapter 1.3 dùng schema 1.2 | Không đo | Chrome thường, canvas 1280x720; số đo thật và kích thước cửa sổ lưu metadata. Đã click tương phản cao và quan sát 3 cảnh báo bằng fixture pause, không gọi là người dùng đã chơi. Ghép QA beee0a3/2d809cc, chạy lại full suite trước push. Chưa có quán P3/day/Shop nên chưa bật manifest 1.3/phát hành chung. |
+
+| 4 | Cấn Xuân Nghĩa / xuannghia2 | Codex | Review toàn lịch sử/đóng góp GitHub, clone sạch, 30s benchmark, cập nhật TEAM và bàn giao | Không đo | 122/122 test trên clone 802f7c1; tái hiện 4 lỗi fixture/quán và lỗi constructor v1.2, xác nhận day chưa có. Public Releases/Actions chưa có kết quả; không phát hành/tag khi thiếu DoD. Không sửa module thành viên trong review. |

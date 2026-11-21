@@ -1,0 +1,23 @@
+{
+  "source_commit": "802f7c1375973a9f0bd135e37b8055ae9aa7c38c",
+  "clone": "D:/Vin/verification/phase4-802f7c1",
+  "host_platform": "Windows",
+  "tests": {
+    "run": 122,
+    "passed": 122
+  },
+  "standalone_ticks_zero_modes": [
+    "gather",
+    "quan"
+  ],
+  "rendered_benchmark_exit": 0,
+  "warmup_s": 3,
+  "requested_measured_s": 30,
+  "benchmark_output": "bench.json",
+  "benchmark_metadata": "bench-metadata.json",
+  "limits": [
+    "macOS/Linux not executed on this Windows host",
+    "day/Shop and default v1.2 integration remain absent",
+    "actual native window dimensions are recorded separately from the 1280x720 canvas"
+  ]
+}

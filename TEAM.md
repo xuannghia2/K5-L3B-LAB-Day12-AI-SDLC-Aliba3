@@ -42,7 +42,7 @@ Bảng này ghi phạm vi module và điểm cần phối hợp; không tự xá
 | Cấn Xuân Nghĩa — xuannghia2 | Bơi, oxy/ngạt/ngất, giỏ, hái/bắt, cập bến/xuất kho | Cá bơi/sinh, Cá Sấu, rơi hàng, bất tử/recoil, số chuẩn và hook nâng cấp | Adapter kho cá thể, hao tươi gather, spoiled, lost LIFO, id liên tục, precision và bằng chứng; chờ quán để bật v1.2 chung |
 | Lê Thanh Tùng — griin-03 | Luật quán: khách/giữ chỗ, bếp/bưng/phục vụ, tiền/uy tín | Kiểm thử quán với 2 bếp, 4 bàn, 6 món | Điểm nối thuộc sim/quan: nhận cá thể, giữ theo id tươi nhất, hao kho/giữ lại, giá theo tươi; chưa thấy commit P3 tại lần kiểm này |
 | Nguyễn Mạnh Hùng — Hunglunnn | Giao diện trình duyệt theo client/ui | Các cập nhật UI responsive, điều khiển và menu/HUD đã push | Điểm nối thuộc client/ui: hiển thị item.fresh/hàng ươn và đọc hold/stock cá thể; chưa xác nhận đã tích hợp schema P3 |
-| Phạm Hoàng Huy — justcoffeee | QA theo phân công gốc | Kiểm hồi quy và bằng chứng theo phạm vi QA | Cần kiểm migration schema/ngưỡng 30 và lỗi test mẫu TEAM; chưa xác nhận kết quả QA P3 |
+| Phạm Hoàng Huy — justcoffeee | QA theo phân công gốc | Kiểm hồi quy và bằng chứng theo phạm vi QA | Kiểm migration schema/ngưỡng 30 và lỗi test mẫu TEAM; QA độc lập 12 test P3 đã push, cùng sửa lỗi test TEAM |
 
 ## Tiến độ có bằng chứng
 
@@ -55,7 +55,7 @@ Bảng này ghi phạm vi module và điểm cần phối hợp; không tự xá
 | UI đã push | Commit [9ea49c2](https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3/commit/9ea49c2) | Có cập nhật UI; cần kiểm thực tế phần đọc freshness P3 |
 | Vòng ngày / Shop / tích hợp chung | [Kế hoạch P2](docs/plan/phase-2.md), [kế hoạch P3](docs/plan/phase-3.md) | Chưa có xác nhận người phụ trách và kết quả tích hợp đầy đủ |
 
-Lần kiểm GitHub trước cập nhật này: main ở `6f43876`, chưa thấy commit quán P3.
+Lần kiểm GitHub mới nhất: main ở `802f7c1`, chưa thấy commit quán P3. Toàn suite 122/122 đạt trên clone sạch Windows; QA đã sửa lỗi TEAM cũ. Xem [review toàn repo](docs/review/github-2026-11-21.md).
 Đây là ảnh chụp tiến độ tại lúc ghi, không phải trạng thái tự cập nhật theo GitHub.
 
 ## Các điểm nhóm cần chốt tiếp
@@ -64,5 +64,10 @@ Lần kiểm GitHub trước cập nhật này: main ở `6f43876`, chưa thấy
 - Chủ sim/quan dùng adapter/ledger đã push để hoàn thiện đầu nhận v1.2; client/ui đọc trực tiếp fresh của từng cá thể.
 - Giữ manifest chung v1.1 trong thời gian chuyển. Sau khi hai đầu sẵn sàng, kiểm file kho và day, cập nhật fixture rồi mới bật v1.2 và gắn tag.
 - Dùng cùng IdAllocator xuyên pha/ngày; không tái sử dụng id đã dùng hoặc bỏ. File kho v1.2 là `items` dạng mảng, không nhận kho đếm.
-- QA xử lý test `test_template_is_rejected` bằng fixture bảng mẫu riêng; không làm sai TEAM.md để test xanh. Log suite hiện có ghi rõ lỗi nền này.
+- QA đã sửa test mẫu TEAM bằng fixture riêng (2d809cc); log fail các phase cũ giữ làm lịch sử. Cần bổ sung ca hồi quy lỗi fixture quán đã ghi trong review.
 - Trước khi chốt phase, từng thành viên tự đọc lại phần của mình và bổ sung phản tư/review/demo thực tế; không coi nội dung AI soạn là bằng chứng người đã review.
+
+## Phase 4 — trạng thái đã kiểm
+
+- Xuân Nghĩa đã push benchmark render gather và cảnh báo/tương phản cao ở 802f7c1; [bàn giao](docs/gather-phase-4-xuannghia2.md).
+- Chưa đủ DoD toàn nhóm: quán cá thể, day/Shop/soak, UI fresh/pause, quyền cấp phép, phản tư Hùng và phát hành. Không đánh dấu hoàn thành thay thành viên khác.

@@ -103,3 +103,19 @@ py -3 -m unittest test_live -v
 ```
 
 Nhấn `Ctrl+C` trong terminal để dừng server. Đóng trình duyệt không dừng server; mỗi server phải dừng ở terminal tương ứng.
+
+## Bàn giao Phase 4 hiện tại
+
+Cần Python 3.12+ (`python3` trên PATH); Python chỉ dùng thư viện chuẩn. Trên macOS/Linux, từ thư mục muốn lưu repo, ba lệnh mở GUI gather:
+
+```sh
+git clone https://github.com/xuannghia2/K5-L3B-LAB-Day12-AI-SDLC-Aliba3.git
+cd K5-L3B-LAB-Day12-AI-SDLC-Aliba3
+python3 -m chonoi.live --mode gather --seed 42
+```
+
+Mở địa chỉ server in ra; WASD/mũi tên di chuyển, E tương tác, Space bắt cá, R chơi lại. P/Esc chưa nối UI. Nút Tương phản cao hỗ trợ đọc cảnh báo. Lệnh trên được đối chiếu cú pháp; clean clone thực chạy trên Windows, chưa xác minh macOS/Linux.
+
+Benchmark: `python3 -m chonoi.bench --seed 42 --duration 30 --out bench.json` (cần Chrome/Chromium/Edge). Test macOS/Linux: `PYTHONPATH=tests:. python3 -m unittest discover -s tests -v`. Windows: `.\tools\gather.ps1 test`.
+
+[Bàn giao gather P4](docs/gather-phase-4-xuannghia2.md) và [review toàn GitHub](docs/review/github-2026-11-21.md) ghi kết quả và giới hạn. Main vẫn contract 1.1; chưa có day/Shop/soak hay release v1.0.0.

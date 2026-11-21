@@ -1,0 +1,140 @@
+{
+  "reviewed_commit": "802f7c1375973a9f0bd135e37b8055ae9aa7c38c",
+  "checks": {
+    "random_customers_false": {
+      "input": {
+        "stock": {
+          "ca_loc": 1
+        },
+        "random_customers": false
+      },
+      "ticks": 120,
+      "exit_code": 0,
+      "output_created": true,
+      "events": [
+        {
+          "type": "event",
+          "tick": 120,
+          "phase": "quan",
+          "name": "customer_arrived",
+          "data": {
+            "order_id": "C1",
+            "table_id": "T1",
+            "dish_id": "ca_loc_nuong_trui"
+          }
+        }
+      ],
+      "stderr": ""
+    },
+    "implicit_reserved_order": {
+      "input": {
+        "stock": {
+          "ca_loc": 1
+        },
+        "random_customers": false,
+        "player": {
+          "pos": [
+            2,
+            8
+          ]
+        },
+        "customers": [
+          {
+            "id": "C1",
+            "table_id": "T1",
+            "dish_id": "ca_loc_nuong_trui"
+          }
+        ]
+      },
+      "ticks": 1,
+      "exit_code": 0,
+      "output_created": true,
+      "events": [],
+      "stderr": ""
+    },
+    "unknown_dish_should_reject": {
+      "input": {
+        "customers": [
+          {
+            "id": "C1",
+            "table_id": "T1",
+            "dish_id": "unknown"
+          }
+        ]
+      },
+      "ticks": 0,
+      "exit_code": 0,
+      "output_created": true,
+      "events": [],
+      "stderr": ""
+    },
+    "over_reserved_stock_cooks_from_empty_inventory": {
+      "input": {
+        "stock": {},
+        "player": {
+          "pos": [
+            2,
+            8
+          ]
+        },
+        "random_customers": false,
+        "customers": [
+          {
+            "id": "C1",
+            "table_id": "T1",
+            "dish_id": "ca_loc_nuong_trui",
+            "order_status": "reserved",
+            "reserved": {
+              "ca_loc": 1
+            }
+          }
+        ]
+      },
+      "ticks": 1,
+      "exit_code": 0,
+      "output_created": true,
+      "events": [
+        {
+          "type": "event",
+          "tick": 1,
+          "phase": "quan",
+          "name": "cook_started",
+          "data": {
+            "stove_id": "B1",
+            "order_id": "C1",
+            "dish_id": "ca_loc_nuong_trui",
+            "items": [
+              "ca_loc"
+            ],
+            "base_price": 60
+          }
+        }
+      ],
+      "stderr": ""
+    },
+    "mode_day": {
+      "input": null,
+      "ticks": 1,
+      "exit_code": 2,
+      "output_created": false,
+      "events": [],
+      "stderr": "đầu vào sai: --mode day chờ module vòng ngày được tích hợp"
+    },
+    "v12_quan_constructor": {
+      "exception": "ValueError",
+      "message": "dictionary update sequence element #0 has length 3; 2 is required"
+    }
+  },
+  "manifest": {
+    "contract_version": "1.1",
+    "bench_cmd": "python3 -m chonoi.bench",
+    "soak_cmd": null
+  },
+  "member_reflections": {
+    "xuannghia2": true,
+    "griin-03": true,
+    "Hunglunnn": false,
+    "justcoffeee": true
+  },
+  "license_exists": false
+}

@@ -5,13 +5,13 @@ test_reserved_stock_blocks_second_order (test_qa_p2_quan.CustomersAndTables.test
 test_spawns_fill_tables_in_id_order (test_qa_p2_quan.CustomersAndTables.test_spawns_fill_tables_in_id_order) ... ok
 test_table_freed_by_patience_is_reused_same_tick (test_qa_p2_quan.CustomersAndTables.test_table_freed_by_patience_is_reused_same_tick) ... ok
 test_fixture_waiting_customer_can_be_cooked (test_qa_p2_quan.FixtureCustomers.test_fixture_waiting_customer_can_be_cooked)
-LỖI ĐÃ BIẾT (QA-P2-01): khách nạp từ scenario không có order_status nên bếp idle bỏ qua. ... expected failure
+ĐÃ SỬA (QA-P2-01): khách nạp từ scenario được gán order_status='reserved' mặc định nên bếp idle nhận nấu. ... ok
 test_random_customers_false_disables_schedule (test_qa_p2_quan.FixtureValidation.test_random_customers_false_disables_schedule)
-QA-P2-03: random_customers:false vẫn sinh khách ở first_customer_tick. ... expected failure
+ĐÃ SỬA QA-P2-03: trước đây random_customers:false vẫn sinh khách ở first_customer_tick. ... ok
 test_reserved_beyond_stock_is_rejected_or_not_cooked (test_qa_p2_quan.FixtureValidation.test_reserved_beyond_stock_is_rejected_or_not_cooked)
-QA-P2-02: kho rỗng, khách fixture đã giữ 1 ca_loc, interact ở B1 vẫn cook_started (kho âm). ... expected failure
+ĐÃ SỬA QA-P2-02: trước đây kho rỗng, khách fixture đã giữ 1 ca_loc, interact ở B1 vẫn cook_started (kho âm). ... ok
 test_unknown_dish_in_fixture_exits_2 (test_qa_p2_quan.FixtureValidation.test_unknown_dish_in_fixture_exits_2)
-QA-P2-04: khách fixture dish_id lạ được nhận, exit 0 và ghi output thay vì báo đầu vào sai. ... expected failure
+ĐÃ SỬA QA-P2-04: trước đây khách fixture dish_id lạ được nhận, exit 0 và ghi output thay vì báo đầu vào sai. ... ok
 test_full_cycle_tip_is_floor_of_price_times_rate (test_qa_p2_quan.Payment.test_full_cycle_tip_is_floor_of_price_times_rate) ... ok
 test_contract_has_two_stoves_four_tables_six_dishes (test_qa_p2_quan.Ticket02Layout.test_contract_has_two_stoves_four_tables_six_dishes) ... ok
 test_stoves_are_not_both_in_interact_range (test_qa_p2_quan.Ticket02Layout.test_stoves_are_not_both_in_interact_range) ... ok
@@ -22,9 +22,11 @@ test_customer_spawn_and_no_dish (test_quan_units.QuanSimTest.test_customer_spawn
 test_full_cooking_serving_eating_cycle (test_quan_units.QuanSimTest.test_full_cooking_serving_eating_cycle) ... ok
 test_phase2_multi_stoves_and_tables (test_quan_units.QuanSimTest.test_phase2_multi_stoves_and_tables) ... ok
 test_phase2_six_dishes_and_new_ingredients (test_quan_units.QuanSimTest.test_phase2_six_dishes_and_new_ingredients) ... ok
+test_phase3_freshness_decay_and_spoil_re_reserve (test_quan_units.QuanSimTest.test_phase3_freshness_decay_and_spoil_re_reserve) ... ok
+test_phase3_pricing_by_freshness (test_quan_units.QuanSimTest.test_phase3_pricing_by_freshness) ... ok
 test_quan_init_defaults (test_quan_units.QuanSimTest.test_quan_init_defaults) ... ok
 
 ----------------------------------------------------------------------
-Ran 21 tests in 0.107s
+Ran 23 tests in 0.121s
 
-OK (expected failures=4)
+OK

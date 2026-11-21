@@ -39,4 +39,4 @@ Chạy lại trên commit cuối Phase 1 `f9477e3` (contract v1.0: 1 bếp B1, 1
 | QA1-CLOSE | Hết ca: khách chờ rời reason closing không trừ uy tín, rồi `quan_end` | [probe](../proof/phase-1/justcoffeee/quan-probe-f9477e3.txt) | Đạt |
 | QA1-DET | Headless quán seed 3, 2000 tick, chạy 2 lần: cùng sha256 | [probe](../proof/phase-1/justcoffeee/quan-probe-f9477e3.txt) | Đạt |
 | QA1-UI | `test_live` (snapshot menu quán, input và dừng server) | [all-tests](../proof/phase-1/justcoffeee/all-tests-f9477e3.txt) | Đạt test tự động; chưa chơi thử thủ công |
-| **QA1-FIXTURE (QA-P2-01)** | Khách nạp từ scenario không được bếp nhận đơn | [probe](../proof/phase-1/justcoffeee/quan-probe-f9477e3.txt) | **Chưa đạt** — lỗi có từ Phase 1, vẫn còn trên main (xem [phase-2](phase-2.md)) |
+| **QA1-FIXTURE (QA-P2-01)** | Khách nạp từ scenario không được bếp nhận đơn | [probe](../proof/phase-1/justcoffeee/quan-probe-f9477e3.txt) | Chưa đạt tại f9477e3 (lỗi có từ Phase 1); đã sửa trên main ở 139b2b8, xem [phase-2](phase-2.md) |

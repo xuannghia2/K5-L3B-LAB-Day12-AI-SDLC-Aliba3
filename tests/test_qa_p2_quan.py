@@ -194,13 +194,12 @@ def run_quan_headless(scenario, frames=(), ticks=1):
 class FixtureValidation(unittest.TestCase):
     """Ba lỗi fixture quán do review xuannghia2 tái hiện (docs/review/github-2026-11-21.md, mục 3, 4, 6).
 
-    QA tái hiện độc lập qua headless; đánh dấu expectedFailure cho chủ sim/quan (griin-03).
-    Khi sửa, bỏ @expectedFailure để test thành kiểm hồi quy.
+    QA tái hiện độc lập qua headless; griin-03 sửa ở 139b2b8.
+    Giờ là test hồi quy (đã bỏ expectedFailure).
     """
 
-    @unittest.expectedFailure
     def test_reserved_beyond_stock_is_rejected_or_not_cooked(self):
-        """QA-P2-02: kho rỗng, khách fixture đã giữ 1 ca_loc, interact ở B1 vẫn cook_started (kho âm)."""
+        """ĐÃ SỬA QA-P2-02: trước đây kho rỗng, khách fixture đã giữ 1 ca_loc, interact ở B1 vẫn cook_started (kho âm)."""
         scenario = {"player": {"pos": Q["stoves"][0]["pos"]}, "stock": {},
                     "customers": [{"id": "C1", "table_id": "T1", "dish_id": "ca_loc_nuong_trui",
                                    "order_status": "reserved", "reserved": {"ca_loc": 1}}]}
@@ -208,18 +207,16 @@ class FixtureValidation(unittest.TestCase):
         self.assertTrue(code == 2 or "cook_started" not in events,
                         f"fixture mâu thuẫn kho phải bị từ chối (exit 2) hoặc không được nấu; exit={code}, events={events}")
 
-    @unittest.expectedFailure
     def test_random_customers_false_disables_schedule(self):
-        """QA-P2-03: random_customers:false vẫn sinh khách ở first_customer_tick."""
+        """ĐÃ SỬA QA-P2-03: trước đây random_customers:false vẫn sinh khách ở first_customer_tick."""
         code, events, _ = run_quan_headless({"random_customers": False, "stock": {"ca_loc": 1}},
                                             ticks=FIRST + INTERVAL)
         self.assertEqual(code, 0)
         self.assertNotIn("customer_arrived", events)
         self.assertNotIn("no_dish", events)
 
-    @unittest.expectedFailure
     def test_unknown_dish_in_fixture_exits_2(self):
-        """QA-P2-04: khách fixture dish_id lạ được nhận, exit 0 và ghi output thay vì báo đầu vào sai."""
+        """ĐÃ SỬA QA-P2-04: trước đây khách fixture dish_id lạ được nhận, exit 0 và ghi output thay vì báo đầu vào sai."""
         code, _, wrote = run_quan_headless({"stock": {"ca_loc": 1},
                                             "customers": [{"id": "C1", "table_id": "T1", "dish_id": "unknown"}]},
                                            ticks=0)

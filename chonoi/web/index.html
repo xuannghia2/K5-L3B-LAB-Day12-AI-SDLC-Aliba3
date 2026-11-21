@@ -320,7 +320,7 @@ function drawGather(w, h) {
     const names = {}; snap.hold.forEach((k) => (names[k] = (names[k] || 0) + 1));
     text("Giỏ " + snap.hold.length + "/" + cap + "  " + Object.keys(names).map((k) => (KIND_NAME[k] || k) + "×" + names[k]).join(", "), 14, y0 + sz + 16, { size: 12, color: "#cfd8dc" });
   }
-  text("WASD/mũi tên bơi · E hái / cập bến · Space bắt cá · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
+  text("WASD/mũi tên đi · E tương tác (bếp / bàn) · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
 }
 
 // ----- cảnh QUÁN: nhìn từ trên xuống, x sang phải, z lên (bắc) -----
@@ -372,7 +372,42 @@ function drawQuan(w, h) {
   text(`Tiền ${snap.money ?? 0}k · uy tín ${(snap.reputation ?? 0).toFixed(1)} · điểm ${snap.score ?? 0}`, 110, 28, { size: 16 });
   const stock = snap.stock ? Object.keys(snap.stock).map((k) => (KIND_NAME[k] || k) + "×" + snap.stock[k]).join(", ") : "";
   text("Kho: " + (stock || "(trống)"), 14, 52, { size: 13, color: "#cfd8dc" });
-  text("WASD/mũi tên đi · E tương tác (bếp / bàn) · R chơi lại", w - 10, h - 14, { size: 12, align: "right", color: "#9fb3c0" });
+}
+
+// ----- bảng thực đơn -----
+function drawMenuPanel(w, h, top) {
+  const menu = (snap.meta && snap.meta.menu) ? snap.meta.menu : {};
+  const entries = Object.entries(menu);
+  if (!entries.length || w < 720) return;
+
+  const available = { ...(snap.stock || {}) };
+  (snap.customers || []).forEach((c) => {
+    if (c.state === "waiting" && c.reserved) {
+      Object.entries(c.reserved).forEach(([kind, qty]) => {
+        available[kind] = (available[kind] || 0) - qty;
+      });
+    }
+  });
+
+  const panelW = 230, panelX = w - panelW - 12;
+  const panelH = Math.min(h - top - 52, 18 + entries.length * 72);
+  ctx.fillStyle = "rgba(30,38,43,.92)";
+  ctx.fillRect(panelX, top + 8, panelW, panelH);
+  ctx.strokeStyle = "rgba(255,255,255,.18)";
+  ctx.strokeRect(panelX + .5, top + 8.5, panelW - 1, panelH - 1);
+  text("THỰC ĐƠN", panelX + 12, top + 28, { size: 13, color: "#ffd27a" });
+
+  entries.forEach(([dishId, dish], i) => {
+    const y = top + 48 + i * 72;
+    if (y + 58 > top + panelH) return;
+    const recipe = dish.recipe || {};
+    const canCook = Object.entries(recipe).every(([kind, qty]) => (available[kind] || 0) >= qty);
+    text(dishId, panelX + 12, y, { size: 13, color: canCook ? "#e8eef2" : "#9aa8af" });
+    text(`${dish.price ?? 0}k · ${Math.ceil((dish.cook_s || 0))}s`, panelX + panelW - 12, y, { size: 12, align: "right", color: "#ffd27a" });
+    const recipeText = Object.entries(recipe).map(([kind, qty]) => `${KIND_NAME[kind] || kind}×${qty}`).join(" · ");
+    text(recipeText || "Không có công thức", panelX + 12, y + 20, { size: 11, color: "#cbd5d9" });
+    text(canCook ? "Có thể nấu" : "Thiếu nguyên liệu", panelX + 12, y + 40, { size: 11, color: canCook ? "#79d68a" : "#ff9d91" });
+  });
 }
 
 function frame() {

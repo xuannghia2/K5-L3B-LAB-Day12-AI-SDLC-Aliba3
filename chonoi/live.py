@@ -101,7 +101,9 @@ class LiveGame:
     def state_json(self) -> bytes:
         with self._lock:
             snap = self.session.snapshot()
-            snap["meta"] = self.tuning[self.mode]
+            snap["meta"] = dict(self.tuning[self.mode])
+            if self.mode == "quan":
+                snap["meta"]["menu"] = self.tuning["menu"]
             snap["events"] = list(self.events)
             snap["finished"] = self.session.done
             snap["reason"] = self.session.sim.reason if self.session.done else None

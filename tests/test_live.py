@@ -61,6 +61,23 @@ class LiveServerTest(unittest.TestCase):
         self.assertFalse(server.game._thread.is_alive())
         self.assertFalse(server._thread.is_alive())
 
+    def test_quan_snapshot_exposes_contract_menu(self):
+        tuning = load_contract()["tuning"]
+        server = LiveServer(LiveGame("quan", tuning, {}, 1), port=0)
+        server.start()
+        try:
+            base = f"http://127.0.0.1:{server.port}"
+            code, body = _get(base + "/state")
+            self.assertEqual(code, 200)
+            st = json.loads(body)
+            self.assertEqual(st["mode"], "quan")
+            self.assertEqual(st["meta"]["menu"], tuning["menu"])
+            code, html = _get(base + "/")
+            self.assertEqual(code, 200)
+            self.assertIn(b"drawMenuPanel", html)
+        finally:
+            server.stop()
+
 
 if __name__ == "__main__":
     unittest.main()

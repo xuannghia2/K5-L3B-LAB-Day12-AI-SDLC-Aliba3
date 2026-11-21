@@ -111,6 +111,9 @@ class LiveGame:
             return json.dumps(snap, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
 
     def set_input(self, body: dict):
+        if body.get("toggle_pause") is True:
+            self.toggle_pause()
+            return
         move = body.get("move")
         if move is not None:
             ok = (isinstance(move, list) and len(move) == 2 and
@@ -129,6 +132,10 @@ class LiveGame:
     def restart(self):
         with self._lock:
             self._reset()
+
+    def toggle_pause(self):
+        with self._lock:
+            self.session.paused = not self.session.paused
 
 
 class _Handler(BaseHTTPRequestHandler):
@@ -177,6 +184,8 @@ class _Handler(BaseHTTPRequestHandler):
                 self.game.set_input(body)
             elif path == "/restart":
                 self.game.restart()
+            elif path == "/pause":
+                self.game.toggle_pause()
             else:
                 self._send(404, b'{"error":"khong co"}')
                 return

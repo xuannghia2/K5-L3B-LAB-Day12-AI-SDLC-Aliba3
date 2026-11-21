@@ -129,7 +129,7 @@ function currentInput() {
   const dx = (down.has("r") ? 1 : 0) - (down.has("l") ? 1 : 0);
   let dy = (down.has("d") ? 1 : 0) - (down.has("u") ? 1 : 0);   // gather: xuống = d dương
   if (mode === "quan") dy = -dy;                                // quan: lên (bắc) = z dương
-  return { move: [dx, dy], interact: down.has("interact"), catch: down.has("catch"), pause: down.has("pause") };
+  return { move: [dx, dy], interact: down.has("interact"), catch: down.has("catch") };
 }
 function pushInput() {
   const s = JSON.stringify(currentInput());
@@ -155,7 +155,7 @@ addEventListener("keydown", (e) => {
   if (MOVE_KEYS[k]) { down.add(MOVE_KEYS[k]); e.preventDefault(); }
   else if (k === "e") down.add("interact");
   else if (k === " ") { down.add("catch"); e.preventDefault(); }
-  else if (k === "p") down.add("pause");
+  else if (k === "p") { if (!e.repeat) fetch("/pause", { method: "POST", body: "{}", headers: { "Content-Type": "application/json" } }); }
   else if (k === "r") { fetch("/restart", { method: "POST" }); lastSent = ""; down.clear(); }
   pushInput();
 });
@@ -164,7 +164,6 @@ addEventListener("keyup", (e) => {
   if (MOVE_KEYS[k]) down.delete(MOVE_KEYS[k]);
   else if (k === "e") down.delete("interact");
   else if (k === " ") down.delete("catch");
-  else if (k === "p") down.delete("pause");
   pushInput();
 });
 addEventListener("blur", () => { down.clear(); pushInput(); });
@@ -216,6 +215,10 @@ document.getElementById("act-restart").addEventListener("pointerdown", (e) => {
   fetch("/restart", { method: "POST" });
   lastSent = "";
   down.clear();
+});
+document.getElementById("act-pause").addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  fetch("/pause", { method: "POST", body: "{}", headers: { "Content-Type": "application/json" } });
 });
 
 // ---------- ra: poll snapshot ----------
